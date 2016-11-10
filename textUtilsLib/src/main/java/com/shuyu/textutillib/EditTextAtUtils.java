@@ -146,8 +146,9 @@ public class EditTextAtUtils {
      *
      * @param user_id
      * @param user_name
+     * @param color     类似#f77500的颜色格式
      */
-    public void resolveText(String user_id, String user_name) {
+    public void resolveText(String user_id, String user_name, String color) {
         contactNameList.add(user_name + "\b");
         contactIdList.add(user_id);
 
@@ -155,7 +156,7 @@ public class EditTextAtUtils {
         SpannableStringBuilder spannableStringBuilder =
                 new SpannableStringBuilder(editText.getText());
         //直接用span会导致后面没文字的时候新输入的一起变色
-        Spanned htmlText = Html.fromHtml("<font color='#f77500'>" + user_name + "</font>");
+        Spanned htmlText = Html.fromHtml(String.format("<font color='%s'>" + user_name + "</font>", color));
         spannableStringBuilder.insert(index, htmlText);
         spannableStringBuilder.insert(index + htmlText.length(), "\b");
         editText.setText(spannableStringBuilder);
@@ -164,7 +165,7 @@ public class EditTextAtUtils {
 
     /**
      * 编辑框输入了@后的跳转
-     * */
+     */
     public void setEditTextAtUtilJumpListener(EditTextAtUtilJumpListener editTextAtUtilJumpListener) {
         this.editTextAtUtilJumpListener = editTextAtUtilJumpListener;
     }
@@ -176,8 +177,9 @@ public class EditTextAtUtils {
      * @param text     需要处理的文本
      * @param listUser 需要处理的at某人列表
      * @param editText 需要被插入的editText
+     * @param color     类似#f77500的颜色格式
      */
-    public static void resolveInsertText(Context context, String text, List<UserModel> listUser, EditText editText) {
+    public static void resolveInsertText(Context context, String text, List<UserModel> listUser, String color, EditText editText) {
 
         //此处保存名字的键值
         Map<String, String> names = new HashMap<>();
@@ -203,7 +205,7 @@ public class EditTextAtUtils {
                 String name = text.substring(matcher.start(), matcher.end());
                 if (names.containsKey(name.replace("\b", "").replace(" ", ""))) {
                     //直接用span会导致后面没文字的时候新输入的一起变色
-                    Spanned htmlText = Html.fromHtml("<font color='#f77500'>" + name + "</font>");
+                    Spanned htmlText = Html.fromHtml(String.format("<font color='%s'>" + name + "</font>", color));
                     spannableStringBuilder.replace(matcher.start(), matcher.start() + name.length(), htmlText);
                     int index = matcher.start() + htmlText.length();
                     if (index < text.length()) {
@@ -232,10 +234,10 @@ public class EditTextAtUtils {
      * @param editTextAtUtils 已经new好的 editTextAtUtils对象
      * @param userModel       用户model
      */
-    public static void resolveAtResult(EditTextAtUtils editTextAtUtils, UserModel userModel) {
+    public static void resolveAtResult(EditTextAtUtils editTextAtUtils, String color, UserModel userModel) {
         String user_id = userModel.getUser_id();
         String user_name = "@" + userModel.getUser_name();
-        editTextAtUtils.resolveText(user_id, user_name);
+        editTextAtUtils.resolveText(user_id, user_name, color);
     }
 
     /***
@@ -245,12 +247,12 @@ public class EditTextAtUtils {
      * @param editTextAtUtils 已经new好的 editTextAtUtils对象
      * @param userModel       用户model
      */
-    public static void resolveAtResultByEnterAt(EditText editText, EditTextAtUtils editTextAtUtils, UserModel userModel) {
+    public static void resolveAtResultByEnterAt(EditText editText, EditTextAtUtils editTextAtUtils, String color, UserModel userModel) {
         String user_id = userModel.getUser_id();
         editText.getText().delete(editText.getSelectionEnd() - 1,
                 editText.getSelectionEnd());
         String user_name = "@" + userModel.getUser_name();
-        editTextAtUtils.resolveText(user_id, user_name);
+        editTextAtUtils.resolveText(user_id, user_name, color);
 
     }
 

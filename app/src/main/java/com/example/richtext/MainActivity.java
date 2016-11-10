@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
                 JumpUtil.goToUserList(MainActivity.this, MainActivity.REQUEST_USER_CODE_CLICK);
                 break;
             case R.id.insert_text_btn:
-                EditTextAtUtils.resolveInsertText(MainActivity.this, insertContent, nameList, emojiEditText);
+                EditTextAtUtils.resolveInsertText(MainActivity.this, insertContent, nameList, "#f77500", emojiEditText);
                 break;
         }
     }
@@ -141,10 +141,10 @@ public class MainActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case REQUEST_USER_CODE_CLICK:
-                    EditTextAtUtils.resolveAtResult(editTextAtUtils, (UserModel) data.getSerializableExtra(UserListActivity.DATA));
+                    EditTextAtUtils.resolveAtResult(editTextAtUtils,  "#f77500",  (UserModel) data.getSerializableExtra(UserListActivity.DATA));
                     break;
                 case REQUEST_USER_CODE_INPUT:
-                    EditTextAtUtils.resolveAtResultByEnterAt(emojiEditText, editTextAtUtils, (UserModel) data.getSerializableExtra(UserListActivity.DATA));
+                    EditTextAtUtils.resolveAtResultByEnterAt(emojiEditText, editTextAtUtils,  "#f77500", (UserModel) data.getSerializableExtra(UserListActivity.DATA));
                     break;
             }
         }
