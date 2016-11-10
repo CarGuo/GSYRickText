@@ -307,4 +307,9 @@ public class SmileUtils {
 				Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		return spannable;
 	}
+
+	public static Spannable unicodeToEmojiName(Context context, String content) {
+		Spannable spannable = getSmiledText(context, content);
+		return spannable;
+	}
 }

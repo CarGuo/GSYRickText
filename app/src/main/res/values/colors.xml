@@ -6,4 +6,5 @@
 
     <color name="white">#FFFFFF</color>
     <color name="graY">#EFEFEF</color>
+    <color name="style_color_main">#f77500</color><!--主题色-->
 </resources>
