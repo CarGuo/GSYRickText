@@ -6,9 +6,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+import com.example.richtext.model.UserModel;
 import com.example.richtext.utils.EditTextAtUtils;
 import com.example.richtext.utils.JumpUtil;
+import com.example.richtext.utils.TextCommonUtils;
 import com.example.richtext.widget.EditTextEmoji;
 import com.example.richtext.widget.EmojiLayout;
 
@@ -39,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
 
     List<String> userNames = new ArrayList<>();
     List<String> userIds = new ArrayList<>();
+    @BindView(R.id.rich_text)
+    TextView richText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +57,18 @@ public class MainActivity extends AppCompatActivity {
     private void initView() {
         emojiLayout.setEditTextSmile(emojiEditText);
         editTextAtUtils = new EditTextAtUtils(this, emojiEditText, userNames, userIds);
+
+        String content = "这是测试文本哟 www.baidu.com 来@某个人  @22222 @kkk 好的，最后来一个电话 13245685478";
+        List<UserModel> nameList = new ArrayList<>();
+        UserModel userModel = new UserModel();
+        userModel.setUser_name("22222");
+        userModel.setUser_id("2222");
+        nameList.add(userModel);
+        userModel = new UserModel();
+        userModel.setUser_name("kkk");
+        userModel.setUser_id("23333");
+        nameList.add(userModel);
+        richText.setText(TextCommonUtils.getUrlSmileText(this, content, nameList, richText));
     }
 
     @OnClick({R.id.emoji_show_bottom, R.id.emoji_show_at})

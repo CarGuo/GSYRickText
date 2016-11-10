@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.TextPaint;
 import android.text.style.ClickableSpan;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.richtext.R;
 
@@ -22,7 +23,7 @@ public class ClickAtUserSpan extends ClickableSpan {
     @Override
     public void onClick(View view) {
         /** 跳转 **/
-        //JumpUtils.goToGuestMainActivity(context, id);
+        Toast.makeText(context, "点击了人@名字", Toast.LENGTH_SHORT).show();
     }
 
     @Override

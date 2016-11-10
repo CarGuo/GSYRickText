@@ -37,6 +37,27 @@
         android:layout_margin="10dp"
         android:src="@drawable/publish_at_d3x" />
 
+
+    <TextView
+        android:id="@+id/rich_text_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/emoji_show_at"
+        android:layout_margin="10dp"
+        android:text="Textview模式"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/rich_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rich_text_title"
+        android:layout_margin="10dp"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp" />
+
+
     <com.example.richtext.widget.EmojiLayout
         android:id="@+id/emojiLayout"
         android:layout_width="match_parent"

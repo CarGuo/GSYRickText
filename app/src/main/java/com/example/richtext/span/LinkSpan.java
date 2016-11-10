@@ -11,6 +11,7 @@ import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.style.ClickableSpan;
 import android.view.View;
+import android.widget.Toast;
 
 public class LinkSpan extends ClickableSpan {
 
@@ -26,6 +27,7 @@ public class LinkSpan extends ClickableSpan {
         if ((mUrl.contains("tel:") && TextUtils.isDigitsOnly(mUrl.replace("tel:", ""))) || TextUtils.isDigitsOnly(mUrl)) {
             if (!mUrl.contains("tel:")) {
                 mUrl = "tel:" + mUrl;
+                Toast.makeText(mContext, "点击了电话", Toast.LENGTH_SHORT).show();
             }
 
             //用intent启动拨打电话
@@ -36,15 +38,13 @@ public class LinkSpan extends ClickableSpan {
             widget.getContext().startActivity(intent);
 
         } else {
-            //gotoWebView(widget.getContext(), mUrl);
+            Toast.makeText(mContext, "点击了链接", Toast.LENGTH_SHORT).show();
         }
     }
 
 
     @Override
     public void updateDrawState(TextPaint ds) {
-        /** 给文字染色 **/
-        //ds.setARGB(255, 96, 134, 174);
         ds.setColor(Color.BLUE);
         /** 去掉下划线 ， 默认自带下划线 **/
         ds.setUnderlineText(false);
