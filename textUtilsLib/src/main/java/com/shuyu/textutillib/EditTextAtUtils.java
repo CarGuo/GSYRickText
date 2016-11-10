@@ -1,8 +1,7 @@
 package com.shuyu.textutillib;
 
-import android.app.Activity;
+
 import android.content.Context;
-import android.content.Intent;
 import android.text.Editable;
 import android.text.Html;
 import android.text.Spannable;
@@ -163,6 +162,9 @@ public class EditTextAtUtils {
         editText.setSelection(index + htmlText.length() + 1);
     }
 
+    /**
+     * 编辑框输入了@后的跳转
+     * */
     public void setEditTextAtUtilJumpListener(EditTextAtUtilJumpListener editTextAtUtilJumpListener) {
         this.editTextAtUtilJumpListener = editTextAtUtilJumpListener;
     }
