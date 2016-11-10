@@ -58,7 +58,9 @@ public class MainActivity extends AppCompatActivity {
         emojiLayout.setEditTextSmile(emojiEditText);
         editTextAtUtils = new EditTextAtUtils(this, emojiEditText, userNames, userIds);
 
-        String content = "这是测试文本哟 www.baidu.com 来@某个人  @22222 @kkk 好的，最后来一个电话 13245685478";
+        String content = "这是测试文本哟 www.baidu.com " +
+                "\n来@某个人  @22222 @kkk " +
+                "\n好的,来几个表情[e2][e4][e55]，最后来一个电话 13245685478";
         List<UserModel> nameList = new ArrayList<>();
         UserModel userModel = new UserModel();
         userModel.setUser_name("22222");
