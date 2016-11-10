@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.emoji_show_bottom:
+                emojiLayout.hideKeyboard();
                 if (emojiLayout.getVisibility() == View.VISIBLE) {
                     emojiLayout.setVisibility(View.GONE);
                 } else {

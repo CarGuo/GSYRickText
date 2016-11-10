@@ -244,5 +244,11 @@ public class EmojiLayout extends LinearLayout {
 
     public void setEditTextSmile(EditTextEmoji editTextSmile) {
         this.editTextEmoji = editTextSmile;
+        editTextSmile.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setVisibility(GONE);
+            }
+        });
     }
 }
