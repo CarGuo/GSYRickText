@@ -1,8 +1,9 @@
-package com.example.richtext.model;
+package com.shuyu.textutillib.model;
 
 import java.io.Serializable;
 
 /**
+ * 用户model
  * Created by shuyu on 2016/11/10.
  */
 

@@ -9,7 +9,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.example.richtext.model.UserModel;
+
+import com.shuyu.textutillib.model.UserModel;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 apply plugin: 'com.neenbedankt.android-apt'
 
 android {
@@ -8,13 +8,13 @@ android {
     buildToolsVersion globalConfiguration.androidBuildToolsVersion
 
     defaultConfig {
-        applicationId "com.example.richtext"
 
         minSdkVersion  globalConfiguration.androidMinSdkVersion
         targetSdkVersion globalConfiguration.androidTargetSdkVersion
 
         versionCode 1
         versionName "1.0"
+
     }
     buildTypes {
         release {
@@ -29,6 +29,9 @@ dependencies {
     def viewDependencies = rootProject.ext.viewDependencies
     apt viewDependencies.apt_butterKnife
     compile viewDependencies.butterKnife
-    compile project(':textUtilsLib')
-
+    compile androidDependencies.support_v4
+    compile androidDependencies.appcompat_v7
+    compile androidDependencies.recyclerView
+    compile androidDependencies.cardview_v7
+    compile androidDependencies.design
 }

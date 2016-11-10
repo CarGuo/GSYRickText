@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/RichText.iml" filepath="$PROJECT_DIR$/RichText.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/textUtilsLib/textUtilsLib.iml" filepath="$PROJECT_DIR$/textUtilsLib/textUtilsLib.iml" />
     </modules>
   </component>
 </project>

@@ -37,12 +37,20 @@
         android:layout_margin="10dp"
         android:src="@drawable/publish_at_d3x" />
 
+    <Button
+        android:id="@+id/insert_text_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_below="@+id/emoji_show_at"
+        android:layout_margin="10dp"
+        android:text="插入文本" />
+
 
     <TextView
         android:id="@+id/rich_text_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/emoji_show_at"
+        android:layout_below="@+id/insert_text_btn"
         android:layout_margin="10dp"
         android:text="Textview模式"
         android:textColor="#FFFFFF"

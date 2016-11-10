@@ -1,19 +1,24 @@
 package com.example.richtext;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.example.richtext.model.UserModel;
-import com.example.richtext.utils.EditTextAtUtils;
 import com.example.richtext.utils.JumpUtil;
-import com.example.richtext.utils.TextCommonUtils;
 import com.example.richtext.widget.EditTextEmoji;
 import com.example.richtext.widget.EmojiLayout;
+import com.shuyu.textutillib.EditTextAtUtils;
+import com.shuyu.textutillib.TextCommonUtils;
+import com.shuyu.textutillib.listener.EditTextAtUtilJumpListener;
+import com.shuyu.textutillib.listener.SpanAtUserCallBack;
+import com.shuyu.textutillib.listener.SpanUrlCallBack;
+import com.shuyu.textutillib.model.UserModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +50,11 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.rich_text)
     TextView richText;
 
+    private String insertContent = "这是测试文本哟 www.baidu.com " +
+            " 来@某个人  @22222 @kkk " +
+            " 好的,来几个表情[e2][e4][e55]，最后来一个电话 13245685478";
+    private List<UserModel> nameList = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,12 +66,23 @@ public class MainActivity extends AppCompatActivity {
 
     private void initView() {
         emojiLayout.setEditTextSmile(emojiEditText);
-        editTextAtUtils = new EditTextAtUtils(this, emojiEditText, userNames, userIds);
+        editTextAtUtils = new EditTextAtUtils(emojiEditText, userNames, userIds);
+        editTextAtUtils.setEditTextAtUtilJumpListener(new EditTextAtUtilJumpListener() {
+            @Override
+            public void notifyAt() {
+                JumpUtil.goToUserList(MainActivity.this, MainActivity.REQUEST_USER_CODE_INPUT);
+            }
+        });
 
+        resolveRichShow();
+    }
+
+
+    private void resolveRichShow() {
         String content = "这是测试文本哟 www.baidu.com " +
                 "\n来@某个人  @22222 @kkk " +
                 "\n好的,来几个表情[e2][e4][e55]，最后来一个电话 13245685478";
-        List<UserModel> nameList = new ArrayList<>();
+
         UserModel userModel = new UserModel();
         userModel.setUser_name("22222");
         userModel.setUser_id("2222");
@@ -70,10 +91,30 @@ public class MainActivity extends AppCompatActivity {
         userModel.setUser_name("kkk");
         userModel.setUser_id("23333");
         nameList.add(userModel);
-        richText.setText(TextCommonUtils.getUrlSmileText(this, content, nameList, richText));
+
+        SpanUrlCallBack spanUrlCallBack = new SpanUrlCallBack() {
+            @Override
+            public void phone(String phone) {
+                Toast.makeText(MainActivity.this, phone + " 被点击了", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void url(String url) {
+                Toast.makeText(MainActivity.this, url + " 被点击了", Toast.LENGTH_SHORT).show();
+            }
+        };
+
+        SpanAtUserCallBack spanAtUserCallBack = new SpanAtUserCallBack() {
+            @Override
+            public void onClick(UserModel userModel1) {
+                Toast.makeText(MainActivity.this, userModel1.getUser_name() + " 被点击了", Toast.LENGTH_SHORT).show();
+            }
+        };
+
+        richText.setText(TextCommonUtils.getUrlSmileText(this, content, nameList, richText, Color.BLUE, spanAtUserCallBack, spanUrlCallBack));
     }
 
-    @OnClick({R.id.emoji_show_bottom, R.id.emoji_show_at})
+    @OnClick({R.id.emoji_show_bottom, R.id.emoji_show_at, R.id.insert_text_btn})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.emoji_show_bottom:
@@ -87,6 +128,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.emoji_show_at:
                 JumpUtil.goToUserList(MainActivity.this, MainActivity.REQUEST_USER_CODE_CLICK);
                 break;
+            case R.id.insert_text_btn:
+                EditTextAtUtils.resolveInsertText(MainActivity.this, insertContent, nameList, emojiEditText);
+                break;
         }
     }
 
@@ -97,10 +141,10 @@ public class MainActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case REQUEST_USER_CODE_CLICK:
-                    EditTextAtUtils.resolveAtResult(data, emojiEditText, this, editTextAtUtils);
+                    EditTextAtUtils.resolveAtResult(editTextAtUtils, (UserModel) data.getSerializableExtra(UserListActivity.DATA));
                     break;
                 case REQUEST_USER_CODE_INPUT:
-                    EditTextAtUtils.resolveAtResultByEnterAt(data, emojiEditText, this, editTextAtUtils);
+                    EditTextAtUtils.resolveAtResultByEnterAt(emojiEditText, editTextAtUtils, (UserModel) data.getSerializableExtra(UserListActivity.DATA));
                     break;
             }
         }

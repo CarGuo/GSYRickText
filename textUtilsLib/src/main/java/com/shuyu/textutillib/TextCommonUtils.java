@@ -1,4 +1,4 @@
-package com.example.richtext.utils;
+package com.shuyu.textutillib;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -14,9 +14,13 @@ import android.text.util.Linkify;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.richtext.model.UserModel;
-import com.example.richtext.span.ClickAtUserSpan;
-import com.example.richtext.span.LinkSpan;
+
+import com.shuyu.textutillib.listener.SpanAtUserCallBack;
+import com.shuyu.textutillib.listener.SpanUrlCallBack;
+import com.shuyu.textutillib.model.UserModel;
+import com.shuyu.textutillib.span.ClickAtUserSpan;
+import com.shuyu.textutillib.span.LinkSpan;
+import com.shuyu.textutillib.utils.SmileUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -48,7 +52,8 @@ public class TextCommonUtils {
      * 单纯获取emoji表示
      *
      * @param context
-     * @param text    包含emoji的字符串
+     * @param text    需要处理的文本
+     * @return 返回显示的spananle
      */
     public static Spannable getEmojiText(Context context, String text) {
         if (TextUtils.isEmpty(text)) {
@@ -63,12 +68,16 @@ public class TextCommonUtils {
      * 显示emoji和url高亮
      *
      * @param context
-     * @param text
-     * @param textView
+     * @param text               需要处理的文本
+     * @param textView           需要显示的view
+     * @param color              需要显示的颜色
+     * @param spanAtUserCallBack @某人点击的返回
+     * @param spanUrlCallBack    链接点击的返回
+     * @return 返回显示的spananle
      */
-    public static Spannable getUrlEmojiText(Context context, String text, TextView textView) {
+    public static Spannable getUrlEmojiText(Context context, String text, TextView textView, int color, SpanAtUserCallBack spanAtUserCallBack, SpanUrlCallBack spanUrlCallBack) {
         if (!TextUtils.isEmpty(text)) {
-            return getUrlSmileText(context, text, null, textView);
+            return getUrlSmileText(context, text, null, textView, color, spanAtUserCallBack, spanUrlCallBack);
         } else {
             return new SpannableString(" ");
         }
@@ -78,22 +87,32 @@ public class TextCommonUtils {
      * 设置带高亮可点击的Url和表情的textview文本
      *
      * @param context
-     * @param string   包含标签和url的文本
-     * @param textView
+     * @param string             需要处理的文本
+     * @param listUser           需要显示的@某人
+     * @param textView           需要显示的view
+     * @param color              需要显示的颜色
+     * @param spanAtUserCallBack @某人点击的返回
+     * @param spanUrlCallBack    链接点击的返回
      */
-    public static void setUrlSmileText(Context context, String string, List<UserModel> listUser, TextView textView) {
-        Spannable spannable = getUrlSmileText(context, string, listUser, textView);
+    public static void setUrlSmileText(Context context, String string, List<UserModel> listUser, TextView textView, int color, SpanAtUserCallBack spanAtUserCallBack, SpanUrlCallBack spanUrlCallBack) {
+        Spannable spannable = getUrlSmileText(context, string, listUser, textView, color, spanAtUserCallBack, spanUrlCallBack);
         textView.setText(spannable);
     }
 
     /**
+     * AT某人的跳转
+     *
      * @param context
-     * @param listUser
-     * @param content
-     * @return
-     * @某人的跳转
+     * @param listUser           需要显示的@某人
+     * @param content            需要处理的文本
+     * @param textView           需要显示的view
+     * @param clickable          @某人是否可以点击
+     * @param color              需要显示的颜色
+     * @param spanAtUserCallBack @某人点击的返回
+     * @return 返回显示的spananle
      */
-    public static Spannable getAtText(Context context, List<UserModel> listUser, String content, TextView textView, boolean clickable) {
+    public static Spannable getAtText(Context context, List<UserModel> listUser, String content, TextView textView, boolean clickable,
+                                      int color, SpanAtUserCallBack spanAtUserCallBack) {
         if (listUser == null || listUser.size() <= 0)
             return getEmojiText(context, content);
         Spannable spannableString = new SpannableString(content);
@@ -125,10 +144,8 @@ public class TextCommonUtils {
                         if (indexEnd > indexStart) {
                             indexStart = indexEnd;
                         }
-                        //String str = content.substring(mathStart, matchEnd);
                         hadHighLine = true;
-                        spannableString.setSpan(new ClickAtUserSpan(context, "",
-                                listUser.get(i).getUser_id()), mathStart, (indexEnd == lenght) ? lenght : matchEnd, Spanned.SPAN_MARK_POINT);
+                        spannableString.setSpan(new ClickAtUserSpan(context, listUser.get(i), color, spanAtUserCallBack), mathStart, (indexEnd == lenght) ? lenght : matchEnd, Spanned.SPAN_MARK_POINT);
 
                     }
                 }
@@ -145,16 +162,21 @@ public class TextCommonUtils {
      * 设置带高亮可点击的Url和表情的textview文本
      *
      * @param context
-     * @param string   包含标签和url的文本
-     * @param textView
+     * @param string             需要处理的文本
+     * @param listUser           需要显示的@某人
+     * @param textView           需要显示的view
+     * @param color              需要显示的颜色
+     * @param spanAtUserCallBack @某人点击的返回
+     * @param spanUrlCallBack    链接点击的返回
+     * @return 返回显示的spananle
      */
-    public static Spannable getUrlSmileText(Context context, String string, List<UserModel> listUser, TextView textView) {
+    public static Spannable getUrlSmileText(Context context, String string, List<UserModel> listUser, TextView textView, int color, SpanAtUserCallBack spanAtUserCallBack, SpanUrlCallBack spanUrlCallBack) {
         textView.setAutoLinkMask(Linkify.WEB_URLS | Linkify.PHONE_NUMBERS);
         if (!TextUtils.isEmpty(string)) {
             string = string.replaceAll("\r", "\r\n");
-            Spannable spannable = getAtText(context, listUser, string, textView, true);
+            Spannable spannable = getAtText(context, listUser, string, textView, true, color, spanAtUserCallBack);
             textView.setText(spannable);
-            return resolveUrlLogic(context, textView, spannable);
+            return resolveUrlLogic(context, textView, spannable, color, spanUrlCallBack);
         } else {
             return new SpannableString(" ");
         }
@@ -164,11 +186,13 @@ public class TextCommonUtils {
      * 处理带URL的逻辑
      *
      * @param context
-     * @param textView
-     * @param spannable
-     * @return
+     * @param textView        需要显示的view
+     * @param spannable       显示的spananle
+     * @param color           需要显示的颜色
+     * @param spanUrlCallBack 链接点击的返回
+     * @return 返回显示的spananle
      */
-    private static Spannable resolveUrlLogic(Context context, TextView textView, Spannable spannable) {
+    private static Spannable resolveUrlLogic(Context context, TextView textView, Spannable spannable, int color, SpanUrlCallBack spanUrlCallBack) {
         CharSequence charSequence = textView.getText();
         if (charSequence instanceof Spannable) {
             int end = charSequence.length();
@@ -183,7 +207,7 @@ public class TextCommonUtils {
                     if (isNumeric(urlString.replace("tel:", ""))) {
                         style.setSpan(new StyleSpan(Typeface.NORMAL), sp.getSpanStart(url), sp.getSpanEnd(url), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
                     } else if (isTopURL(urlString.toLowerCase())) {
-                        LinkSpan linkSpan = new LinkSpan(context, url.getURL());
+                        LinkSpan linkSpan = new LinkSpan(context, url.getURL(), color, spanUrlCallBack);
                         style.setSpan(linkSpan, sp.getSpanStart(url), sp.getSpanEnd(url), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
                     } else {
                         style.setSpan(new StyleSpan(Typeface.NORMAL), sp.getSpanStart(url), sp.getSpanEnd(url), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);

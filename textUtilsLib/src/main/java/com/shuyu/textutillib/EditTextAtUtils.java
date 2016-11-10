@@ -1,4 +1,4 @@
-package com.example.richtext.utils;
+package com.shuyu.textutillib;
 
 import android.app.Activity;
 import android.content.Context;
@@ -13,11 +13,9 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 
-import com.example.richtext.MainActivity;
-import com.example.richtext.UserListActivity;
-import com.example.richtext.model.UserModel;
+import com.shuyu.textutillib.listener.EditTextAtUtilJumpListener;
+import com.shuyu.textutillib.model.UserModel;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,18 +23,22 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * 处理At某人
+ * 处理At某人的逻辑
+ * Created by shuyu on 2016/11/10.
  */
 public class EditTextAtUtils {
-    private Activity activity;
     private EditText editText;
     private List<String> contactNameList;
     private List<String> contactIdList;
+    private EditTextAtUtilJumpListener editTextAtUtilJumpListener;
 
-    public EditTextAtUtils(Activity activity, EditText editText,
-                           List<String> contactNameList, List<String> contactIdList) {
+    /**
+     * @param editText        需要对应显示的edittext
+     * @param contactNameList 传入一个不变的list维护用户名
+     * @param contactIdList   传入一个不变的list维护id
+     */
+    public EditTextAtUtils(EditText editText, final List<String> contactNameList, final List<String> contactIdList) {
         super();
-        this.activity = activity;
         this.contactNameList = contactNameList;
         this.contactIdList = contactIdList;
         this.editText = editText;
@@ -118,7 +120,9 @@ public class EditTextAtUtils {
                     editText.setSelection(position);
                 } else {
                     if (setMsg.length() >= beforeCount && editText.getSelectionEnd() > 0 && setMsg.charAt(editText.getSelectionEnd() - 1) == '@') {
-                        JumpUtil.goToUserList(activity, MainActivity.REQUEST_USER_CODE_INPUT);
+                        if (editTextAtUtilJumpListener != null) {
+                            editTextAtUtilJumpListener.notifyAt();
+                        }
                     }
                 }
             }
@@ -159,13 +163,17 @@ public class EditTextAtUtils {
         editText.setSelection(index + htmlText.length() + 1);
     }
 
+    public void setEditTextAtUtilJumpListener(EditTextAtUtilJumpListener editTextAtUtilJumpListener) {
+        this.editTextAtUtilJumpListener = editTextAtUtilJumpListener;
+    }
+
     /**
      * 处理插入的文本
      *
      * @param context
-     * @param text
-     * @param listUser
-     * @param editText
+     * @param text     需要处理的文本
+     * @param listUser 需要处理的at某人列表
+     * @param editText 需要被插入的editText
      */
     public static void resolveInsertText(Context context, String text, List<UserModel> listUser, EditText editText) {
 
@@ -217,21 +225,25 @@ public class EditTextAtUtils {
 
 
     /***
-     * 发布的时候按了@按键
+     * 按了@按键的数据返回处理
+     *
+     * @param editTextAtUtils 已经new好的 editTextAtUtils对象
+     * @param userModel       用户model
      */
-    public static void resolveAtResult(Intent data, EditText editText, Activity activity, EditTextAtUtils editTextAtUtils) {
-        UserModel userModel = (UserModel) data.getSerializableExtra(UserListActivity.DATA);
+    public static void resolveAtResult(EditTextAtUtils editTextAtUtils, UserModel userModel) {
         String user_id = userModel.getUser_id();
         String user_name = "@" + userModel.getUser_name();
         editTextAtUtils.resolveText(user_id, user_name);
     }
 
     /***
-     * 发布的时候输入了@
+     * 发布的时候输入了@的返回处理
+     *
+     * @param editText        显示的editTEXT
+     * @param editTextAtUtils 已经new好的 editTextAtUtils对象
+     * @param userModel       用户model
      */
-    public static void resolveAtResultByEnterAt(Intent data, EditText editText, Activity activity, EditTextAtUtils editTextAtUtils) {
-
-        UserModel userModel = (UserModel) data.getSerializableExtra(UserListActivity.DATA);
+    public static void resolveAtResultByEnterAt(EditText editText, EditTextAtUtils editTextAtUtils, UserModel userModel) {
         String user_id = userModel.getUser_id();
         editText.getText().delete(editText.getSelectionEnd() - 1,
                 editText.getSelectionEnd());
