@@ -3,6 +3,8 @@
 
 * <h4>目前正在提交jcenter审核</h4>
 
+<a href="http://www.jianshu.com/p/cd9e197a5c04">这是简介入口，点我点我</a>
+
 这是效果图片，GIF看起来有些不流畅
 
 <img src="https://github.com/CarGuo/RickText/blob/master/device-2016-11-10-220253.mp4_1478787046.gif" width="240px" height="426px"/>
