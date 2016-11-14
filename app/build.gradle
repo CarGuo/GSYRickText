@@ -10,7 +10,7 @@ android {
     defaultConfig {
         applicationId "com.example.richtext"
 
-        minSdkVersion  globalConfiguration.androidMinSdkVersion
+        minSdkVersion globalConfiguration.androidMinSdkVersion
         targetSdkVersion globalConfiguration.androidTargetSdkVersion
 
         versionCode 1
@@ -31,4 +31,5 @@ dependencies {
     compile viewDependencies.butterKnife
     compile project(':textUtilsLib')
 
+    compile 'com.android.support:appcompat-v7:22.2.1'
 }

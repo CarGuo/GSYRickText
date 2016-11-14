@@ -23,6 +23,8 @@ import com.shuyu.textutillib.SmileUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -60,12 +62,27 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        SmileUtils.initEmoji();
+        initEmoji();
 
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
         initView();
+    }
+
+    /**
+     * 处理自己的表情
+     */
+    private void initEmoji() {
+        List<Integer> data = new ArrayList<>();
+        List<String> strings = new ArrayList<>();
+        for (int i = 0; i < 63; i++) {
+            int resId = getResources().getIdentifier("e" + i, "drawable", getPackageName());
+            data.add(resId);
+            strings.add("[e" + i + "]");
+        }
+        /**初始化为自己的**/
+        SmileUtils.addPatternAll(SmileUtils.getEmoticons(), strings, data);
     }
 
     private void initView() {
@@ -118,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
         richText.setText(TextCommonUtils.getUrlSmileText(this, content, nameList, richText, Color.BLUE, spanAtUserCallBack, spanUrlCallBack));
     }
 
-    @OnClick({R.id.emoji_show_bottom, R.id.emoji_show_at, R.id.insert_text_btn})
+    @OnClick({R.id.emoji_show_bottom, R.id.emoji_show_at, R.id.insert_text_btn, R.id.jump_btn})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.emoji_show_bottom:
@@ -135,9 +152,12 @@ public class MainActivity extends AppCompatActivity {
             case R.id.insert_text_btn:
                 EditTextAtUtils.resolveInsertText(MainActivity.this, insertContent, nameList, "#f77500", emojiEditText);
                 break;
+            case R.id.jump_btn:
+                Intent intent = new Intent(MainActivity.this, NewEmojiActivity.class);
+                startActivity(intent);
+                break;
         }
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -145,10 +165,10 @@ public class MainActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case REQUEST_USER_CODE_CLICK:
-                    EditTextAtUtils.resolveAtResult(editTextAtUtils,  "#f77500",  (UserModel) data.getSerializableExtra(UserListActivity.DATA));
+                    EditTextAtUtils.resolveAtResult(editTextAtUtils, "#f77500", (UserModel) data.getSerializableExtra(UserListActivity.DATA));
                     break;
                 case REQUEST_USER_CODE_INPUT:
-                    EditTextAtUtils.resolveAtResultByEnterAt(emojiEditText, editTextAtUtils,  "#f77500", (UserModel) data.getSerializableExtra(UserListActivity.DATA));
+                    EditTextAtUtils.resolveAtResultByEnterAt(emojiEditText, editTextAtUtils, "#f77500", (UserModel) data.getSerializableExtra(UserListActivity.DATA));
                     break;
             }
         }

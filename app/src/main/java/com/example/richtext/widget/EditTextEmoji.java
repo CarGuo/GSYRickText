@@ -11,6 +11,7 @@ import android.view.MotionEvent;
 import android.widget.EditText;
 
 import com.example.richtext.utils.ScreenUtils;
+import com.shuyu.textutillib.SmileUtils;
 
 
 /**
@@ -46,7 +47,7 @@ public class EditTextEmoji extends EditText {
             return;
         }
 
-        int resId = getContext().getResources().getIdentifier(name, "drawable", getContext().getPackageName());
+        int resId = SmileUtils.getRedId(name);
 
         Drawable drawable = this.getResources().getDrawable(resId);
         if (drawable == null)

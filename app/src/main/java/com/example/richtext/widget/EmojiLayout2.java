@@ -28,10 +28,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by shuyu on 2016/9/2.
+ * Created by shuyu on 2016/11/14.
  */
 
-public class EmojiLayout extends LinearLayout {
+public class EmojiLayout2 extends LinearLayout {
 
 
     @BindView(R.id.edittext_bar_vPager)
@@ -47,17 +47,17 @@ public class EmojiLayout extends LinearLayout {
     private List<String> reslist;
     private ImageView[] imageFaceViews;
 
-    public EmojiLayout(Context context) {
+    public EmojiLayout2(Context context) {
         super(context);
         init(context);
     }
 
-    public EmojiLayout(Context context, AttributeSet attrs) {
+    public EmojiLayout2(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
 
-    public EmojiLayout(Context context, AttributeSet attrs, int defStyleAttr) {
+    public EmojiLayout2(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
     }
@@ -85,13 +85,7 @@ public class EmojiLayout extends LinearLayout {
         // 初始化表情viewpager
         List<View> views = new ArrayList<View>();
         View gv1 = getGridChildView(1);
-        View gv2 = getGridChildView(2);
-        View gv3 = getGridChildView(3);
-        View gv4 = getGridChildView(4);
         views.add(gv1);
-        views.add(gv2);
-        views.add(gv3);
-        views.add(gv4);
 
         ImageView imageViewFace;
         imageFaceViews = new ImageView[views.size()];
@@ -113,7 +107,6 @@ public class EmojiLayout extends LinearLayout {
         edittextBarVPager.addOnPageChangeListener(new GuidePageChangeListener());
 
     }
-
 
     /**
      * 获取表情的gridview的子view
