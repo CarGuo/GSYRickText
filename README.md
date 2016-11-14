@@ -13,6 +13,7 @@
 
 ## 新修改 SmileUtils 表情处理类，支持外部自己添加表情
 ```
+1、
 //这家自己的自定义表情
 List<Integer> data = new ArrayList<>();//对应本地图片资源
 List<String> strings = new ArrayList<>();//对应图片资源对应名字
@@ -25,12 +26,13 @@ for (int i = 1; i < 64; i++) {
 SmileUtils.addPatternAll(SmileUtils.getEmoticons(), strings, data);
 ···需要在显示布局之前就设置好
 
+2、
 根据文本获取对应的表情去显示再grid里面
 int resId = SmileUtils.getRedId(filename);
 
 ！！注意目前删除的图片资源必须是 delete_expression.png
 
-
+3、
 /**往编辑框出入表情*/
 /**
  * 文本转化表情处理
