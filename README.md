@@ -1,6 +1,8 @@
 <h4>支持类似微博的编辑框，可输入表情和@某人。支持TextView显示表情，链接，@某人，有点击效果</h4>
 ======================
 
+* <h4>目前正在提交jcenter审核<\h4>
+
 这是效果图片，GIF看起来有些不流畅
 
 <img src="https://github.com/CarGuo/RickText/blob/master/device-2016-11-10-220253.mp4_1478787046.gif" width="240px" height="426px"/>
