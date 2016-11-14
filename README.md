@@ -8,6 +8,42 @@
 * <h4>实现了类似微博的编辑输入，可输入表情和@某人，优化了@某人，光标不能插入到@人的名字中间，@某人整个清除，整块文本插入处理等</h4>
 * <h4>TextView支持显示表情，@某人和URL高亮可点击。</h4>
 
+
+## 新修改 SmileUtils 表情处理类，支持外部自己添加表情
+```
+//这家自己的自定义表情
+List<Integer> data = new ArrayList<>();//对应本地图片资源
+List<String> strings = new ArrayList<>();//对应图片资源对应名字
+for (int i = 1; i < 64; i++) {
+    int resId = getResources().getIdentifier("e" + i, "drawable", getPackageName());
+    data.add(resId);
+    strings.add("[e" + i + "]");
+}
+/**初始化为自己的**/
+SmileUtils.addPatternAll(SmileUtils.getEmoticons(), strings, data);
+···需要在显示布局之前就设置好
+
+根据文本获取对应的表情去显示再grid里面
+int resId = SmileUtils.getRedId(filename);
+
+！！注意目前删除的图片资源必须是 delete_expression.png
+
+
+/**往编辑框出入表情*/
+/**
+ * 文本转化表情处理
+ *
+ * @param editText  要显示的EditText
+ * @param maxLength 最长高度
+ * @param size      显示大小
+ * @param name      需要转化的文本
+ */
+SmileUtils.insertIcon(editTextEmoji, 2000, ScreenUtils.dip2px(getContext(), 20), filename);
+
+
+```
+
+
 ## EditTextAtUtils @某人的逻辑处理类
 
 可以new一个EditTextAtUtils对象
