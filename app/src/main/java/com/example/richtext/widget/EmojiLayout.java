@@ -139,8 +139,7 @@ public class EmojiLayout extends LinearLayout {
                 String filename = smileImageExpressionAdapter.getItem(position);
                 try {
                     if (filename != "delete_expression") { // 不是删除键，显示表情
-                        String temp1 = SmileUtils.getTextList().get(position);
-                        editTextEmoji.insertIcon(filename, temp1);
+                        editTextEmoji.insertIcon(filename);
 
                     } else { // 删除文字或者表情
                         if (!TextUtils.isEmpty(editTextEmoji.getText())) {

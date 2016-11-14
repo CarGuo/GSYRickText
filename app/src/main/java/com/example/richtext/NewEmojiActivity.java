@@ -3,6 +3,7 @@ package com.example.richtext;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -21,7 +22,7 @@ import butterknife.OnClick;
 public class NewEmojiActivity extends AppCompatActivity {
 
     @BindView(R.id.emoji_edit_text2)
-    EditTextEmoji emojiEditText2;
+    EditText editText;
     @BindView(R.id.emoji_show_bottom)
     ImageView emojiShowBottom;
     @BindView(R.id.emojiLayout2)
@@ -54,7 +55,7 @@ public class NewEmojiActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_emoji);
         ButterKnife.bind(this);
 
-        emojiLayout2.setEditTextSmile(emojiEditText2);
+        emojiLayout2.setEditTextSmile(editText);
 
     }
 
@@ -72,7 +73,7 @@ public class NewEmojiActivity extends AppCompatActivity {
                 break;
 
             case R.id.source_btn:
-                String text = emojiEditText2.getText().toString();
+                String text = editText.getText().toString();
                 Toast.makeText(NewEmojiActivity.this, text, Toast.LENGTH_SHORT).show();
                 break;
         }

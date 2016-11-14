@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
     private void initEmoji() {
         List<Integer> data = new ArrayList<>();
         List<String> strings = new ArrayList<>();
-        for (int i = 0; i < 63; i++) {
+        for (int i = 1; i < 64; i++) {
             int resId = getResources().getIdentifier("e" + i, "drawable", getPackageName());
             data.add(resId);
             strings.add("[e" + i + "]");

@@ -40,10 +40,10 @@ public class EditTextEmoji extends EditText {
         size = ScreenUtils.dip2px(context, 20);
     }
 
-    public void insertIcon(String name, String string) {
+    public void insertIcon(String name) {
 
         String curString = getText().toString();
-        if ((curString.length() + string.length()) > maxLength) {
+        if ((curString.length() + name.length()) > maxLength) {
             return;
         }
 
@@ -54,7 +54,7 @@ public class EditTextEmoji extends EditText {
             return;
         drawable.setBounds(0, 0, size, size);//这里设置图片的大小
         ImageSpan imageSpan = new ImageSpan(drawable);
-        SpannableString spannableString = new SpannableString(string);
+        SpannableString spannableString = new SpannableString(name);
         spannableString.setSpan(imageSpan, 0, spannableString.length(), SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
 
 

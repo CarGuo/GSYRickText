@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -43,7 +44,7 @@ public class EmojiLayout2 extends LinearLayout {
     @BindView(R.id.edittext_bar_more)
     LinearLayout edittextBarMore;
 
-    private EditTextEmoji editTextEmoji;
+    private EditText editTextEmoji;
     private List<String> reslist;
     private ImageView[] imageFaceViews;
 
@@ -132,8 +133,8 @@ public class EmojiLayout2 extends LinearLayout {
                 String filename = smileImageExpressionAdapter.getItem(position);
                 try {
                     if (filename != "delete_expression") { // 不是删除键，显示表情
-                        String temp1 = SmileUtils.getTextList().get(position);
-                        editTextEmoji.insertIcon(filename, temp1);
+                        /**插入表情*/
+                        SmileUtils.insertIcon(editTextEmoji, 2000, ScreenUtils.dip2px(getContext(), 20), filename);
 
                     } else { // 删除文字或者表情
                         if (!TextUtils.isEmpty(editTextEmoji.getText())) {
@@ -215,11 +216,11 @@ public class EmojiLayout2 extends LinearLayout {
     }
 
 
-    public EditTextEmoji getEditTextSmile() {
+    public EditText getEditTextSmile() {
         return editTextEmoji;
     }
 
-    public void setEditTextSmile(EditTextEmoji editTextSmile) {
+    public void setEditTextSmile(EditText editTextSmile) {
         this.editTextEmoji = editTextSmile;
         editTextSmile.setOnClickListener(new OnClickListener() {
             @Override

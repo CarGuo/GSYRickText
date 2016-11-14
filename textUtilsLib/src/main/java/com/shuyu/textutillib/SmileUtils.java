@@ -7,11 +7,14 @@ package com.shuyu.textutillib;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.style.CharacterStyle;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.ImageSpan;
+import android.widget.EditText;
 
 
 import java.util.ArrayList;
@@ -72,7 +75,12 @@ public class SmileUtils {
         }
     }
 
-
+    /***
+     * 文本对应的资源
+     *
+     * @param string 需要转化文本
+     * @return
+     */
     public static int getRedId(String string) {
         for (Map.Entry<Pattern, Integer> entry : emoticons.entrySet()) {
             Matcher matcher = entry.getKey().matcher(string);
@@ -82,6 +90,42 @@ public class SmileUtils {
         }
         return -1;
     }
+
+    /**
+     * 文本转化表情处理
+     *
+     * @param editText  要显示的EditText
+     * @param maxLength 最长高度
+     * @param size      显示大小
+     * @param name      需要转化的文本
+     */
+    public static void insertIcon(EditText editText, int maxLength, int size, String name) {
+
+        String curString = editText.toString();
+        if ((curString.length() + name.length()) > maxLength) {
+            return;
+        }
+
+        int resId = SmileUtils.getRedId(name);
+
+        Drawable drawable = editText.getResources().getDrawable(resId);
+        if (drawable == null)
+            return;
+
+        drawable.setBounds(0, 0, size, size);//这里设置图片的大小
+        ImageSpan imageSpan = new ImageSpan(drawable);
+        SpannableString spannableString = new SpannableString(name);
+        spannableString.setSpan(imageSpan, 0, spannableString.length(), SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+
+        int index = Math.max(editText.getSelectionStart(), 0);
+        SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(editText.getText());
+        spannableStringBuilder.insert(index, spannableString);
+
+        editText.setText(spannableStringBuilder);
+        editText.setSelection(index + spannableString.length());
+    }
+
 
     /**
      * replace existing spannable with smiles

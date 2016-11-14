@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/primary_material_dark">
 
-    <com.example.richtext.widget.EditTextEmoji
+    <EditText
         android:id="@+id/emoji_edit_text2"
         android:layout_width="match_parent"
         android:layout_height="120dp"
