@@ -35,3 +35,5 @@ dependencies {
     compile androidDependencies.cardview_v7
     compile androidDependencies.design
 }
+
+apply from: '../bintray.gradle'

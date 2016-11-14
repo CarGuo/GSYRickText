@@ -103,6 +103,10 @@ public class SmileUtils {
 
     private static final Map<Pattern, Integer> emoticons = new HashMap<Pattern, Integer>();
 
+    public Map<Pattern, Integer> getEmotions() {
+        return emoticons;
+    }
+
     static {
 
         // 如果考虑国际化 addPattern(emoticons, ee_1[index], R.drawable.ee_1);
