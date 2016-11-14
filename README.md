@@ -3,7 +3,7 @@
 
 * <h4>目前正在提交jcenter审核</h4>
 
-<a href="http://www.jianshu.com/p/cd9e197a5c04">这是简介入口，点我点我</a>
+<a href="http://www.jianshu.com/p/cd9e197a5c04">**** 这是简书入口，点我点我 ****</a>
 
 这是效果图片，GIF看起来有些不流畅
 
