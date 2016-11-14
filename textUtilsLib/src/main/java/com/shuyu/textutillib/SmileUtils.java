@@ -1,38 +1,24 @@
+package com.shuyu.textutillib;
+
 /**
- * Copyright (C) 2013-2014 EaseMob Technologies. All rights reserved.
- * <p>
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * http://www.apache.org/licenses/LICENSE-2.0
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 表情工具类
+ * Created by shuyu on 2016/11/14.
  */
-package com.shuyu.textutillib.utils;
 
 import android.content.Context;
 import android.graphics.Color;
 import android.text.Spannable;
-import android.text.Spannable.Factory;
 import android.text.SpannableStringBuilder;
 import android.text.style.CharacterStyle;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.ImageSpan;
 
-import com.shuyu.textutillib.R;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * 表情工具类
- */
 public class SmileUtils {
     public static final String e1 = "[e1]";
     public static final String e2 = "[e2]";
@@ -98,7 +84,7 @@ public class SmileUtils {
     public static final String e62 = "[e62]";
     public static final String e63 = "[e63]";
 
-    private static final Factory spannableFactory = Factory
+    private static final Spannable.Factory spannableFactory = Spannable.Factory
             .getInstance();
 
     private static final Map<Pattern, Integer> emoticons = new HashMap<Pattern, Integer>();
@@ -107,8 +93,7 @@ public class SmileUtils {
         return emoticons;
     }
 
-    static {
-
+    public static void initEmoji() {
         // 如果考虑国际化 addPattern(emoticons, ee_1[index], R.drawable.ee_1);
         addPattern(emoticons, e1, R.drawable.e1);
         addPattern(emoticons, e2, R.drawable.e2);
@@ -173,7 +158,6 @@ public class SmileUtils {
         addPattern(emoticons, e61, R.drawable.e61);
         addPattern(emoticons, e62, R.drawable.e62);
         addPattern(emoticons, e63, R.drawable.e63);
-
     }
 
     private static void addPattern(Map<Pattern, Integer> map, String smile,
@@ -184,13 +168,13 @@ public class SmileUtils {
     /**
      * replace existing spannable with smiles
      *
-     * @param context
-     * @param spannable
-     * @return
+     * @param context   上下文
+     * @param spannable 显示的span
+     * @return 是否添加
      */
     public static boolean addSmiles(Context context, Spannable spannable) {
         boolean hasChanges = false;
-        for (Entry<Pattern, Integer> entry : emoticons.entrySet()) {
+        for (Map.Entry<Pattern, Integer> entry : emoticons.entrySet()) {
             Matcher matcher = entry.getKey().matcher(spannable);
             while (matcher.find()) {
                 boolean set = true;
@@ -222,7 +206,7 @@ public class SmileUtils {
 
     public static boolean containsKey(String key) {
         boolean b = false;
-        for (Entry<Pattern, Integer> entry : emoticons.entrySet()) {
+        for (Map.Entry<Pattern, Integer> entry : emoticons.entrySet()) {
             Matcher matcher = entry.getKey().matcher(key);
             if (matcher.find()) {
                 b = true;

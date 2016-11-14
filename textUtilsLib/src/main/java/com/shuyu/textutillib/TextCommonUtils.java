@@ -20,7 +20,6 @@ import com.shuyu.textutillib.listener.SpanUrlCallBack;
 import com.shuyu.textutillib.model.UserModel;
 import com.shuyu.textutillib.span.ClickAtUserSpan;
 import com.shuyu.textutillib.span.LinkSpan;
-import com.shuyu.textutillib.utils.SmileUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -36,7 +35,7 @@ public class TextCommonUtils {
     /**
      * 单纯emoji表示
      *
-     * @param context
+     * @param context 上下文
      * @param text    包含emoji的字符串
      * @param tv      显示的textview
      */
@@ -51,7 +50,7 @@ public class TextCommonUtils {
     /**
      * 单纯获取emoji表示
      *
-     * @param context
+     * @param context 上下文
      * @param text    需要处理的文本
      * @return 返回显示的spananle
      */
@@ -66,12 +65,11 @@ public class TextCommonUtils {
 
     /**
      * 显示emoji和url高亮
-     *
-     * @param context
+     * @param context            上下文
      * @param text               需要处理的文本
      * @param textView           需要显示的view
      * @param color              需要显示的颜色
-     * @param spanAtUserCallBack @某人点击的返回
+     * @param spanAtUserCallBack AT某人点击的返回
      * @param spanUrlCallBack    链接点击的返回
      * @return 返回显示的spananle
      */
@@ -86,12 +84,12 @@ public class TextCommonUtils {
     /**
      * 设置带高亮可点击的Url和表情的textview文本
      *
-     * @param context
+     * @param context            上下文
      * @param string             需要处理的文本
-     * @param listUser           需要显示的@某人
+     * @param listUser           需要显示的AT某人
      * @param textView           需要显示的view
      * @param color              需要显示的颜色
-     * @param spanAtUserCallBack @某人点击的返回
+     * @param spanAtUserCallBack AT某人点击的返回
      * @param spanUrlCallBack    链接点击的返回
      */
     public static void setUrlSmileText(Context context, String string, List<UserModel> listUser, TextView textView, int color, SpanAtUserCallBack spanAtUserCallBack, SpanUrlCallBack spanUrlCallBack) {
@@ -102,13 +100,13 @@ public class TextCommonUtils {
     /**
      * AT某人的跳转
      *
-     * @param context
-     * @param listUser           需要显示的@某人
+     * @param context            上下文
+     * @param listUser           需要显示的AT某人
      * @param content            需要处理的文本
      * @param textView           需要显示的view
-     * @param clickable          @某人是否可以点击
+     * @param clickable          AT某人是否可以点击
      * @param color              需要显示的颜色
-     * @param spanAtUserCallBack @某人点击的返回
+     * @param spanAtUserCallBack AT某人点击的返回
      * @return 返回显示的spananle
      */
     public static Spannable getAtText(Context context, List<UserModel> listUser, String content, TextView textView, boolean clickable,
@@ -161,12 +159,12 @@ public class TextCommonUtils {
     /**
      * 设置带高亮可点击的Url和表情的textview文本
      *
-     * @param context
+     * @param context            上下文
      * @param string             需要处理的文本
-     * @param listUser           需要显示的@某人
+     * @param listUser           需要显示的AT某人
      * @param textView           需要显示的view
      * @param color              需要显示的颜色
-     * @param spanAtUserCallBack @某人点击的返回
+     * @param spanAtUserCallBack AT某人点击的返回
      * @param spanUrlCallBack    链接点击的返回
      * @return 返回显示的spananle
      */
@@ -185,7 +183,7 @@ public class TextCommonUtils {
     /**
      * 处理带URL的逻辑
      *
-     * @param context
+     * @param context         上下文
      * @param textView        需要显示的view
      * @param spannable       显示的spananle
      * @param color           需要显示的颜色
@@ -234,7 +232,7 @@ public class TextCommonUtils {
      * 处理1. 2. 3.识别成链接的问题
      *
      * @param str
-     * @return
+     * @return 是否符合url
      */
     public static boolean isTopURL(String str) {
         String ss[] = str.split("\\.");
@@ -249,7 +247,7 @@ public class TextCommonUtils {
      * 是否数字
      *
      * @param str
-     * @return
+     * @return 是否数字
      */
     public static boolean isNumeric(String str) {
         Pattern pattern = Pattern.compile("[0-9]*");

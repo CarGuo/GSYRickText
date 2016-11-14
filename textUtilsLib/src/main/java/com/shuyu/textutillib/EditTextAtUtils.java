@@ -66,7 +66,7 @@ public class EditTextAtUtils {
     }
 
     /**
-     * 处理光标不插入在@某人字段上
+     * 处理光标不插入在AT某人字段上
      */
     private void resolveEditTextClick() {
         if (TextUtils.isEmpty(editText.getText()))
@@ -144,8 +144,8 @@ public class EditTextAtUtils {
     /**
      * 添加了@的加入
      *
-     * @param user_id
-     * @param user_name
+     * @param user_id   用户id
+     * @param user_name 用户名
      * @param color     类似#f77500的颜色格式
      */
     public void resolveText(String user_id, String user_name, String color) {
@@ -165,6 +165,8 @@ public class EditTextAtUtils {
 
     /**
      * 编辑框输入了@后的跳转
+     *
+     * @param editTextAtUtilJumpListener 跳转回调
      */
     public void setEditTextAtUtilJumpListener(EditTextAtUtilJumpListener editTextAtUtilJumpListener) {
         this.editTextAtUtilJumpListener = editTextAtUtilJumpListener;
@@ -173,11 +175,11 @@ public class EditTextAtUtils {
     /**
      * 处理插入的文本
      *
-     * @param context
+     * @param context  上下文
      * @param text     需要处理的文本
      * @param listUser 需要处理的at某人列表
      * @param editText 需要被插入的editText
-     * @param color     类似#f77500的颜色格式
+     * @param color    类似#f77500的颜色格式
      */
     public static void resolveInsertText(Context context, String text, List<UserModel> listUser, String color, EditText editText) {
 
@@ -233,6 +235,7 @@ public class EditTextAtUtils {
      *
      * @param editTextAtUtils 已经new好的 editTextAtUtils对象
      * @param userModel       用户model
+     * @param color           颜色
      */
     public static void resolveAtResult(EditTextAtUtils editTextAtUtils, String color, UserModel userModel) {
         String user_id = userModel.getUser_id();
@@ -241,8 +244,9 @@ public class EditTextAtUtils {
     }
 
     /***
-     * 发布的时候输入了@的返回处理
+     * 发布的时候输入了AT的返回处理
      *
+     * @param color           颜色
      * @param editText        显示的editTEXT
      * @param editTextAtUtils 已经new好的 editTextAtUtils对象
      * @param userModel       用户model

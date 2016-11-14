@@ -19,6 +19,7 @@ import com.shuyu.textutillib.listener.EditTextAtUtilJumpListener;
 import com.shuyu.textutillib.listener.SpanAtUserCallBack;
 import com.shuyu.textutillib.listener.SpanUrlCallBack;
 import com.shuyu.textutillib.model.UserModel;
+import com.shuyu.textutillib.SmileUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +59,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SmileUtils.initEmoji();
+
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 

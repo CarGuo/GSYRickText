@@ -18,7 +18,7 @@ import com.example.richtext.R;
 import com.example.richtext.adapter.ExpressionPagerAdapter;
 import com.example.richtext.adapter.SmileImageExpressionAdapter;
 import com.example.richtext.utils.ScreenUtils;
-import com.shuyu.textutillib.utils.SmileUtils;
+import com.shuyu.textutillib.SmileUtils;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -152,7 +152,7 @@ public class EmojiLayout extends LinearLayout {
                     if (filename != "delete_expression") { // 不是删除键，显示表情
                         // 这里用的反射，所以混淆的时候不要混淆SmileUtils这个类
                         @SuppressWarnings("rawtypes")
-                        Class clz = Class.forName("com.shuyu.textutillib.utils.SmileUtils");
+                        Class clz = Class.forName("com.shuyu.textutillib.SmileUtils");
                         Field field = clz.getField(filename);
 
                         String temp1 = (String) field.get(null);
