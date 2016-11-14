@@ -11,7 +11,7 @@
 ## EditTextAtUtils @某人的逻辑处理类
 
 可以new一个EditTextAtUtils对象
-```java
+```
 /**
  * @param editText        需要对应显示的edittext
  * @param contactNameList 传入一个不变的list维护用户名
@@ -24,7 +24,7 @@ public void setEditTextAtUtilJumpListener(EditTextAtUtilJumpListener editTextAtU
 ```
 
 ## TextCommonUtils 文本逻辑处理类,显示表情，@某人和URL高亮可点击。
-```java
+```
 /**x
  * 单纯emoji表示
  *
