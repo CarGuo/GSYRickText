@@ -1,7 +1,15 @@
 <h4>支持类似微博的编辑框，可输入表情和@某人。支持TextView显示表情，链接，@某人，有点击效果</h4>
 ======================
+```
+<dependency>
+  <groupId>com.shuyu</groupId>
+  <artifactId>textutillib</artifactId>
+  <version>1.0.2</version>
+  <type>pom</type>
+</dependency>
+```
 
-* <h4>目前正在提交jcenter审核</h4>
+* <h4>compile 'com.shuyu:textutillib:1.0.2'></h4>
 
 <a href="http://www.jianshu.com/p/cd9e197a5c04">**** 这是简书入口，点我点我 ****</a>
 
