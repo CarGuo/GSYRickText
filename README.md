@@ -9,7 +9,7 @@
 </dependency>
 ```
 
-* <h4>compile 'com.shuyu:textutillib:1.0.2'></h4>
+<h4>compile 'com.shuyu:textutillib:1.0.2'</h4>
 
 <a href="http://www.jianshu.com/p/cd9e197a5c04">**** 这是简书入口，点我点我 ****</a>
 
