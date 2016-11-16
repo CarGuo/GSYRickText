@@ -11,6 +11,8 @@
 
 <h4>compile 'com.shuyu:textutillib:1.0.2'</h4>
 
+## 1.0.3 修正了电话号码不能显示点击问题，增加了needNum接口用于显示电话号码
+
 <a href="http://www.jianshu.com/p/cd9e197a5c04">**** 这是简书入口，点我点我 ****</a>
 
 这是效果图片，GIF看起来有些不流畅
@@ -74,11 +76,12 @@ public void setEditTextAtUtilJumpListener(EditTextAtUtilJumpListener editTextAtU
 ```
 
 ## TextCommonUtils 文本逻辑处理类,显示表情，@某人和URL高亮可点击。
+
 ```
-/**x
+/**
  * 单纯emoji表示
  *
- * @param context
+ * @param context 上下文
  * @param text    包含emoji的字符串
  * @param tv      显示的textview
  */
@@ -93,7 +96,7 @@ public static void setEmojiText(Context context, String text, TextView tv) {
 /**
  * 单纯获取emoji表示
  *
- * @param context
+ * @param context 上下文
  * @param text    需要处理的文本
  * @return 返回显示的spananle
  */
@@ -109,17 +112,18 @@ public static Spannable getEmojiText(Context context, String text) {
 /**
  * 显示emoji和url高亮
  *
- * @param context
+ * @param context            上下文
  * @param text               需要处理的文本
  * @param textView           需要显示的view
  * @param color              需要显示的颜色
- * @param spanAtUserCallBack @某人点击的返回
+ * @param needNum            是否需要显示号码
+ * @param spanAtUserCallBack AT某人点击的返回
  * @param spanUrlCallBack    链接点击的返回
  * @return 返回显示的spananle
  */
-public static Spannable getUrlEmojiText(Context context, String text, TextView textView, int color, SpanAtUserCallBack spanAtUserCallBack, SpanUrlCallBack spanUrlCallBack) {
+public static Spannable getUrlEmojiText(Context context, String text, TextView textView, int color, boolean needNum, SpanAtUserCallBack spanAtUserCallBack, SpanUrlCallBack spanUrlCallBack) {
     if (!TextUtils.isEmpty(text)) {
-        return getUrlSmileText(context, text, null, textView, color, spanAtUserCallBack, spanUrlCallBack);
+        return getUrlSmileText(context, text, null, textView, color, needNum, spanAtUserCallBack, spanUrlCallBack);
     } else {
         return new SpannableString(" ");
     }
@@ -128,33 +132,35 @@ public static Spannable getUrlEmojiText(Context context, String text, TextView t
 /**
  * 设置带高亮可点击的Url和表情的textview文本
  *
- * @param context
+ * @param context            上下文
  * @param string             需要处理的文本
- * @param listUser           需要显示的@某人
+ * @param listUser           需要显示的AT某人
  * @param textView           需要显示的view
  * @param color              需要显示的颜色
- * @param spanAtUserCallBack @某人点击的返回
+ * @param needNum            是否需要显示号码
+ * @param spanAtUserCallBack AT某人点击的返回
  * @param spanUrlCallBack    链接点击的返回
  */
-public static void setUrlSmileText(Context context, String string, List<UserModel> listUser, TextView textView, int color, SpanAtUserCallBack spanAtUserCallBack, SpanUrlCallBack spanUrlCallBack) {
-    Spannable spannable = getUrlSmileText(context, string, listUser, textView, color, spanAtUserCallBack, spanUrlCallBack);
+public static void setUrlSmileText(Context context, String string, List<UserModel> listUser, TextView textView, int color, boolean needNum, SpanAtUserCallBack spanAtUserCallBack, SpanUrlCallBack spanUrlCallBack) {
+    Spannable spannable = getUrlSmileText(context, string, listUser, textView, color, needNum, spanAtUserCallBack, spanUrlCallBack);
     textView.setText(spannable);
 }
 
 /**
  * AT某人的跳转
  *
- * @param context
- * @param listUser           需要显示的@某人
+ * @param context            上下文
+ * @param listUser           需要显示的AT某人
  * @param content            需要处理的文本
  * @param textView           需要显示的view
- * @param clickable          @某人是否可以点击
+ * @param clickable          AT某人是否可以点击
  * @param color              需要显示的颜色
- * @param spanAtUserCallBack @某人点击的返回
+ * @param needNum            是否需要显示号码
+ * @param spanAtUserCallBack AT某人点击的返回
  * @return 返回显示的spananle
  */
 public static Spannable getAtText(Context context, List<UserModel> listUser, String content, TextView textView, boolean clickable,
-                                  int color, SpanAtUserCallBack spanAtUserCallBack) {
+                                  int color, boolean needNum, SpanAtUserCallBack spanAtUserCallBack) {
     if (listUser == null || listUser.size() <= 0)
         return getEmojiText(context, content);
     Spannable spannableString = new SpannableString(content);
@@ -203,25 +209,120 @@ public static Spannable getAtText(Context context, List<UserModel> listUser, Str
 /**
  * 设置带高亮可点击的Url和表情的textview文本
  *
- * @param context
+ * @param context            上下文
  * @param string             需要处理的文本
- * @param listUser           需要显示的@某人
+ * @param listUser           需要显示的AT某人
  * @param textView           需要显示的view
  * @param color              需要显示的颜色
- * @param spanAtUserCallBack @某人点击的返回
+ * @param needNum            是否需要显示号码
+ * @param spanAtUserCallBack AT某人点击的返回
  * @param spanUrlCallBack    链接点击的返回
  * @return 返回显示的spananle
  */
-public static Spannable getUrlSmileText(Context context, String string, List<UserModel> listUser, TextView textView, int color, SpanAtUserCallBack spanAtUserCallBack, SpanUrlCallBack spanUrlCallBack) {
+public static Spannable getUrlSmileText(Context context, String string, List<UserModel> listUser, TextView textView, int color, boolean needNum, SpanAtUserCallBack spanAtUserCallBack, SpanUrlCallBack spanUrlCallBack) {
     textView.setAutoLinkMask(Linkify.WEB_URLS | Linkify.PHONE_NUMBERS);
     if (!TextUtils.isEmpty(string)) {
         string = string.replaceAll("\r", "\r\n");
-        Spannable spannable = getAtText(context, listUser, string, textView, true, color, spanAtUserCallBack);
+        Spannable spannable = getAtText(context, listUser, string, textView, true, color, needNum, spanAtUserCallBack);
         textView.setText(spannable);
-        return resolveUrlLogic(context, textView, spannable, color, spanUrlCallBack);
+        return resolveUrlLogic(context, textView, spannable, color, needNum, spanUrlCallBack);
     } else {
         return new SpannableString(" ");
     }
 }
+
+/**
+ * 处理带URL的逻辑
+ *
+ * @param context         上下文
+ * @param textView        需要显示的view
+ * @param spannable       显示的spananle
+ * @param color           需要显示的颜色
+ * @param needNum         是否需要显示号码
+ * @param spanUrlCallBack 链接点击的返回
+ * @return 返回显示的spananle
+ */
+private static Spannable resolveUrlLogic(Context context, TextView textView, Spannable spannable, int color, boolean needNum, SpanUrlCallBack spanUrlCallBack) {
+    CharSequence charSequence = textView.getText();
+    if (charSequence instanceof Spannable) {
+        int end = charSequence.length();
+        Spannable sp = (Spannable) textView.getText();
+        URLSpan[] urls = sp.getSpans(0, end, URLSpan.class);
+        ClickAtUserSpan[] atSpan = sp.getSpans(0, end, ClickAtUserSpan.class);
+        if (urls.length > 0) {
+            SpannableStringBuilder style = new SpannableStringBuilder(charSequence);
+            style.clearSpans();// should clear old spans
+            for (URLSpan url : urls) {
+                String urlString = url.getURL();
+                if (isNumeric(urlString.replace("tel:", ""))) {
+                    if (!needNum && !isMobileSimple(urlString.replace("tel:", ""))) {
+                        style.setSpan(new StyleSpan(Typeface.NORMAL), sp.getSpanStart(url), sp.getSpanEnd(url), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+                    } else {
+                        LinkSpan linkSpan = new LinkSpan(context, url.getURL(), color, spanUrlCallBack);
+                        style.setSpan(linkSpan, sp.getSpanStart(url), sp.getSpanEnd(url), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+                    }
+                } else if (isTopURL(urlString.toLowerCase())) {
+                    LinkSpan linkSpan = new LinkSpan(context, url.getURL(), color, spanUrlCallBack);
+                    style.setSpan(linkSpan, sp.getSpanStart(url), sp.getSpanEnd(url), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+                } else {
+                    style.setSpan(new StyleSpan(Typeface.NORMAL), sp.getSpanStart(url), sp.getSpanEnd(url), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+                }
+
+            }
+            for (ClickAtUserSpan atUserSpan : atSpan) {
+                style.setSpan(atUserSpan, sp.getSpanStart(atUserSpan), sp.getSpanEnd(atUserSpan), Spanned.SPAN_MARK_POINT);
+            }
+            SmileUtils.addSmiles(context, style);
+            textView.setAutoLinkMask(0);
+            return style;
+        } else {
+            return spannable;
+        }
+    } else {
+        return spannable;
+    }
+}
+
+
+/**
+ * 顶级域名判断；如果要忽略大小写，可以直接在传入参数的时候toLowerCase()再做判断
+ * 处理1. 2. 3.识别成链接的问题
+ *
+ * @param str
+ * @return 是否符合url
+ */
+public static boolean isTopURL(String str) {
+    String ss[] = str.split("\\.");
+    if (ss.length < 3)
+        return false;
+
+    return true;
+
+}
+
+/**
+ * 是否数字
+ *
+ * @param str
+ * @return 是否数字
+ */
+public static boolean isNumeric(String str) {
+    Pattern pattern = Pattern.compile("[0-9]*");
+    Matcher isNum = pattern.matcher(str);
+    if (!isNum.matches()) {
+        return false;
+    }
+    return true;
+}
+
+/**
+ * @param string 待验证文本
+ * @return 是否符合手机号（简单）格式
+ */
+public static boolean isMobileSimple(String string) {
+    String phone = "^[1]\\d{10}$";
+    return !TextUtils.isEmpty(string) && Pattern.matches(phone, string);
+}
+
 
 ```
