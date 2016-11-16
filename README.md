@@ -9,7 +9,7 @@
 </dependency>
 ```
 
-<h4>compile 'com.shuyu:textutillib:1.0.2'</h4>
+<h4>compile 'com.shuyu:textutillib:1.0.3'</h4>
 
 ## 1.0.3 修正了电话号码不能显示点击问题，增加了needNum接口用于显示电话号码
 
