@@ -150,7 +150,13 @@ public class MainActivity extends AppCompatActivity {
                 JumpUtil.goToUserList(MainActivity.this, MainActivity.REQUEST_USER_CODE_CLICK);
                 break;
             case R.id.insert_text_btn:
-                EditTextAtUtils.resolveInsertText(MainActivity.this, insertContent, nameList, "#f77500", emojiEditText);
+                userIds.clear();
+                userNames.clear();
+                for (int i = 0; i < nameList.size(); i++) {
+                    userNames.add(nameList.get(i).getUser_name());
+                    userIds.add(nameList.get(i).getUser_id());
+                }
+                EditTextAtUtils.resolveInsertText(MainActivity.this, insertContent, nameList, "#f77521", emojiEditText);
                 break;
             case R.id.jump_btn:
                 Intent intent = new Intent(MainActivity.this, NewEmojiActivity.class);
