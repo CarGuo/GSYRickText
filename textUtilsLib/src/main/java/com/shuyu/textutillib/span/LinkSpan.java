@@ -30,11 +30,8 @@ public class LinkSpan extends ClickableSpan {
     @Override
     public void onClick(View widget) {
         if ((url.contains("tel:") && TextUtils.isDigitsOnly(url.replace("tel:", ""))) || TextUtils.isDigitsOnly(url)) {
-            if (!url.contains("tel:")) {
-                url = "tel:" + url;
-                if (spanUrlCallBack != null)
-                    spanUrlCallBack.phone(url);
-            }
+            if (spanUrlCallBack != null)
+                spanUrlCallBack.phone(url);
         } else {
             if (spanUrlCallBack != null)
                 spanUrlCallBack.url(url);

@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-        richText.setText(TextCommonUtils.getUrlSmileText(this, content, nameList, richText, Color.BLUE, spanAtUserCallBack, spanUrlCallBack));
+        richText.setText(TextCommonUtils.getUrlSmileText(this, content, nameList, richText, Color.BLUE, true, spanAtUserCallBack, spanUrlCallBack));
     }
 
     @OnClick({R.id.emoji_show_bottom, R.id.emoji_show_at, R.id.insert_text_btn, R.id.jump_btn})
