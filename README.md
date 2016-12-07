@@ -1,15 +1,24 @@
 <h4>支持类似微博的编辑框，可输入表情和@某人。支持TextView显示表情，链接，@某人，有点击效果</h4>
 ======================
+[![](https://jitpack.io/v/CarGuo/RickText.svg)](https://jitpack.io/#CarGuo/RickText)
+
+## 因为某些原因，现在使用jitpack.io，还请各位切换到jitpack。
+
 ```
-<dependency>
-  <groupId>com.shuyu</groupId>
-  <artifactId>textutillib</artifactId>
-  <version>1.0.3</version>
-  <type>pom</type>
-</dependency>
+allprojects {
+	repositories {
+		...
+		maven { url 'https://jitpack.io' }
+	}
+}
 ```
 
-<h4>compile 'com.shuyu:textutillib:1.0.3'</h4>
+```
+dependencies {
+     compile 'com.github.CarGuo:RickText:v1.0.3'
+}
+
+```
 
 ## 1.0.3
 
