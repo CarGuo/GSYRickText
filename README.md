@@ -16,10 +16,14 @@ allprojects {
 
 ```
 dependencies {
-     compile 'com.github.CarGuo:RickText:v1.0.3'
+     compile 'com.github.CarGuo:RickText:v1.0.4'
 }
 
 ```
+
+## 1.0.4
+* 最低API调到15
+
 
 ## 1.0.3
 
