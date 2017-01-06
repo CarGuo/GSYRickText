@@ -1,10 +1,9 @@
-<h4>支持类似微博的编辑框，可输入表情和@某人。支持TextView显示表情，链接，@某人，有点击效果</h4>
+### 支持类似微博的编辑框，可输入表情和@某人。支持TextView显示表情，链接，@某人，有点击效果</h4>
 ======================
 [![](https://jitpack.io/v/CarGuo/RickText.svg)](https://jitpack.io/#CarGuo/RickText)
 [![Build Status](https://travis-ci.org/CarGuo/RickText.svg?branch=master)](https://travis-ci.org/CarGuo/RickText)
 
-## 因为某些原因，现在使用jitpack.io，还请使用依赖的各位切换到jitpack。
-
+#### 在project下的build.gradle添加
 ```
 allprojects {
 	repositories {
@@ -14,12 +13,21 @@ allprojects {
 }
 ```
 
+#### 在module下的build.gradle添加
+
 ```
 dependencies {
      compile 'com.github.CarGuo:RickText:v1.0.4'
 }
 
 ```
+
+<a href="http://www.jianshu.com/p/cd9e197a5c04">**** 这是简书入口，点我点我 ****</a>
+
+
+### QQ群，有兴趣的可以进来，无底线欢迎：174815284 。
+
+----------------------------------
 
 ## 1.0.4
 * 最低API调到15
@@ -30,7 +38,6 @@ dependencies {
 * 修正了电话号码不能显示点击问题，增加了needNum接口用于显示电话号码
 * 修改了demo里插入文本的更新方式
 
-<a href="http://www.jianshu.com/p/cd9e197a5c04">**** 这是简书入口，点我点我 ****</a>
 
 这是效果图片，GIF看起来有些不流畅
 
