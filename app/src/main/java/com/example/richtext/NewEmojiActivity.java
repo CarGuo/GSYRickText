@@ -59,6 +59,27 @@ public class NewEmojiActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //恢复原本的
+        initEmoji();
+    }
+
+    /**
+     * 处理自己的表情
+     */
+    private void initEmoji() {
+        List<Integer> data = new ArrayList<>();
+        List<String> strings = new ArrayList<>();
+        for (int i = 1; i < 64; i++) {
+            int resId = getResources().getIdentifier("e" + i, "drawable", getPackageName());
+            data.add(resId);
+            strings.add("[e" + i + "]");
+        }
+        /**初始化为自己的**/
+        SmileUtils.addPatternAll(SmileUtils.getEmoticons(), strings, data);
+    }
 
     @OnClick({R.id.emoji_show_bottom, R.id.source_btn})
     public void onClick(View view) {
