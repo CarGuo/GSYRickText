@@ -1,10 +1,12 @@
 ### 支持类似微博的编辑框，可输入表情和@某人。支持TextView显示表情，链接，@某人，有点击效果</h4>
-======================
+
+
+----------------------------------
 
 [![](https://jitpack.io/v/CarGuo/RickText.svg)](https://jitpack.io/#CarGuo/RickText)
 [![Build Status](https://travis-ci.org/CarGuo/RickText.svg?branch=master)](https://travis-ci.org/CarGuo/RickText)
 
-#### 在project下的build.gradle添加
+### 在project下的build.gradle添加
 ```
 allprojects {
 	repositories {
@@ -14,7 +16,7 @@ allprojects {
 }
 ```
 
-#### 在module下的build.gradle添加
+### 在module下的build.gradle添加
 
 ```
 dependencies {
