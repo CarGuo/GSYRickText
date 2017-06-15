@@ -30,6 +30,4 @@ dependencies {
     apt viewDependencies.apt_butterKnife
     compile viewDependencies.butterKnife
     compile project(':textUtilsLib')
-
-    compile 'com.android.support:appcompat-v7:22.2.1'
 }

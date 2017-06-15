@@ -8,10 +8,11 @@ import android.text.SpannableStringBuilder;
 import android.text.style.ImageSpan;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.widget.EditText;
 
 import com.example.richtext.utils.ScreenUtils;
 import com.shuyu.textutillib.SmileUtils;
+
+import com.shuyu.textutillib.MentionEditText;
 
 
 /**
@@ -19,7 +20,7 @@ import com.shuyu.textutillib.SmileUtils;
  */
 
 
-public class EditTextEmoji extends EditText {
+public class EditTextEmoji extends MentionEditText {
 
     private int maxLength = 2000;
     private int size;
