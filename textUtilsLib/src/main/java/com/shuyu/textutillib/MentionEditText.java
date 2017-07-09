@@ -242,6 +242,13 @@ public class MentionEditText extends AppCompatEditText {
             if (beforeLength == 1 && afterLength == 0) {
                 return sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL))
                         && sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_DEL));
+            } else if(beforeLength < 0 && afterLength == 0) {
+                int selectionStart = editText.getSelectionStart();
+                int selectionEnd = editText.getSelectionEnd();
+                if(selectionStart == selectionEnd) {
+                    setSelection(selectionStart - beforeLength, selectionStart - beforeLength);
+                    super.deleteSurroundingText(-beforeLength, afterLength);
+                }
             }
             return super.deleteSurroundingText(beforeLength, afterLength);
         }
