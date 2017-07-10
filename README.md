@@ -20,7 +20,7 @@ allprojects {
 
 ```
 dependencies {
-     compile 'com.github.CarGuo:RickText:v1.0.5'
+     compile 'com.github.CarGuo:RickText:v1.0.6'
 }
 
 ```
@@ -31,6 +31,9 @@ dependencies {
 ### QQ群，有兴趣的可以进来，无底线欢迎：174815284 。
 
 ----------------------------------
+## 1.0.6
+* fix bug
+
 ## 1.0.5
 * 增加新功能，@某人在选择的时候只能块选中，完美实现微博输入框效果
 
