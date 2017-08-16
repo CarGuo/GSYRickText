@@ -37,6 +37,18 @@
         android:layout_margin="10dp"
         android:src="@drawable/publish_at_d3x" />
 
+    <TextView
+        android:id="@+id/emoji_show_topic"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_below="@+id/emoji_edit_text"
+        android:layout_margin="10dp"
+        android:layout_toRightOf="@+id/emoji_show_at"
+        android:gravity="center"
+        android:text=" # "
+        android:textColor="#FFFFFF"
+        android:textSize="28sp" />
+
     <Button
         android:id="@+id/insert_text_btn"
         android:layout_width="wrap_content"

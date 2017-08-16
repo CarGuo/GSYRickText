@@ -47,15 +47,17 @@ public class MainActivity extends AppCompatActivity {
     RelativeLayout activityMain;
     @BindView(R.id.emoji_show_at)
     ImageView emojiShowAt;
+    @BindView(R.id.rich_text)
+    TextView richText;
 
     EditTextAtUtils editTextAtUtils;
 
     List<String> editNames = new ArrayList<>();
     List<String> editIds = new ArrayList<>();
-    @BindView(R.id.rich_text)
-    TextView richText;
+    List<TopicModel> topicModels = new ArrayList<>();
 
-    private String insertContent = "这是测试文本哟 www.baidu.com " +
+
+    private String insertContent = "这是测试文本#话题话题#哟 www.baidu.com " +
             " 来@某个人  @22222 @kkk " +
             " 好的,来几个表情[e2][e4][e55]，最后来一个电话 13245685478";
     private List<UserModel> nameList = new ArrayList<>();
@@ -120,8 +122,6 @@ public class MainActivity extends AppCompatActivity {
         userModel.setUser_id("23333");
         nameList.add(userModel);
 
-
-        List<TopicModel> topicModels = new ArrayList<>();
         TopicModel topicModel = new TopicModel();
         topicModel.setTopicId("333");
         topicModel.setTopicName("话题话题");
@@ -157,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    @OnClick({R.id.emoji_show_bottom, R.id.emoji_show_at, R.id.insert_text_btn, R.id.jump_btn})
+    @OnClick({R.id.emoji_show_bottom, R.id.emoji_show_at, R.id.insert_text_btn, R.id.jump_btn, R.id.emoji_show_topic})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.emoji_show_bottom:
@@ -178,11 +178,18 @@ public class MainActivity extends AppCompatActivity {
                     editNames.add(nameList.get(i).getUser_name());
                     editIds.add(nameList.get(i).getUser_id());
                 }
-                EditTextAtUtils.resolveInsertText(MainActivity.this, insertContent, nameList, "#f77521", emojiEditText);
+                for (int i = 0; i < topicModels.size(); i++) {
+                    editNames.add(topicModels.get(i).getTopicName());
+                    editIds.add(topicModels.get(i).getTopicId());
+                }
+                EditTextAtUtils.resolveInsertText(MainActivity.this, insertContent, nameList, topicModels, "#f77521", emojiEditText);
                 break;
             case R.id.jump_btn:
                 Intent intent = new Intent(MainActivity.this, NewEmojiActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.emoji_show_topic:
+                JumpUtil.goToTopicList(MainActivity.this, MainActivity.REQUEST_TOPIC_CODE_CLICK);
                 break;
         }
     }

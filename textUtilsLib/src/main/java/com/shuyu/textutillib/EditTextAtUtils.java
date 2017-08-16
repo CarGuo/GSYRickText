@@ -2,6 +2,7 @@ package com.shuyu.textutillib;
 
 
 import android.content.Context;
+import android.graphics.Color;
 import android.text.Editable;
 import android.text.Html;
 import android.text.Spannable;
@@ -206,7 +207,7 @@ public class EditTextAtUtils {
      * @param editText 需要被插入的editText
      * @param color    类似#f77500的颜色格式
      */
-    public static void resolveInsertText(Context context, String text, List<UserModel> listUser, String color, EditText editText) {
+    public static void resolveInsertText(Context context, String text, List<UserModel> listUser, List<TopicModel> listTopic, String color, EditText editText) {
 
         //此处保存名字的键值
         Map<String, String> names = new HashMap<>();
@@ -218,7 +219,14 @@ public class EditTextAtUtils {
         if (TextUtils.isEmpty(text))
             return;
         //设置表情
-        Spannable spannable = TextCommonUtils.getEmojiText(context, text);
+        Spannable spannable;
+        if (listTopic != null && listTopic.size() > 0) {
+            spannable = TextCommonUtils.getTopicText(context, listTopic, text, editText, false, Color.parseColor(color), null);
+            SmileUtils.addSmiles(context, spannable);
+        } else {
+            spannable = TextCommonUtils.getEmojiText(context, text);
+
+        }
         editText.setText(spannable);
 
         //查找@
