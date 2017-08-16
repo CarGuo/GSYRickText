@@ -25,8 +25,6 @@ import com.shuyu.textutillib.SmileUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
 
     public final static int REQUEST_USER_CODE_INPUT = 1111;
     public final static int REQUEST_USER_CODE_CLICK = 2222;
+    public final static int REQUEST_TOPIC_CODE_INPUT = 3333;
+    public final static int REQUEST_TOPIC_CODE_CLICK = 4444;
 
     @BindView(R.id.emoji_edit_text)
     EditTextEmoji emojiEditText;
@@ -50,8 +50,8 @@ public class MainActivity extends AppCompatActivity {
 
     EditTextAtUtils editTextAtUtils;
 
-    List<String> userNames = new ArrayList<>();
-    List<String> userIds = new ArrayList<>();
+    List<String> editNames = new ArrayList<>();
+    List<String> editIds = new ArrayList<>();
     @BindView(R.id.rich_text)
     TextView richText;
 
@@ -89,11 +89,16 @@ public class MainActivity extends AppCompatActivity {
 
     private void initView() {
         emojiLayout.setEditTextSmile(emojiEditText);
-        editTextAtUtils = new EditTextAtUtils(emojiEditText, userNames, userIds);
+        editTextAtUtils = new EditTextAtUtils(emojiEditText, editNames, editIds);
         editTextAtUtils.setEditTextAtUtilJumpListener(new EditTextAtUtilJumpListener() {
             @Override
             public void notifyAt() {
                 JumpUtil.goToUserList(MainActivity.this, MainActivity.REQUEST_USER_CODE_INPUT);
+            }
+
+            @Override
+            public void notifyTopic() {
+                JumpUtil.goToTopicList(MainActivity.this, MainActivity.REQUEST_TOPIC_CODE_INPUT);
             }
         });
 
@@ -167,11 +172,11 @@ public class MainActivity extends AppCompatActivity {
                 JumpUtil.goToUserList(MainActivity.this, MainActivity.REQUEST_USER_CODE_CLICK);
                 break;
             case R.id.insert_text_btn:
-                userIds.clear();
-                userNames.clear();
+                editIds.clear();
+                editNames.clear();
                 for (int i = 0; i < nameList.size(); i++) {
-                    userNames.add(nameList.get(i).getUser_name());
-                    userIds.add(nameList.get(i).getUser_id());
+                    editNames.add(nameList.get(i).getUser_name());
+                    editIds.add(nameList.get(i).getUser_id());
                 }
                 EditTextAtUtils.resolveInsertText(MainActivity.this, insertContent, nameList, "#f77521", emojiEditText);
                 break;
@@ -192,6 +197,13 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case REQUEST_USER_CODE_INPUT:
                     EditTextAtUtils.resolveAtResultByEnterAt(emojiEditText, editTextAtUtils, "#f77500", (UserModel) data.getSerializableExtra(UserListActivity.DATA));
+                    break;
+
+                case REQUEST_TOPIC_CODE_INPUT:
+                    EditTextAtUtils.resolveTopicResultByEnter(emojiEditText, editTextAtUtils, "#f77500", (TopicModel) data.getSerializableExtra(TopicListActivity.DATA));
+                    break;
+                case REQUEST_TOPIC_CODE_CLICK:
+                    EditTextAtUtils.resolveTopicResult(editTextAtUtils, "#f77500", (TopicModel) data.getSerializableExtra(TopicListActivity.DATA));
                     break;
             }
         }

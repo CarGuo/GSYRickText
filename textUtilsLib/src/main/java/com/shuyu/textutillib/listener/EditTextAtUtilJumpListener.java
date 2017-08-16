@@ -7,4 +7,5 @@ package com.shuyu.textutillib.listener;
 
 public interface EditTextAtUtilJumpListener {
     void notifyAt();
+    void notifyTopic();
 }

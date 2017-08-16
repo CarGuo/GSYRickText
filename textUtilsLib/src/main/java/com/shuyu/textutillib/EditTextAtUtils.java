@@ -13,8 +13,10 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.shuyu.textutillib.listener.EditTextAtUtilJumpListener;
+import com.shuyu.textutillib.model.TopicModel;
 import com.shuyu.textutillib.model.UserModel;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,22 +29,23 @@ import java.util.regex.Pattern;
  */
 public class EditTextAtUtils {
     private EditText editText;
-    private List<String> contactNameList;
-    private List<String> contactIdList;
+    private List<String> nameList;
+    private List<String> idList;
     private EditTextAtUtilJumpListener editTextAtUtilJumpListener;
 
     /**
-     * @param editText        需要对应显示的edittext
-     * @param contactNameList 传入一个不变的list维护用户名
-     * @param contactIdList   传入一个不变的list维护id
+     * @param editText 需要对应显示的edittext
+     * @param nameList 传入一个不变名字的list
+     * @param idList   传入一个不变的list的id
      */
-    public EditTextAtUtils(EditText editText, final List<String> contactNameList, final List<String> contactIdList) {
-        super();
-        this.contactNameList = contactNameList;
-        this.contactIdList = contactIdList;
+    public EditTextAtUtils(EditText editText, final List<String> nameList, final List<String> idList) {
+
+        this.nameList = nameList;
+        this.idList = idList;
         this.editText = editText;
         resolveAtPersonEditText();
     }
+
 
     /**
      * 删除@某人里面的缓存列表
@@ -50,17 +53,17 @@ public class EditTextAtUtils {
     private void resolveDeleteName() {
         int selectionStart = editText.getSelectionStart();
         int lastPos = 0;
-        for (int i = 0; i < contactNameList.size(); i++) { //循环遍历整个输入框的所有字符
-            if ((lastPos = editText.getText().toString().indexOf(contactNameList.get(i).replace("\b", ""), lastPos)) != -1) {
-                if (selectionStart > lastPos && selectionStart <= (lastPos + contactNameList.get(i).length())) {
-                    contactNameList.remove(i);
-                    contactIdList.remove(i);
+        for (int i = 0; i < nameList.size(); i++) { //循环遍历整个输入框的所有字符
+            if ((lastPos = editText.getText().toString().indexOf(nameList.get(i).replace("\b", ""), lastPos)) != -1) {
+                if (selectionStart > lastPos && selectionStart <= (lastPos + nameList.get(i).length())) {
+                    nameList.remove(i);
+                    idList.remove(i);
                     return;
                 } else {
                     lastPos++;
                 }
             } else {
-                lastPos += (contactNameList.get(i)).length();
+                lastPos += (nameList.get(i)).length();
             }
         }
     }
@@ -74,13 +77,13 @@ public class EditTextAtUtils {
         int selectionStart = editText.getSelectionStart();
         if (selectionStart > 0) {
             int lastPos = 0;
-            for (int i = 0; i < contactNameList.size(); i++) {
+            for (int i = 0; i < nameList.size(); i++) {
                 if ((lastPos = editText.getText().toString().indexOf(
-                        contactNameList.get(i), lastPos)) != -1) {
-                    if (selectionStart >= lastPos && selectionStart <= (lastPos + contactNameList.get(i).length())) {
-                        editText.setSelection(lastPos + contactNameList.get(i).length());
+                        nameList.get(i), lastPos)) != -1) {
+                    if (selectionStart >= lastPos && selectionStart <= (lastPos + nameList.get(i).length())) {
+                        editText.setSelection(lastPos + nameList.get(i).length());
                     }
-                    lastPos += (contactNameList.get(i)).length();
+                    lastPos += (nameList.get(i)).length();
                 }
             }
         }
@@ -104,6 +107,9 @@ public class EditTextAtUtils {
                     if ("\b".equals(deleteSb)) {
                         delIndex = s.toString().lastIndexOf("@", start);
                         length = start - delIndex;
+                    } else if ("#".equals(deleteSb)) {
+                        delIndex = s.toString().lastIndexOf("#", start - 1);
+                        length = start - delIndex;
                     }
                 }
             }
@@ -121,6 +127,10 @@ public class EditTextAtUtils {
                     if (setMsg.length() >= beforeCount && editText.getSelectionEnd() > 0 && setMsg.charAt(editText.getSelectionEnd() - 1) == '@') {
                         if (editTextAtUtilJumpListener != null) {
                             editTextAtUtilJumpListener.notifyAt();
+                        }
+                    } else if (setMsg.length() >= beforeCount && editText.getSelectionEnd() > 0 && setMsg.charAt(editText.getSelectionEnd() - 1) == '#') {
+                        if (editTextAtUtilJumpListener != null) {
+                            editTextAtUtilJumpListener.notifyTopic();
                         }
                     }
                 }
@@ -149,8 +159,8 @@ public class EditTextAtUtils {
      * @param color     类似#f77500的颜色格式
      */
     public void resolveText(String user_id, String user_name, String color) {
-        contactNameList.add(user_name + "\b");
-        contactIdList.add(user_id);
+        nameList.add(user_name + "\b");
+        idList.add(user_id);
 
         int index = editText.getSelectionStart();
         SpannableStringBuilder spannableStringBuilder =
@@ -162,6 +172,21 @@ public class EditTextAtUtils {
         editText.setText(spannableStringBuilder);
         editText.setSelection(index + htmlText.length() + 1);
     }
+
+    public void resolveTopicText(String topicId, String topicName, String color) {
+        nameList.add(topicName);
+        idList.add(topicId);
+
+        int index = editText.getSelectionStart();
+        SpannableStringBuilder spannableStringBuilder =
+                new SpannableStringBuilder(editText.getText());
+        //直接用span会导致后面没文字的时候新输入的一起变色
+        Spanned htmlText = Html.fromHtml(String.format("<font color='%s'>" + topicName + "</font>", color));
+        spannableStringBuilder.insert(index, htmlText);
+        editText.setText(spannableStringBuilder);
+        editText.setSelection(index + htmlText.length());
+    }
+
 
     /**
      * 编辑框输入了@后的跳转
@@ -227,6 +252,23 @@ public class EditTextAtUtils {
         }
         editText.setText(spannableStringBuilder);
         editText.setSelection(editText.getText().length());
+    }
+
+
+    public static void resolveTopicResult(EditTextAtUtils editTextAtUtils, String color, TopicModel topicModel) {
+        String topicId = topicModel.getTopicId();
+        String topicName = "#" + topicModel.getTopicName() + "#";
+        editTextAtUtils.resolveTopicText(topicId, topicName, color);
+    }
+
+
+    public static void resolveTopicResultByEnter(EditText editText, EditTextAtUtils editTextAtUtils, String color, TopicModel topicModel) {
+        String topicId = topicModel.getTopicId();
+        editText.getText().delete(editText.getSelectionEnd() - 1,
+                editText.getSelectionEnd());
+        String topicName = "#" + topicModel.getTopicName() + "#";
+        editTextAtUtils.resolveTopicText(topicId, topicName, color);
+
     }
 
 

@@ -24,6 +24,9 @@
         <activity
             android:name=".NewEmojiActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".TopicListActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

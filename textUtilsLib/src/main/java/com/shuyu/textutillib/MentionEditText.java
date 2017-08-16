@@ -182,27 +182,6 @@ public class MentionEditText extends AppCompatEditText {
         return null;
     }
 
-    //text watcher for mention character('@')
-    private class MentionTextWatcher implements TextWatcher {
-        @Override
-        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-        }
-
-        @Override
-        public void onTextChanged(CharSequence charSequence, int index, int i1, int count) {
-            if (count == 1 && !TextUtils.isEmpty(charSequence)) {
-                char mentionChar = charSequence.toString().charAt(index);
-                if ('@' == mentionChar && mOnMentionInputListener != null) {
-                    mOnMentionInputListener.onMentionCharacterInput();
-                }
-            }
-        }
-
-        @Override
-        public void afterTextChanged(Editable editable) {
-        }
-    }
-
     //handle the deletion action for mention string, such as '@test'
     private class HackInputConnection extends InputConnectionWrapper {
         private EditText editText;
