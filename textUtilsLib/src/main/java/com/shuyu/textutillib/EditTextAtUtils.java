@@ -32,6 +32,8 @@ public class EditTextAtUtils {
     private EditText editText;
     private List<String> nameList;
     private List<String> idList;
+    private List<String> idTopicList;
+    private List<String> nameTopicList;
     private EditTextAtUtilJumpListener editTextAtUtilJumpListener;
 
     /**
@@ -40,9 +42,23 @@ public class EditTextAtUtils {
      * @param idList   传入一个不变的list的id
      */
     public EditTextAtUtils(EditText editText, final List<String> nameList, final List<String> idList) {
+        this.nameList = nameList;
+        this.idList = idList;
+        this.editText = editText;
+        resolveAtPersonEditText();
+    }
+
+    /**
+     * @param editText 需要对应显示的edittext
+     * @param nameList 传入一个不变名字的list
+     * @param idList   传入一个不变的list的id
+     */
+    public EditTextAtUtils(EditText editText, final List<String> nameList, final List<String> idList, final List<String> nameTopicList, final List<String> idTopicList) {
 
         this.nameList = nameList;
         this.idList = idList;
+        this.nameTopicList = nameTopicList;
+        this.idTopicList = idTopicList;
         this.editText = editText;
         resolveAtPersonEditText();
     }
@@ -70,6 +86,30 @@ public class EditTextAtUtils {
     }
 
     /**
+     * 删除@某人里面的缓存列表
+     */
+    private void resolveDeleteTopic() {
+        if (nameTopicList == null) {
+            return;
+        }
+        int selectionStart = editText.getSelectionStart();
+        int lastPos = 0;
+        for (int i = 0; i < nameTopicList.size(); i++) { //循环遍历整个输入框的所有字符
+            if ((lastPos = editText.getText().toString().indexOf(nameTopicList.get(i), lastPos)) != -1) {
+                if (selectionStart > lastPos && selectionStart <= (lastPos + nameTopicList.get(i).length())) {
+                    nameTopicList.remove(i);
+                    idTopicList.remove(i);
+                    return;
+                } else {
+                    lastPos++;
+                }
+            } else {
+                lastPos += (nameTopicList.get(i)).length();
+            }
+        }
+    }
+
+    /**
      * 处理光标不插入在AT某人字段上
      */
     private void resolveEditTextClick() {
@@ -78,13 +118,28 @@ public class EditTextAtUtils {
         int selectionStart = editText.getSelectionStart();
         if (selectionStart > 0) {
             int lastPos = 0;
+            boolean success = false;
             for (int i = 0; i < nameList.size(); i++) {
                 if ((lastPos = editText.getText().toString().indexOf(
                         nameList.get(i), lastPos)) != -1) {
                     if (selectionStart >= lastPos && selectionStart <= (lastPos + nameList.get(i).length())) {
                         editText.setSelection(lastPos + nameList.get(i).length());
+                        success = true;
                     }
                     lastPos += (nameList.get(i)).length();
+                }
+            }
+
+            if (!success && nameTopicList != null) {
+                lastPos = 0;
+                for (int i = 0; i < nameTopicList.size(); i++) {
+                    if ((lastPos = editText.getText().toString().indexOf(
+                            nameTopicList.get(i), lastPos)) != -1) {
+                        if (selectionStart >= lastPos && selectionStart <= (lastPos + nameTopicList.get(i).length())) {
+                            editText.setSelection(lastPos + nameTopicList.get(i).length() + 1);
+                        }
+                        lastPos += (nameTopicList.get(i)).length();
+                    }
                 }
             }
         }
@@ -120,6 +175,7 @@ public class EditTextAtUtils {
                 String setMsg = s.toString();
                 if (delIndex != -1) {
                     resolveDeleteName();
+                    resolveDeleteTopic();
                     int position = delIndex;
                     delIndex = -1;
                     editText.getText().replace(position, position + length, "");
@@ -175,8 +231,8 @@ public class EditTextAtUtils {
     }
 
     public void resolveTopicText(String topicId, String topicName, String color) {
-        nameList.add(topicName);
-        idList.add(topicId);
+        nameTopicList.add(topicName);
+        idTopicList.add(topicId);
 
         int index = editText.getSelectionStart();
         SpannableStringBuilder spannableStringBuilder =

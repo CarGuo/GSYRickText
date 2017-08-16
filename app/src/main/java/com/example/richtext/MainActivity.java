@@ -54,6 +54,9 @@ public class MainActivity extends AppCompatActivity {
 
     List<String> editNames = new ArrayList<>();
     List<String> editIds = new ArrayList<>();
+
+    List<String> editTopNames = new ArrayList<>();
+    List<String> editTopIds = new ArrayList<>();
     List<TopicModel> topicModels = new ArrayList<>();
 
 
@@ -91,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initView() {
         emojiLayout.setEditTextSmile(emojiEditText);
-        editTextAtUtils = new EditTextAtUtils(emojiEditText, editNames, editIds);
+        editTextAtUtils = new EditTextAtUtils(emojiEditText, editNames, editIds, editTopNames, editTopIds);
         editTextAtUtils.setEditTextAtUtilJumpListener(new EditTextAtUtilJumpListener() {
             @Override
             public void notifyAt() {
@@ -174,13 +177,14 @@ public class MainActivity extends AppCompatActivity {
             case R.id.insert_text_btn:
                 editIds.clear();
                 editNames.clear();
+                for (int i = 0; i < topicModels.size(); i++) {
+                    editTopNames.add(topicModels.get(i).getTopicName());
+                    editTopIds.add(topicModels.get(i).getTopicId());
+                }
+
                 for (int i = 0; i < nameList.size(); i++) {
                     editNames.add(nameList.get(i).getUser_name());
                     editIds.add(nameList.get(i).getUser_id());
-                }
-                for (int i = 0; i < topicModels.size(); i++) {
-                    editNames.add(topicModels.get(i).getTopicName());
-                    editIds.add(topicModels.get(i).getTopicId());
                 }
                 EditTextAtUtils.resolveInsertText(MainActivity.this, insertContent, nameList, topicModels, "#f77521", emojiEditText);
                 break;

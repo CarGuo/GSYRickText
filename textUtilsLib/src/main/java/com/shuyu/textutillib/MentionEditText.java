@@ -33,6 +33,8 @@ import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputConnectionWrapper;
 import android.widget.EditText;
 
+import com.shuyu.textutillib.span.ClickTopicSpan;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -139,6 +141,13 @@ public class MentionEditText extends AppCompatEditText {
             return;
         }
 
+        CharSequence charSequence = getText();
+        int ends = charSequence.length();
+        Spannable sp = getText();
+        ClickTopicSpan[] atSpan = sp.getSpans(0, ends, ClickTopicSpan.class);
+        for (ClickTopicSpan clickTopicSpan : atSpan) {
+            mRangeArrayList.add(new Range(sp.getSpanStart(clickTopicSpan), sp.getSpanEnd(clickTopicSpan)));
+        }
         //find mention string and color it
         int lastMentionIndex = -1;
         String text = spannableText.toString();
