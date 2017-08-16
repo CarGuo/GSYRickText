@@ -16,9 +16,12 @@ import android.widget.TextView;
 
 
 import com.shuyu.textutillib.listener.SpanAtUserCallBack;
+import com.shuyu.textutillib.listener.SpanTopicCallBack;
 import com.shuyu.textutillib.listener.SpanUrlCallBack;
+import com.shuyu.textutillib.model.TopicModel;
 import com.shuyu.textutillib.model.UserModel;
 import com.shuyu.textutillib.span.ClickAtUserSpan;
+import com.shuyu.textutillib.span.ClickTopicSpan;
 import com.shuyu.textutillib.span.LinkSpan;
 
 import java.util.HashMap;
@@ -109,15 +112,22 @@ public class TextCommonUtils {
      * @param textView           需要显示的view
      * @param clickable          AT某人是否可以点击
      * @param color              需要显示的颜色
-     * @param needNum            是否需要显示号码
      * @param spanAtUserCallBack AT某人点击的返回
      * @return 返回显示的spananle
      */
-    public static Spannable getAtText(Context context, List<UserModel> listUser, String content, TextView textView, boolean clickable,
-                                      int color, boolean needNum, SpanAtUserCallBack spanAtUserCallBack) {
-        if (listUser == null || listUser.size() <= 0)
+    public static Spannable getAtText(Context context, List<UserModel> listUser, List<TopicModel> listTopic, String content, TextView textView, boolean clickable,
+                                      int color, SpanAtUserCallBack spanAtUserCallBack, SpanTopicCallBack spanTopicCallBack) {
+
+        Spannable spannable = null;
+
+        if (listTopic != null && listTopic.size() > 0) {
+            spannable = getTopicText(context, listTopic, content, textView, clickable, color, spanTopicCallBack);
+        }
+
+        if ((listUser == null || listUser.size() <= 0) && spannable == null)
             return getEmojiText(context, content);
-        Spannable spannableString = new SpannableString(content);
+
+        Spannable spannableString = new SpannableString((spannable == null) ? content : spannable);
         int indexStart = 0;
         int lenght = content.length();
         boolean hadHighLine = false;
@@ -160,6 +170,50 @@ public class TextCommonUtils {
     }
 
 
+    public static Spannable getTopicText(Context context, List<TopicModel> listTopic, String content, TextView textView, boolean clickable,
+                                         int color, SpanTopicCallBack spanTopicCallBack) {
+
+        if (listTopic == null || listTopic.size() <= 0)
+            return new SpannableString(content);
+        Spannable spannableString = new SpannableString(content);
+        int indexStart = 0;
+        int lenght = content.length();
+        boolean hadHighLine = false;
+        Map<String, String> map = new HashMap<>();
+        for (int i = 0; i < listTopic.size(); i++) {
+            int index = content.indexOf(listTopic.get(i).getTopicName(), indexStart);
+            if (index < 0 && indexStart > 0) {
+                index = content.indexOf(listTopic.get(i).getTopicName());
+                if (map.containsKey("" + index)) {
+                    int tmpIndexStart = (indexStart < lenght) ? Integer.parseInt(map.get("" + index)) : lenght - 1;
+                    if (tmpIndexStart != indexStart) {
+                        indexStart = tmpIndexStart;
+                        i--;
+                        continue;
+                    }
+                }
+            }
+            if (index > 0) {
+                map.put(index + "", index + "");
+                int mathStart = index - 1;
+                int indexEnd = index + listTopic.get(i).getTopicName().length();
+                boolean hadAt = "#".equals(content.substring(mathStart, index)) && "#".equals(content.substring(indexEnd, indexEnd + 1));
+                int matchEnd = indexEnd + 1;
+                if (hadAt && (matchEnd <= lenght || indexEnd == lenght)) {
+                    if (indexEnd > indexStart) {
+                        indexStart = indexEnd;
+                    }
+                    hadHighLine = true;
+                    spannableString.setSpan(new ClickTopicSpan(context, listTopic.get(i), color, spanTopicCallBack), mathStart, (indexEnd == lenght) ? lenght : matchEnd, Spanned.SPAN_MARK_POINT);
+                }
+            }
+        }
+        if (!(textView instanceof EditText) && clickable && hadHighLine)
+            textView.setMovementMethod(LinkMovementMethod.getInstance());
+        return spannableString;
+    }
+
+
     /**
      * 设置带高亮可点击的Url和表情的textview文本
      *
@@ -174,16 +228,34 @@ public class TextCommonUtils {
      * @return 返回显示的spananle
      */
     public static Spannable getUrlSmileText(Context context, String string, List<UserModel> listUser, TextView textView, int color, boolean needNum, SpanAtUserCallBack spanAtUserCallBack, SpanUrlCallBack spanUrlCallBack) {
+        return getUrlSmileText(context, string, listUser, null, textView, color, needNum, spanAtUserCallBack, spanUrlCallBack, null);
+    }
+
+    /**
+     * 设置带高亮可点击的Url和表情的textview文本
+     *
+     * @param context            上下文
+     * @param string             需要处理的文本
+     * @param listUser           需要显示的AT某人
+     * @param textView           需要显示的view
+     * @param color              需要显示的颜色
+     * @param needNum            是否需要显示号码
+     * @param spanAtUserCallBack AT某人点击的返回
+     * @param spanUrlCallBack    链接点击的返回
+     * @return 返回显示的spananle
+     */
+    public static Spannable getUrlSmileText(Context context, String string, List<UserModel> listUser, List<TopicModel> listTopic, TextView textView, int color, boolean needNum, SpanAtUserCallBack spanAtUserCallBack, SpanUrlCallBack spanUrlCallBack, SpanTopicCallBack spanTopicCallBack) {
         textView.setAutoLinkMask(Linkify.WEB_URLS | Linkify.PHONE_NUMBERS);
         if (!TextUtils.isEmpty(string)) {
             string = string.replaceAll("\r", "\r\n");
-            Spannable spannable = getAtText(context, listUser, string, textView, true, color, needNum, spanAtUserCallBack);
+            Spannable spannable = getAtText(context, listUser, listTopic, string, textView, true, color, spanAtUserCallBack, spanTopicCallBack);
             textView.setText(spannable);
             return resolveUrlLogic(context, textView, spannable, color, needNum, spanUrlCallBack);
         } else {
             return new SpannableString(" ");
         }
     }
+
 
     /**
      * 处理带URL的逻辑

@@ -17,7 +17,9 @@ import com.shuyu.textutillib.EditTextAtUtils;
 import com.shuyu.textutillib.TextCommonUtils;
 import com.shuyu.textutillib.listener.EditTextAtUtilJumpListener;
 import com.shuyu.textutillib.listener.SpanAtUserCallBack;
+import com.shuyu.textutillib.listener.SpanTopicCallBack;
 import com.shuyu.textutillib.listener.SpanUrlCallBack;
+import com.shuyu.textutillib.model.TopicModel;
 import com.shuyu.textutillib.model.UserModel;
 import com.shuyu.textutillib.SmileUtils;
 
@@ -100,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void resolveRichShow() {
-        String content = "这是测试文本哟 www.baidu.com " +
+        String content = "这是测试#话题话题#文本哟 www.baidu.com " +
                 "\n来@某个人  @22222 @kkk " +
                 "\n好的,来几个表情[e2][e4][e55]，最后来一个电话 13245685478";
 
@@ -112,6 +114,13 @@ public class MainActivity extends AppCompatActivity {
         userModel.setUser_name("kkk");
         userModel.setUser_id("23333");
         nameList.add(userModel);
+
+
+        List<TopicModel> topicModels = new ArrayList<>();
+        TopicModel topicModel = new TopicModel();
+        topicModel.setTopicId("333");
+        topicModel.setTopicName("话题话题");
+        topicModels.add(topicModel);
 
         SpanUrlCallBack spanUrlCallBack = new SpanUrlCallBack() {
             @Override
@@ -132,7 +141,15 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-        richText.setText(TextCommonUtils.getUrlSmileText(this, content, nameList, richText, Color.BLUE, true, spanAtUserCallBack, spanUrlCallBack));
+        SpanTopicCallBack spanTopicCallBack = new SpanTopicCallBack() {
+            @Override
+            public void onClick(TopicModel topicModel) {
+                Toast.makeText(MainActivity.this, topicModel.getTopicName() + " 被点击了", Toast.LENGTH_SHORT).show();
+            }
+        };
+
+        richText.setText(TextCommonUtils.getUrlSmileText(this, content, nameList, topicModels, richText, Color.BLUE, true, spanAtUserCallBack, spanUrlCallBack, spanTopicCallBack));
+
     }
 
     @OnClick({R.id.emoji_show_bottom, R.id.emoji_show_at, R.id.insert_text_btn, R.id.jump_btn})
