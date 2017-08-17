@@ -28,32 +28,39 @@
         android:layout_margin="10dp"
         android:src="@drawable/publish_face_n3x" />
 
-    <ImageView
-        android:id="@+id/emoji_show_at"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+    <LinearLayout
+        android:id="@+id/button_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/emoji_edit_text"
-        android:layout_margin="10dp"
-        android:src="@drawable/publish_at_d3x" />
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/emoji_show_topic"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_below="@+id/emoji_edit_text"
-        android:layout_margin="10dp"
-        android:layout_toRightOf="@+id/emoji_show_at"
-        android:gravity="center"
-        android:text=" # "
-        android:textColor="#FFFFFF"
-        android:textSize="28sp" />
+        <ImageView
+            android:id="@+id/emoji_show_at"
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:src="@drawable/publish_at_d3x" />
+
+        <TextView
+            android:id="@+id/emoji_show_topic"
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:text=" # "
+            android:textColor="#FFFFFF"
+            android:textSize="30sp" />
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/insert_text_btn"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:layout_below="@+id/emoji_show_at"
+        android:layout_below="@+id/button_layout"
         android:layout_margin="10dp"
         android:text="插入文本" />
 
@@ -61,7 +68,7 @@
         android:id="@+id/jump_btn"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:layout_below="@+id/emoji_show_at"
+        android:layout_below="@+id/button_layout"
         android:layout_margin="10dp"
         android:layout_toRightOf="@+id/insert_text_btn"
         android:text="自定义表情" />

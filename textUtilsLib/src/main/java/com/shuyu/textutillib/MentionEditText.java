@@ -22,6 +22,7 @@ import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
@@ -53,8 +54,10 @@ public class MentionEditText extends AppCompatEditText {
     //public static final String DEFAULT_MENTION_PATTERN = "@[\\u4e00-\\u9fa5\\w\\-]+";
 
     public static final String DEFAULT_MENTION_PATTERN = "@.*?\\u0008";
+    public static final String TOPIC_MENTION_PATTERN = "#.*?#";
 
     private Pattern mPattern;
+    private Pattern mTopicPattern;
 
     private boolean mIsSelected;
     private Range mLastSelectedRange;
@@ -124,6 +127,7 @@ public class MentionEditText extends AppCompatEditText {
     private void init() {
         mRangeArrayList = new ArrayList<>(5);
         mPattern = Pattern.compile(DEFAULT_MENTION_PATTERN);
+        mTopicPattern = Pattern.compile(TOPIC_MENTION_PATTERN);
         //disable suggestion
         //setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
         //addTextChangedListener(new MentionTextWatcher());
@@ -144,9 +148,32 @@ public class MentionEditText extends AppCompatEditText {
         CharSequence charSequence = getText();
         int ends = charSequence.length();
         Spannable sp = getText();
-        ClickTopicSpan[] atSpan = sp.getSpans(0, ends, ClickTopicSpan.class);
-        for (ClickTopicSpan clickTopicSpan : atSpan) {
-            mRangeArrayList.add(new Range(sp.getSpanStart(clickTopicSpan), sp.getSpanEnd(clickTopicSpan)));
+
+        if (sp instanceof SpannableStringBuilder) {
+            //find mention string and color it
+            int lastMentionIndex = -1;
+            String text = spannableText.toString();
+            Matcher matcher = mTopicPattern.matcher(text);
+            while (matcher.find()) {
+                String mentionText = matcher.group();
+                int start;
+                if (lastMentionIndex != -1) {
+                    start = text.indexOf(mentionText, lastMentionIndex);
+                } else {
+                    start = text.indexOf(mentionText);
+                }
+                int end = start + mentionText.length();
+                lastMentionIndex = end;
+                //record all mention-string's position
+                mRangeArrayList.add(new Range(start, end));
+            }
+
+
+        } else {
+            ClickTopicSpan[] atSpan = sp.getSpans(0, ends, ClickTopicSpan.class);
+            for (ClickTopicSpan clickTopicSpan : atSpan) {
+                mRangeArrayList.add(new Range(sp.getSpanStart(clickTopicSpan), sp.getSpanEnd(clickTopicSpan)));
+            }
         }
         //find mention string and color it
         int lastMentionIndex = -1;

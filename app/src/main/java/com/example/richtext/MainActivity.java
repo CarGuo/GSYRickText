@@ -14,7 +14,7 @@ import com.example.richtext.utils.JumpUtil;
 import com.example.richtext.widget.EditTextEmoji;
 import com.example.richtext.widget.EmojiLayout;
 import com.shuyu.textutillib.EditTextAtUtils;
-import com.shuyu.textutillib.TextCommonUtils;
+import com.shuyu.textutillib.RichTextBuilder;
 import com.shuyu.textutillib.listener.EditTextAtUtilJumpListener;
 import com.shuyu.textutillib.listener.SpanAtUserCallBack;
 import com.shuyu.textutillib.listener.SpanTopicCallBack;
@@ -134,11 +134,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void phone(String phone) {
                 Toast.makeText(MainActivity.this, phone + " 被点击了", Toast.LENGTH_SHORT).show();
+                richText.setHighlightColor(Color.TRANSPARENT);
             }
 
             @Override
             public void url(String url) {
                 Toast.makeText(MainActivity.this, url + " 被点击了", Toast.LENGTH_SHORT).show();
+                richText.setHighlightColor(Color.TRANSPARENT);
             }
         };
 
@@ -146,6 +148,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(UserModel userModel1) {
                 Toast.makeText(MainActivity.this, userModel1.getUser_name() + " 被点击了", Toast.LENGTH_SHORT).show();
+                richText.setHighlightColor(Color.TRANSPARENT);
             }
         };
 
@@ -153,10 +156,21 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(TopicModel topicModel) {
                 Toast.makeText(MainActivity.this, topicModel.getTopicName() + " 被点击了", Toast.LENGTH_SHORT).show();
+                richText.setHighlightColor(Color.TRANSPARENT);
             }
         };
-
-        richText.setText(TextCommonUtils.getUrlSmileText(this, content, nameList, topicModels, richText, Color.BLUE, true, spanAtUserCallBack, spanUrlCallBack, spanTopicCallBack));
+        RichTextBuilder richTextBuilder = new RichTextBuilder(this);
+        richTextBuilder.setContent(content)
+                .setAtColor(Color.RED)
+                .setLinkColor(Color.BLUE)
+                .setTopicColor(Color.YELLOW)
+                .setListUser(nameList)
+                .setListTopic(topicModels)
+                .setTextView(richText)
+                .setSpanAtUserCallBack(spanAtUserCallBack)
+                .setSpanUrlCallBack(spanUrlCallBack)
+                .setSpanTopicCallBack(spanTopicCallBack)
+                .build();
 
     }
 

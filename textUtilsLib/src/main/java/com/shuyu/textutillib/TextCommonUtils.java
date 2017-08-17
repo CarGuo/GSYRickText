@@ -31,6 +31,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
+ * 通用处理问题的Utisl
  * Created by shuyu on 2016/11/10.
  */
 
@@ -80,14 +81,14 @@ public class TextCommonUtils {
      */
     public static Spannable getUrlEmojiText(Context context, String text, TextView textView, int color, boolean needNum, SpanAtUserCallBack spanAtUserCallBack, SpanUrlCallBack spanUrlCallBack) {
         if (!TextUtils.isEmpty(text)) {
-            return getUrlSmileText(context, text, null, textView, color, needNum, spanAtUserCallBack, spanUrlCallBack);
+            return getUrlSmileText(context, text, null, textView, color, 0, needNum, spanAtUserCallBack, spanUrlCallBack);
         } else {
             return new SpannableString(" ");
         }
     }
 
     /**
-     * 设置带高亮可点击的Url和表情的textview文本
+     * 设置带高亮可点击的Url、表情、at某人的textview文本
      *
      * @param context            上下文
      * @param string             需要处理的文本
@@ -99,7 +100,7 @@ public class TextCommonUtils {
      * @param spanUrlCallBack    链接点击的返回
      */
     public static void setUrlSmileText(Context context, String string, List<UserModel> listUser, TextView textView, int color, boolean needNum, SpanAtUserCallBack spanAtUserCallBack, SpanUrlCallBack spanUrlCallBack) {
-        Spannable spannable = getUrlSmileText(context, string, listUser, textView, color, needNum, spanAtUserCallBack, spanUrlCallBack);
+        Spannable spannable = getUrlSmileText(context, string, listUser, textView, color, 0, needNum, spanAtUserCallBack, spanUrlCallBack);
         textView.setText(spannable);
     }
 
@@ -111,17 +112,18 @@ public class TextCommonUtils {
      * @param content            需要处理的文本
      * @param textView           需要显示的view
      * @param clickable          AT某人是否可以点击
-     * @param color              需要显示的颜色
+     * @param color              AT需要显示的颜色
+     * @param topicColor         topic需要显示的颜色
      * @param spanAtUserCallBack AT某人点击的返回
      * @return 返回显示的spananle
      */
     public static Spannable getAtText(Context context, List<UserModel> listUser, List<TopicModel> listTopic, String content, TextView textView, boolean clickable,
-                                      int color, SpanAtUserCallBack spanAtUserCallBack, SpanTopicCallBack spanTopicCallBack) {
+                                      int color, int topicColor, SpanAtUserCallBack spanAtUserCallBack, SpanTopicCallBack spanTopicCallBack) {
 
         Spannable spannable = null;
 
         if (listTopic != null && listTopic.size() > 0) {
-            spannable = getTopicText(context, listTopic, content, textView, clickable, color, spanTopicCallBack);
+            spannable = getTopicText(context, listTopic, content, textView, clickable, topicColor, spanTopicCallBack);
         }
 
         if ((listUser == null || listUser.size() <= 0) && spannable == null)
@@ -169,7 +171,18 @@ public class TextCommonUtils {
         return spannableString;
     }
 
-
+    /**
+     * 话题span
+     *
+     * @param context           上下文
+     * @param listTopic         需要的话题列表
+     * @param content           需要处理的文本
+     * @param textView          需要显示的view
+     * @param clickable         是否可以点击
+     * @param color             颜色
+     * @param spanTopicCallBack 点击回调
+     * @return Spannable
+     */
     public static Spannable getTopicText(Context context, List<TopicModel> listTopic, String content, TextView textView, boolean clickable,
                                          int color, SpanTopicCallBack spanTopicCallBack) {
 
@@ -215,42 +228,47 @@ public class TextCommonUtils {
 
 
     /**
-     * 设置带高亮可点击的Url和表情的textview文本
+     * 设置带高亮可点击的Url、表情的textview文本、AT某人
      *
      * @param context            上下文
      * @param string             需要处理的文本
      * @param listUser           需要显示的AT某人
      * @param textView           需要显示的view
-     * @param color              需要显示的颜色
+     * @param colorAt            需要显示的颜色
+     * @param colorLink          需要显示的颜色
      * @param needNum            是否需要显示号码
      * @param spanAtUserCallBack AT某人点击的返回
      * @param spanUrlCallBack    链接点击的返回
      * @return 返回显示的spananle
      */
-    public static Spannable getUrlSmileText(Context context, String string, List<UserModel> listUser, TextView textView, int color, boolean needNum, SpanAtUserCallBack spanAtUserCallBack, SpanUrlCallBack spanUrlCallBack) {
-        return getUrlSmileText(context, string, listUser, null, textView, color, needNum, spanAtUserCallBack, spanUrlCallBack, null);
+    public static Spannable getUrlSmileText(Context context, String string, List<UserModel> listUser, TextView textView, int colorAt, int colorLink, boolean needNum, SpanAtUserCallBack spanAtUserCallBack, SpanUrlCallBack spanUrlCallBack) {
+        return getAllSpanText(context, string, listUser, null, textView, colorAt, colorLink, 0, needNum, spanAtUserCallBack, spanUrlCallBack, null);
     }
 
     /**
-     * 设置带高亮可点击的Url和表情的textview文本
+     * 设置带高亮可点击的Url、表情的textview文本、AT某人、话题
      *
      * @param context            上下文
      * @param string             需要处理的文本
      * @param listUser           需要显示的AT某人
+     * @param listTopic          需要的话题列表
      * @param textView           需要显示的view
-     * @param color              需要显示的颜色
+     * @param colorAt            需要显示的颜色
+     * @param colorLink          需要显示的颜色
+     * @param colorTopic         需要显示的颜色
      * @param needNum            是否需要显示号码
      * @param spanAtUserCallBack AT某人点击的返回
      * @param spanUrlCallBack    链接点击的返回
+     * @param spanTopicCallBack  话题点击的返回
      * @return 返回显示的spananle
      */
-    public static Spannable getUrlSmileText(Context context, String string, List<UserModel> listUser, List<TopicModel> listTopic, TextView textView, int color, boolean needNum, SpanAtUserCallBack spanAtUserCallBack, SpanUrlCallBack spanUrlCallBack, SpanTopicCallBack spanTopicCallBack) {
+    public static Spannable getAllSpanText(Context context, String string, List<UserModel> listUser, List<TopicModel> listTopic, TextView textView, int colorAt, int colorLink, int colorTopic, boolean needNum, SpanAtUserCallBack spanAtUserCallBack, SpanUrlCallBack spanUrlCallBack, SpanTopicCallBack spanTopicCallBack) {
         textView.setAutoLinkMask(Linkify.WEB_URLS | Linkify.PHONE_NUMBERS);
         if (!TextUtils.isEmpty(string)) {
             string = string.replaceAll("\r", "\r\n");
-            Spannable spannable = getAtText(context, listUser, listTopic, string, textView, true, color, spanAtUserCallBack, spanTopicCallBack);
+            Spannable spannable = getAtText(context, listUser, listTopic, string, textView, true, colorAt, colorTopic, spanAtUserCallBack, spanTopicCallBack);
             textView.setText(spannable);
-            return resolveUrlLogic(context, textView, spannable, color, needNum, spanUrlCallBack);
+            return resolveUrlLogic(context, textView, spannable, colorLink, needNum, spanUrlCallBack);
         } else {
             return new SpannableString(" ");
         }
@@ -317,7 +335,7 @@ public class TextCommonUtils {
      * @param str
      * @return 是否符合url
      */
-    public static boolean isTopURL(String str) {
+    private static boolean isTopURL(String str) {
         String ss[] = str.split("\\.");
         if (ss.length < 3)
             return false;
@@ -332,7 +350,7 @@ public class TextCommonUtils {
      * @param str
      * @return 是否数字
      */
-    public static boolean isNumeric(String str) {
+    private static boolean isNumeric(String str) {
         Pattern pattern = Pattern.compile("[0-9]*");
         Matcher isNum = pattern.matcher(str);
         if (!isNum.matches()) {
@@ -345,7 +363,7 @@ public class TextCommonUtils {
      * @param string 待验证文本
      * @return 是否符合手机号（简单）格式
      */
-    public static boolean isMobileSimple(String string) {
+    private static boolean isMobileSimple(String string) {
         String phone = "^[1]\\d{10}$";
         return !TextUtils.isEmpty(string) && Pattern.matches(phone, string);
     }

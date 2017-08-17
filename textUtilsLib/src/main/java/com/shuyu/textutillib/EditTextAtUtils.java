@@ -136,7 +136,7 @@ public class EditTextAtUtils {
                     if ((lastPos = editText.getText().toString().indexOf(
                             nameTopicList.get(i), lastPos)) != -1) {
                         if (selectionStart >= lastPos && selectionStart <= (lastPos + nameTopicList.get(i).length())) {
-                            editText.setSelection(lastPos + nameTopicList.get(i).length() + 1);
+                            editText.setSelection(lastPos + nameTopicList.get(i).length());
                         }
                         lastPos += (nameTopicList.get(i)).length();
                     }
