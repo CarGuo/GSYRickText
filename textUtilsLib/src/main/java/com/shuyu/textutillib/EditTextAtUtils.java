@@ -277,7 +277,28 @@ public class EditTextAtUtils {
         //设置表情
         Spannable spannable;
         if (listTopic != null && listTopic.size() > 0) {
-            spannable = TextCommonUtils.getTopicText(context, listTopic, text, editText, false, Color.parseColor(color), null);
+            Map<String, String> topics = new HashMap<>();
+            for (TopicModel topicModel : listTopic) {
+                topics.put("#" + topicModel.getTopicName() + "#", "#" + topicModel.getTopicName() + "#");
+            }
+            //查找##
+            int length = text.length();
+            Pattern pattern = Pattern.compile("#.*?#");
+            Matcher matcher = pattern.matcher(text);
+            SpannableStringBuilder spannableStringBuilder =
+                    new SpannableStringBuilder(text);
+            for (int i = 0; i < length; i++) {
+                if (matcher.find()) {
+                    String name = text.substring(matcher.start(), matcher.end());
+                    if (topics.containsKey(name)) {
+                        //直接用span会导致后面没文字的时候新输入的一起变色
+                        Spanned htmlText = Html.fromHtml(String.format("<font color='%s'>" + name + "</font>", color));
+                        spannableStringBuilder.replace(matcher.start(), matcher.start() + name.length(), htmlText);
+                    }
+                }
+            }
+
+            spannable = spannableStringBuilder;
             SmileUtils.addSmiles(context, spannable);
         } else {
             spannable = TextCommonUtils.getEmojiText(context, text);
