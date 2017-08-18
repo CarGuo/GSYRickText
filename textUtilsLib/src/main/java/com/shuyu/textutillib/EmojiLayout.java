@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -56,7 +55,7 @@ public class EmojiLayout extends LinearLayout {
 
 
     private void init(Context context) {
-        LayoutInflater.from(context).inflate(R.layout.layout_emoji_container, this, true);
+        LayoutInflater.from(context).inflate(R.layout.rich_layout_emoji_container, this, true);
         if (isInEditMode())
             return;
         initViews();
@@ -103,9 +102,9 @@ public class EmojiLayout extends LinearLayout {
             imageViewFace.setLayoutParams(new ViewGroup.LayoutParams(size, size));
             imageFaceViews[i] = imageViewFace;
             if (i == 0) {
-                imageFaceViews[i].setBackgroundResource(R.drawable.page_indicator_focused);
+                imageFaceViews[i].setBackgroundResource(R.drawable.rich_page_indicator_focused);
             } else {
-                imageFaceViews[i].setBackgroundResource(R.drawable.page_indicator_unfocused);
+                imageFaceViews[i].setBackgroundResource(R.drawable.rich_page_indicator_unfocused);
             }
             edittextBarViewGroupFace.addView(imageFaceViews[i], margin);
         }
@@ -120,7 +119,7 @@ public class EmojiLayout extends LinearLayout {
      * 获取表情的gridview的子view
      */
     private View getGridChildView(int i) {
-        View view = View.inflate(getContext(), R.layout.expression_gridview, null);
+        View view = View.inflate(getContext(), R.layout.rich_expression_gridview, null);
         LockGridView gv = (LockGridView) view.findViewById(R.id.gridview);
         List<String> list = new ArrayList<String>();
 
@@ -181,7 +180,7 @@ public class EmojiLayout extends LinearLayout {
         return (int) (dipValue * fontScale + 0.5f);
     }
 
-    class GuidePageChangeListener implements ViewPager.OnPageChangeListener {
+    private class GuidePageChangeListener implements ViewPager.OnPageChangeListener {
 
         @Override
         public void onPageScrollStateChanged(int arg0) {
@@ -196,13 +195,30 @@ public class EmojiLayout extends LinearLayout {
         public void onPageSelected(int arg0) {
 
             for (int i = 0; i < imageFaceViews.length; i++) {
-                imageFaceViews[arg0].setBackgroundResource(R.drawable.page_indicator_focused);
+                imageFaceViews[arg0].setBackgroundResource(R.drawable.rich_page_indicator_focused);
 
                 if (arg0 != i) {
-                    imageFaceViews[i].setBackgroundResource(R.drawable.page_indicator_unfocused);
+                    imageFaceViews[i].setBackgroundResource(R.drawable.rich_page_indicator_unfocused);
                 }
             }
         }
+    }
+
+
+    public LinearLayout getEdittextBarViewGroupFace() {
+        return edittextBarViewGroupFace;
+    }
+
+    public LinearLayout getEdittextBarLlFaceContainer() {
+        return edittextBarLlFaceContainer;
+    }
+
+    public LinearLayout getEdittextBarMore() {
+        return edittextBarMore;
+    }
+
+    public RichEditText getEditTextEmoji() {
+        return editTextEmoji;
     }
 
     /**

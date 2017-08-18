@@ -35,7 +35,7 @@ public class SmileImageExpressionAdapter extends ArrayAdapter<String> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            convertView = View.inflate(getContext(), R.layout.smile_image_row_expression, null);
+            convertView = View.inflate(getContext(), R.layout.rich_smile_image_row_expression, null);
         }
 
         ImageView imageView = (ImageView) convertView.findViewById(R.id.iv_expression);
