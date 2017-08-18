@@ -1,6 +1,6 @@
 
 
-![](https://github.com/CarGuo/RickText/blob/master/logo.png)
+![](https://github.com/CarGuo/RickText/blob/master/Logo.png)
 
 
 ## 支持类似微博的文本效果，表情、@某人、话题、url链接等
