@@ -95,7 +95,7 @@
         android:textSize="16sp" />
 
 
-    <com.example.richtext.widget.EmojiLayout
+    <com.shuyu.textutillib.EmojiLayout
         android:id="@+id/emojiLayout"
         android:layout_width="match_parent"
         android:layout_height="250dp"

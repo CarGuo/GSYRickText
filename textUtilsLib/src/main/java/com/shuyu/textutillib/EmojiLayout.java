@@ -1,4 +1,4 @@
-package com.example.richtext.widget;
+package com.shuyu.textutillib;
 
 import android.app.Activity;
 import android.content.Context;
@@ -15,60 +15,50 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.example.richtext.R;
-import com.example.richtext.adapter.ExpressionPagerAdapter;
-import com.example.richtext.adapter.SmileImageExpressionAdapter;
-import com.example.richtext.utils.ScreenUtils;
-import com.shuyu.textutillib.SmileUtils;
 
-import java.lang.reflect.Field;
+import com.shuyu.textutillib.adapter.ExpressionPagerAdapter;
+import com.shuyu.textutillib.adapter.SmileImageExpressionAdapter;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
- * Created by shuyu on 2016/11/14.
+ * 承载表情布局
+ * Created by shuyu on 2016/9/2.
  */
 
-public class EmojiLayout2 extends LinearLayout {
+public class EmojiLayout extends LinearLayout {
 
+    private ViewPager edittextBarVPager;
+    private LinearLayout edittextBarViewGroupFace;
+    private LinearLayout edittextBarLlFaceContainer;
+    private LinearLayout edittextBarMore;
 
-    @BindView(R.id.edittext_bar_vPager)
-    ViewPager edittextBarVPager;
-    @BindView(R.id.edittext_bar_viewGroup_face)
-    LinearLayout edittextBarViewGroupFace;
-    @BindView(R.id.edittext_bar_ll_face_container)
-    LinearLayout edittextBarLlFaceContainer;
-    @BindView(R.id.edittext_bar_more)
-    LinearLayout edittextBarMore;
-
-    private EditText editTextEmoji;
+    private RichEditText editTextEmoji;
     private List<String> reslist;
     private ImageView[] imageFaceViews;
 
-    public EmojiLayout2(Context context) {
+    public EmojiLayout(Context context) {
         super(context);
         init(context);
     }
 
-    public EmojiLayout2(Context context, AttributeSet attrs) {
+    public EmojiLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
 
-    public EmojiLayout2(Context context, AttributeSet attrs, int defStyleAttr) {
+    public EmojiLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
     }
 
 
     private void init(Context context) {
-        View view = LayoutInflater.from(context).inflate(R.layout.layout_emoji_container, this, true);
+        LayoutInflater.from(context).inflate(R.layout.layout_emoji_container, this, true);
         if (isInEditMode())
             return;
-        ButterKnife.bind(this, view);
         initViews();
 
     }
@@ -78,15 +68,31 @@ public class EmojiLayout2 extends LinearLayout {
      * 初始化View
      */
     private void initViews() {
-        int size = ScreenUtils.dip2px(getContext(), 5);
-        int marginSize = ScreenUtils.dip2px(getContext(), 5);
+
+
+        edittextBarVPager = (ViewPager) findViewById(R.id.edittext_bar_vPager);
+
+        edittextBarViewGroupFace = (LinearLayout) findViewById(R.id.edittext_bar_viewGroup_face);
+
+        edittextBarLlFaceContainer = (LinearLayout) findViewById(R.id.edittext_bar_ll_face_container);
+
+        edittextBarMore = (LinearLayout) findViewById(R.id.edittext_bar_more);
+
+        int size = dip2px(getContext(), 5);
+
+        int marginSize = dip2px(getContext(), 5);
 
         // 表情list
         reslist = SmileUtils.getTextList();
+
+        int viewSize = (int) Math.ceil(reslist.size() / 20f);
+
         // 初始化表情viewpager
-        List<View> views = new ArrayList<View>();
-        View gv1 = getGridChildView(1);
-        views.add(gv1);
+        List<View> views = new ArrayList<>();
+        for (int i = 0; i < viewSize; i++) {
+            View gv = getGridChildView(i + 1);
+            views.add(gv);
+        }
 
         ImageView imageViewFace;
         imageFaceViews = new ImageView[views.size()];
@@ -108,6 +114,7 @@ public class EmojiLayout2 extends LinearLayout {
         edittextBarVPager.addOnPageChangeListener(new GuidePageChangeListener());
 
     }
+
 
     /**
      * 获取表情的gridview的子view
@@ -132,10 +139,8 @@ public class EmojiLayout2 extends LinearLayout {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String filename = smileImageExpressionAdapter.getItem(position);
                 try {
-                    if (filename != "delete_expression") { // 不是删除键，显示表情
-                        /**插入表情*/
-                        SmileUtils.insertIcon(editTextEmoji, 2000, ScreenUtils.dip2px(getContext(), 20), filename);
-
+                    if (!"delete_expression".equals(filename)) { // 不是删除键，显示表情
+                        (editTextEmoji).insertIcon(filename);
                     } else { // 删除文字或者表情
                         if (!TextUtils.isEmpty(editTextEmoji.getText())) {
 
@@ -166,6 +171,14 @@ public class EmojiLayout2 extends LinearLayout {
             }
         });
         return view;
+    }
+
+    /**
+     * dip转为PX
+     */
+    private int dip2px(Context context, float dipValue) {
+        float fontScale = context.getResources().getDisplayMetrics().density;
+        return (int) (dipValue * fontScale + 0.5f);
     }
 
     class GuidePageChangeListener implements ViewPager.OnPageChangeListener {
@@ -216,11 +229,11 @@ public class EmojiLayout2 extends LinearLayout {
     }
 
 
-    public EditText getEditTextSmile() {
+    public RichEditText getEditTextSmile() {
         return editTextEmoji;
     }
 
-    public void setEditTextSmile(EditText editTextSmile) {
+    public void setEditTextSmile(RichEditText editTextSmile) {
         this.editTextEmoji = editTextSmile;
         editTextSmile.setOnClickListener(new OnClickListener() {
             @Override

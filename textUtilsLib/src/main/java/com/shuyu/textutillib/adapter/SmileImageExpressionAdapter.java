@@ -11,7 +11,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.richtext.adapter;
+package com.shuyu.textutillib.adapter;
 
 import android.content.Context;
 import android.view.View;
@@ -19,12 +19,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
-
-import com.example.richtext.R;
+import com.shuyu.textutillib.R;
 import com.shuyu.textutillib.SmileUtils;
 
 import java.util.List;
-import java.util.regex.Pattern;
 
 
 public class SmileImageExpressionAdapter extends ArrayAdapter<String> {

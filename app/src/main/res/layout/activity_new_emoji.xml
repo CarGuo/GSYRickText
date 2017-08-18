@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/primary_material_dark">
 
-    <EditText
+    <com.shuyu.textutillib.RichEditText
         android:id="@+id/emoji_edit_text2"
         android:layout_width="match_parent"
         android:layout_height="120dp"
@@ -36,7 +36,7 @@
         android:text="原始文本" />
 
 
-    <com.example.richtext.widget.EmojiLayout2
+    <com.shuyu.textutillib.EmojiLayout
         android:id="@+id/emojiLayout2"
         android:layout_width="match_parent"
         android:layout_height="250dp"

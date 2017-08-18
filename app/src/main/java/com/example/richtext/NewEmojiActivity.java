@@ -8,7 +8,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.example.richtext.widget.EmojiLayout2;
+import com.shuyu.textutillib.EmojiLayout;
+import com.shuyu.textutillib.RichEditText;
 import com.shuyu.textutillib.SmileUtils;
 
 import java.util.ArrayList;
@@ -21,11 +22,11 @@ import butterknife.OnClick;
 public class NewEmojiActivity extends AppCompatActivity {
 
     @BindView(R.id.emoji_edit_text2)
-    EditText editText;
+    RichEditText editText;
     @BindView(R.id.emoji_show_bottom)
     ImageView emojiShowBottom;
     @BindView(R.id.emojiLayout2)
-    EmojiLayout2 emojiLayout2;
+    EmojiLayout emojiLayout2;
     @BindView(R.id.activity_new_emoji)
     RelativeLayout activityNewEmoji;
 

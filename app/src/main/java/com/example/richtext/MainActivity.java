@@ -11,7 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.richtext.utils.JumpUtil;
-import com.example.richtext.widget.EmojiLayout;
+import com.shuyu.textutillib.EmojiLayout;
 import com.shuyu.textutillib.RichEditBuilder;
 import com.shuyu.textutillib.RichEditText;
 import com.shuyu.textutillib.RichTextBuilder;
