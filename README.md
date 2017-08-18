@@ -34,7 +34,7 @@ allprojects {
 
 ```
 dependencies {
-     compile 'com.github.CarGuo:RickText:v2.0.0'
+     compile 'com.github.CarGuo:RickText:v2.0.1'
 }
 
 ```
