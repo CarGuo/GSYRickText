@@ -1,8 +1,9 @@
 
 
 ![](https://github.com/CarGuo/RickText/blob/master/logo.png)
-### 支持类似微博的文本效果，表情、@某人、话题、url链接等
 
+
+## 支持类似微博的文本效果，表情、@某人、话题、url链接等
 
 状态 | 功能
 -------- | ---
@@ -19,6 +20,8 @@
 
 [![](https://jitpack.io/v/CarGuo/RickText.svg)](https://jitpack.io/#CarGuo/RickText)
 [![Build Status](https://travis-ci.org/CarGuo/RickText.svg?branch=master)](https://travis-ci.org/CarGuo/RickText)
+
+## 依赖方式
 
 ### 在project下的build.gradle添加
 ```
@@ -41,23 +44,23 @@ dependencies {
 
 ----------------------------------
 
-### DEMO效果图
+## DEMO效果图
 
 <img src="https://github.com/CarGuo/RickText/blob/master/1.png" width="240px" height="426px"/>
 
 
-##### [旧版简书解析](http://www.jianshu.com/p/cd9e197a5c04)
+### [旧版简书解析](http://www.jianshu.com/p/cd9e197a5c04)
 
-##### [旧版README](https://github.com/CarGuo/RickText/blob/master/OLD_README.md)
+### [旧版README](https://github.com/CarGuo/RickText/blob/master/OLD_README.md)
 
 ### QQ群，有兴趣的可以进来，群里平常可能比较吵：174815284 。
 
 
 ----------------------------------
 
-### 使用方式参考demo
+## 使用方式参考demo
 
-#### 文本模式
+### 文本模式
 
 ```
 //url点击回调
@@ -109,7 +112,7 @@ richTextBuilder.setContent(content)
 
 ```
 
-#### 编辑模式
+### 编辑模式
 
 ```
 richEditText = (RichEditText) findViewById(R.id.emoji_edit_text);
