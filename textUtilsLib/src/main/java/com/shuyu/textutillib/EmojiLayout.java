@@ -2,6 +2,8 @@ package com.shuyu.textutillib;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -38,35 +40,34 @@ public class EmojiLayout extends LinearLayout {
     private List<String> reslist;
     private ImageView[] imageFaceViews;
 
+
+    private Drawable focusIndicator;
+    private Drawable unFocusIndicator;
+    private String deleteIconName = "delete_expression";
+
+    private int richMarginBottom;
+    private int richMarginTop;
+
     public EmojiLayout(Context context) {
         super(context);
-        init(context);
+        init(context, null);
     }
 
     public EmojiLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(context);
+        init(context, attrs);
     }
 
     public EmojiLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(context);
+        init(context, attrs);
     }
 
 
-    private void init(Context context) {
+    private void init(Context context, AttributeSet attrs) {
         LayoutInflater.from(context).inflate(R.layout.rich_layout_emoji_container, this, true);
         if (isInEditMode())
             return;
-        initViews();
-
-    }
-
-
-    /**
-     * 初始化View
-     */
-    private void initViews() {
 
 
         edittextBarVPager = (ViewPager) findViewById(R.id.edittext_bar_vPager);
@@ -76,6 +77,37 @@ public class EmojiLayout extends LinearLayout {
         edittextBarLlFaceContainer = (LinearLayout) findViewById(R.id.edittext_bar_ll_face_container);
 
         edittextBarMore = (LinearLayout) findViewById(R.id.edittext_bar_more);
+
+        if (attrs != null) {
+            TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.EmojiLayout);
+            String deleteIconName = array.getString(R.styleable.EmojiLayout_richDeleteIconName);
+            if (!TextUtils.isEmpty(deleteIconName)) {
+                this.deleteIconName = deleteIconName;
+            }
+            focusIndicator = array.getDrawable(R.styleable.EmojiLayout_richIndicatorFocus);
+            unFocusIndicator = array.getDrawable(R.styleable.EmojiLayout_richIndicatorUnFocus);
+            richMarginBottom = (int) array.getDimension(R.styleable.EmojiLayout_richMarginBottom, dip2px(getContext(), 8));
+            richMarginTop = (int) array.getDimension(R.styleable.EmojiLayout_richMarginTop, dip2px(getContext(), 15));
+            array.recycle();
+        }
+
+        if (focusIndicator == null) {
+            focusIndicator = getContext().getResources().getDrawable(R.drawable.rich_page_indicator_focused);
+        }
+
+        if (unFocusIndicator == null) {
+            unFocusIndicator = getContext().getResources().getDrawable(R.drawable.rich_page_indicator_unfocused);
+        }
+
+        initViews();
+
+    }
+
+
+    /**
+     * 初始化View
+     */
+    private void initViews() {
 
         int size = dip2px(getContext(), 5);
 
@@ -102,9 +134,9 @@ public class EmojiLayout extends LinearLayout {
             imageViewFace.setLayoutParams(new ViewGroup.LayoutParams(size, size));
             imageFaceViews[i] = imageViewFace;
             if (i == 0) {
-                imageFaceViews[i].setBackgroundResource(R.drawable.rich_page_indicator_focused);
+                imageFaceViews[i].setBackground(focusIndicator);
             } else {
-                imageFaceViews[i].setBackgroundResource(R.drawable.rich_page_indicator_unfocused);
+                imageFaceViews[i].setBackground(unFocusIndicator);
             }
             edittextBarViewGroupFace.addView(imageFaceViews[i], margin);
         }
@@ -121,6 +153,9 @@ public class EmojiLayout extends LinearLayout {
     private View getGridChildView(int i) {
         View view = View.inflate(getContext(), R.layout.rich_expression_gridview, null);
         LockGridView gv = (LockGridView) view.findViewById(R.id.gridview);
+        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) gv.getLayoutParams();
+        layoutParams.setMargins(0, richMarginTop, 0, richMarginBottom);
+
         List<String> list = new ArrayList<String>();
 
         int startInd = (i - 1) * 20;
@@ -129,7 +164,7 @@ public class EmojiLayout extends LinearLayout {
         } else {
             list.addAll(reslist.subList(startInd, startInd + 20));
         }
-        list.add("delete_expression");
+        list.add(deleteIconName);
         final SmileImageExpressionAdapter smileImageExpressionAdapter = new SmileImageExpressionAdapter(getContext(), 1, list);
         gv.setAdapter(smileImageExpressionAdapter);
         gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -138,7 +173,7 @@ public class EmojiLayout extends LinearLayout {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String filename = smileImageExpressionAdapter.getItem(position);
                 try {
-                    if (!"delete_expression".equals(filename)) { // 不是删除键，显示表情
+                    if (!deleteIconName.equals(filename)) { // 不是删除键，显示表情
                         (editTextEmoji).insertIcon(filename);
                     } else { // 删除文字或者表情
                         if (!TextUtils.isEmpty(editTextEmoji.getText())) {
@@ -193,12 +228,10 @@ public class EmojiLayout extends LinearLayout {
 
         @Override
         public void onPageSelected(int arg0) {
-
             for (int i = 0; i < imageFaceViews.length; i++) {
-                imageFaceViews[arg0].setBackgroundResource(R.drawable.rich_page_indicator_focused);
-
+                imageFaceViews[arg0].setBackground(focusIndicator);
                 if (arg0 != i) {
-                    imageFaceViews[i].setBackgroundResource(R.drawable.rich_page_indicator_unfocused);
+                    imageFaceViews[i].setBackground(unFocusIndicator);
                 }
             }
         }

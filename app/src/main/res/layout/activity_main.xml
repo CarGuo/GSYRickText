@@ -18,7 +18,7 @@
         android:maxLines="7"
         android:textColor="@color/white"
         android:textColorHint="@color/graY"
-        app:maxLength="2000" />
+        app:richMaxLength="2000" />
 
     <ImageView
         android:id="@+id/emoji_show_bottom"
@@ -100,5 +100,9 @@
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:layout_alignParentBottom="true"
-        android:visibility="gone" />
+        android:visibility="gone"
+        app:richIndicatorFocus="@drawable/page_indicator_focused"
+        app:richIndicatorUnFocus="@drawable/page_indicator_unfocused"
+        app:richMarginBottom="8dp"
+        app:richMarginTop="15dp" />
 </RelativeLayout>

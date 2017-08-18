@@ -2,7 +2,16 @@
 <resources>
 
     <declare-styleable name="RichEditText">
-        <attr name="maxLength" format="integer" />
-        <attr name="iconSize" format="dimension" />
+        <attr name="richMaxLength" format="integer" />
+        <attr name="richIconSize" format="dimension" />
     </declare-styleable>
+
+    <declare-styleable name="EmojiLayout">
+        <attr name="richIndicatorFocus" format="integer|reference" />
+        <attr name="richIndicatorUnFocus" format="integer|reference" />
+        <attr name="richDeleteIconName" format="string" />
+        <attr name="richMarginBottom" format="dimension" />
+        <attr name="richMarginTop" format="dimension" />
+    </declare-styleable>
+
 </resources>

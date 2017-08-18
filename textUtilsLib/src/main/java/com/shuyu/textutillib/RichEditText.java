@@ -96,8 +96,8 @@ public class RichEditText extends MentionEditText {
 
         if (attrs != null) {
             TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.RichEditText);
-            int textLength = array.getColor(R.styleable.RichEditText_maxLength, 9999);
-            float iconSize = (int) array.getDimension(R.styleable.RichEditText_iconSize, 0);
+            int textLength = array.getColor(R.styleable.RichEditText_richMaxLength, 9999);
+            float iconSize = (int) array.getDimension(R.styleable.RichEditText_richIconSize, 0);
             maxLength = textLength;
             InputFilter[] filters = {new InputFilter.LengthFilter(maxLength)};
             setFilters(filters);
