@@ -1,3 +1,6 @@
+
+
+![](https://github.com/CarGuo/RickText/blob/master/logo.png)
 ### 支持类似微博的文本效果，表情、@某人、话题、url链接等
 
 
@@ -37,6 +40,11 @@ dependencies {
 ```
 
 ----------------------------------
+
+### DEMO效果图
+
+<img src="https://github.com/CarGuo/RickText/blob/master/1.png" width="240px" height="426px"/>
+
 
 ##### [旧版简书解析](http://www.jianshu.com/p/cd9e197a5c04)
 
