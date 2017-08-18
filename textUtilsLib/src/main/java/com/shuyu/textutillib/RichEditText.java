@@ -1,6 +1,7 @@
 package com.shuyu.textutillib;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.text.Editable;
 import android.text.Html;
@@ -36,7 +37,7 @@ public class RichEditText extends MentionEditText {
     /**
      * 默认最长输入
      */
-    private int maxLength = 999;
+    private int maxLength = 9999;
 
     /**
      * 表情大小
@@ -62,6 +63,14 @@ public class RichEditText extends MentionEditText {
      * 输入监控回调
      */
     private OnEditTextUtilJumpListener editTextAtUtilJumpListener;
+    /**
+     * At颜色
+     */
+    private String colorTopic = "#0000FF";
+    /**
+     * 话题颜色
+     */
+    private String colorAtUser = "#f77521";
 
 
     public RichEditText(Context context) {
@@ -85,11 +94,18 @@ public class RichEditText extends MentionEditText {
         if (isInEditMode())
             return;
 
-        InputFilter[] filters = {new InputFilter.LengthFilter(maxLength)};
-        setFilters(filters);
-
-        size = dip2px(context, 20);
-
+        if (attrs != null) {
+            TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.RichEditText);
+            int textLength = array.getColor(R.styleable.RichEditText_maxLength, 9999);
+            float iconSize = (int) array.getDimension(R.styleable.RichEditText_iconSize, 0);
+            maxLength = textLength;
+            InputFilter[] filters = {new InputFilter.LengthFilter(maxLength)};
+            setFilters(filters);
+            if (iconSize == 0) {
+                size = dip2px(context, 20);
+            }
+            array.recycle();
+        }
 
         resolveAtPersonEditText();
     }
@@ -368,12 +384,29 @@ public class RichEditText extends MentionEditText {
     }
 
     /**
+     * 话题颜色
+     *
+     * @param colorTopic 类似#f77500的颜色格式
+     */
+    public void setColorTopic(String colorTopic) {
+        this.colorTopic = colorTopic;
+    }
+
+    /**
+     * at人颜色
+     *
+     * @param colorAtUser 类似#f77500的颜色格式
+     */
+    public void setColorAtUser(String colorAtUser) {
+        this.colorAtUser = colorAtUser;
+    }
+
+    /**
      * 添加了@的加入
      *
      * @param userModel 用户实体
-     * @param color     类似#f77500的颜色格式
      */
-    public void resolveText(UserModel userModel, String color) {
+    public void resolveText(UserModel userModel) {
         String userName = userModel.getUser_name();
         userModel.setUser_name(userName + "\b");
         nameList.add(userModel);
@@ -382,7 +415,7 @@ public class RichEditText extends MentionEditText {
         SpannableStringBuilder spannableStringBuilder =
                 new SpannableStringBuilder(getText());
         //直接用span会导致后面没文字的时候新输入的一起变色
-        Spanned htmlText = Html.fromHtml(String.format("<font color='%s'>" + userName + "</font>", color));
+        Spanned htmlText = Html.fromHtml(String.format("<font color='%s'>" + userName + "</font>", colorAtUser));
         spannableStringBuilder.insert(index, htmlText);
         spannableStringBuilder.insert(index + htmlText.length(), "\b");
         setText(spannableStringBuilder);
@@ -393,15 +426,14 @@ public class RichEditText extends MentionEditText {
      * 插入了话题
      *
      * @param topicModel 话题实体
-     * @param color      类似#f77500的颜色格式
      */
-    public void resolveTopicText(TopicModel topicModel, String color) {
+    public void resolveTopicText(TopicModel topicModel) {
         topicList.add(topicModel);
         int index = getSelectionStart();
         SpannableStringBuilder spannableStringBuilder =
                 new SpannableStringBuilder(getText());
         //直接用span会导致后面没文字的时候新输入的一起变色
-        Spanned htmlText = Html.fromHtml(String.format("<font color='%s'>" + topicModel.getTopicName() + "</font>", color));
+        Spanned htmlText = Html.fromHtml(String.format("<font color='%s'>" + topicModel.getTopicName() + "</font>", colorTopic));
         spannableStringBuilder.insert(index, htmlText);
         setText(spannableStringBuilder);
         setSelection(index + htmlText.length());
@@ -423,19 +455,18 @@ public class RichEditText extends MentionEditText {
      * @param context  上下文
      * @param text     需要处理的文本
      * @param listUser 需要处理的at某人列表
-     * @param color    类似#f77500的颜色格式
      */
-    public void resolveInsertText(Context context, String text, List<UserModel> listUser, List<TopicModel> listTopic, String color) {
+    public void resolveInsertText(Context context, String text, List<UserModel> listUser, List<TopicModel> listTopic) {
 
         if (TextUtils.isEmpty(text))
             return;
 
         //设置表情和话题
-        Spannable spannable = resolveTopicInsert(context, text, color, listTopic);
+        Spannable spannable = resolveTopicInsert(context, text, colorTopic, listTopic);
         setText(spannable);
 
         //设置@
-        Spannable span = resolveAtInsert(text, spannable, color, listUser);
+        Spannable span = resolveAtInsert(text, spannable, colorAtUser, listUser);
         setText(span);
 
         setSelection(getText().length());
@@ -445,30 +476,28 @@ public class RichEditText extends MentionEditText {
     /**
      * 按了话题按键的数据返回处理
      *
-     * @param color      颜色
      * @param topicModel 话题model
      */
-    public void resolveTopicResult(String color, TopicModel topicModel) {
+    public void resolveTopicResult(TopicModel topicModel) {
         String topicId = topicModel.getTopicId();
         String topicName = "#" + topicModel.getTopicName() + "#";
         TopicModel topic = new TopicModel(topicName, topicId);
-        resolveTopicText(topic, color);
+        resolveTopicText(topic);
     }
 
 
     /**
      * 输入了#话题按键的数据返回处理
      *
-     * @param color      颜色
      * @param topicModel 话题model
      */
-    public void resolveTopicResultByEnter(String color, TopicModel topicModel) {
+    public void resolveTopicResultByEnter(TopicModel topicModel) {
         String topicId = topicModel.getTopicId();
         getText().delete(getSelectionEnd() - 1,
                 getSelectionEnd());
         String topicName = "#" + topicModel.getTopicName() + "#";
         TopicModel topic = new TopicModel(topicName, topicId);
-        resolveTopicText(topic, color);
+        resolveTopicText(topic);
 
     }
 
@@ -477,28 +506,26 @@ public class RichEditText extends MentionEditText {
      * 按了@按键的数据返回处理
      *
      * @param userModel       用户model
-     * @param color           颜色
      */
-    public void resolveAtResult(String color, UserModel userModel) {
+    public void resolveAtResult(UserModel userModel) {
         String user_id = userModel.getUser_id();
         String user_name = "@" + userModel.getUser_name();
         UserModel user = new UserModel(user_name, user_id);
-        resolveText(user, color);
+        resolveText(user);
     }
 
     /***
      * 发布的时候输入了AT的返回处理
      *
-     * @param color           颜色
      * @param userModel       用户model
      */
-    public void resolveAtResultByEnterAt(String color, UserModel userModel) {
+    public void resolveAtResultByEnterAt(UserModel userModel) {
         String user_id = userModel.getUser_id();
         getText().delete(getSelectionEnd() - 1,
                 getSelectionEnd());
         String user_name = "@" + userModel.getUser_name();
         UserModel user = new UserModel(user_name, user_id);
-        resolveText(user, color);
+        resolveText(user);
 
     }
 

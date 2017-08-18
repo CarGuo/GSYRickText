@@ -87,11 +87,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void initView() {
         emojiLayout.setEditTextSmile(richEditText);
-
         RichEditBuilder richEditBuilder = new RichEditBuilder();
         richEditBuilder.setEditText(richEditText)
                 .setTopicModels(topicModels)
                 .setUserModels(nameList)
+                .setColorAtUser("#FF00C0")
+                .setColorTopic("#F0F0C0")
                 .setEditTextAtUtilJumpListener(new OnEditTextUtilJumpListener() {
                     @Override
                     public void notifyAt() {
@@ -196,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.insert_text_btn:
                 initData();
-                richEditText.resolveInsertText(MainActivity.this, insertContent, nameList, topicModels, "#f77521");
+                richEditText.resolveInsertText(MainActivity.this, insertContent, nameList, topicModels);
                 break;
             case R.id.jump_btn:
                 Intent intent = new Intent(MainActivity.this, NewEmojiActivity.class);
@@ -214,17 +215,17 @@ public class MainActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case REQUEST_USER_CODE_CLICK:
-                    richEditText.resolveAtResult("#f77500", (UserModel) data.getSerializableExtra(UserListActivity.DATA));
+                    richEditText.resolveAtResult((UserModel) data.getSerializableExtra(UserListActivity.DATA));
                     break;
                 case REQUEST_USER_CODE_INPUT:
-                    richEditText.resolveAtResultByEnterAt("#f77500", (UserModel) data.getSerializableExtra(UserListActivity.DATA));
+                    richEditText.resolveAtResultByEnterAt((UserModel) data.getSerializableExtra(UserListActivity.DATA));
                     break;
 
                 case REQUEST_TOPIC_CODE_INPUT:
-                    richEditText.resolveTopicResultByEnter("#f77500", (TopicModel) data.getSerializableExtra(TopicListActivity.DATA));
+                    richEditText.resolveTopicResultByEnter((TopicModel) data.getSerializableExtra(TopicListActivity.DATA));
                     break;
                 case REQUEST_TOPIC_CODE_CLICK:
-                    richEditText.resolveTopicResult("#f77500", (TopicModel) data.getSerializableExtra(TopicListActivity.DATA));
+                    richEditText.resolveTopicResult((TopicModel) data.getSerializableExtra(TopicListActivity.DATA));
                     break;
             }
         }

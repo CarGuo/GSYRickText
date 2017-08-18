@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="RichEditText">
+        <attr name="maxLength" format="integer" />
+        <attr name="iconSize" format="dimension" />
+    </declare-styleable>
+</resources>
