@@ -11,6 +11,15 @@ public class TopicModel implements Serializable {
     private String topicName;
     private String topicId;
 
+    public TopicModel() {
+
+    }
+
+    public TopicModel(String topicName, String topicId) {
+        this.topicName = topicName;
+        this.topicId = topicId;
+    }
+
     public String getTopicName() {
         return topicName;
     }

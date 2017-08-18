@@ -9,6 +9,15 @@ import java.io.Serializable;
 
 public class UserModel implements Serializable {
 
+    public UserModel() {
+
+    }
+
+    public UserModel(String user_name, String user_id) {
+        this.user_name = user_name;
+        this.user_id = user_id;
+    }
+
     private String user_name;
 
     private String user_id;

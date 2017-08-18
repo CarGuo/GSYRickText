@@ -8,7 +8,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.example.richtext.widget.EditTextEmoji;
 import com.example.richtext.widget.EmojiLayout2;
 import com.shuyu.textutillib.SmileUtils;
 

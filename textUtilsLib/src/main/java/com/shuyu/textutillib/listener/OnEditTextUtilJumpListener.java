@@ -5,7 +5,7 @@ package com.shuyu.textutillib.listener;
  * Created by shuyu on 2016/11/10.
  */
 
-public interface EditTextAtUtilJumpListener {
+public interface OnEditTextUtilJumpListener {
     void notifyAt();
     void notifyTopic();
 }

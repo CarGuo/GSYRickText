@@ -6,7 +6,7 @@
     android:background="@color/primary_material_dark">
 
 
-    <com.example.richtext.widget.EditTextEmoji
+    <com.shuyu.textutillib.RichEditText
         android:id="@+id/emoji_edit_text"
         android:layout_width="match_parent"
         android:layout_height="120dp"

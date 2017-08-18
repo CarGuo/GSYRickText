@@ -18,6 +18,7 @@ import com.example.richtext.R;
 import com.example.richtext.adapter.ExpressionPagerAdapter;
 import com.example.richtext.adapter.SmileImageExpressionAdapter;
 import com.example.richtext.utils.ScreenUtils;
+import com.shuyu.textutillib.RichEditText;
 import com.shuyu.textutillib.SmileUtils;
 
 import java.lang.reflect.Field;
@@ -43,7 +44,7 @@ public class EmojiLayout extends LinearLayout {
     @BindView(R.id.edittext_bar_more)
     LinearLayout edittextBarMore;
 
-    private EditTextEmoji editTextEmoji;
+    private RichEditText editTextEmoji;
     private List<String> reslist;
     private ImageView[] imageFaceViews;
 
@@ -221,11 +222,11 @@ public class EmojiLayout extends LinearLayout {
     }
 
 
-    public EditTextEmoji getEditTextSmile() {
+    public RichEditText getEditTextSmile() {
         return editTextEmoji;
     }
 
-    public void setEditTextSmile(EditTextEmoji editTextSmile) {
+    public void setEditTextSmile(RichEditText editTextSmile) {
         this.editTextEmoji = editTextSmile;
         editTextSmile.setOnClickListener(new OnClickListener() {
             @Override

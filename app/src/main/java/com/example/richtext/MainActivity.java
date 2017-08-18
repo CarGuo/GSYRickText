@@ -11,11 +11,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.richtext.utils.JumpUtil;
-import com.example.richtext.widget.EditTextEmoji;
 import com.example.richtext.widget.EmojiLayout;
-import com.shuyu.textutillib.EditTextAtUtils;
+import com.shuyu.textutillib.RichEditBuilder;
+import com.shuyu.textutillib.RichEditText;
 import com.shuyu.textutillib.RichTextBuilder;
-import com.shuyu.textutillib.listener.EditTextAtUtilJumpListener;
+import com.shuyu.textutillib.listener.OnEditTextUtilJumpListener;
 import com.shuyu.textutillib.listener.SpanAtUserCallBack;
 import com.shuyu.textutillib.listener.SpanTopicCallBack;
 import com.shuyu.textutillib.listener.SpanUrlCallBack;
@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     public final static int REQUEST_TOPIC_CODE_CLICK = 4444;
 
     @BindView(R.id.emoji_edit_text)
-    EditTextEmoji emojiEditText;
+    RichEditText richEditText;
     @BindView(R.id.emoji_show_bottom)
     ImageView emojiShowBottom;
     @BindView(R.id.emojiLayout)
@@ -50,20 +50,13 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.rich_text)
     TextView richText;
 
-    EditTextAtUtils editTextAtUtils;
-
-    List<String> editNames = new ArrayList<>();
-    List<String> editIds = new ArrayList<>();
-
-    List<String> editTopNames = new ArrayList<>();
-    List<String> editTopIds = new ArrayList<>();
     List<TopicModel> topicModels = new ArrayList<>();
 
+    List<UserModel> nameList = new ArrayList<>();
 
-    private String insertContent = "这是测试文本#话题话题#哟 www.baidu.com " +
+    String insertContent = "这是测试文本#话题话题#哟 www.baidu.com " +
             " 来@某个人  @22222 @kkk " +
             " 好的,来几个表情[e2][e4][e55]，最后来一个电话 13245685478";
-    private List<UserModel> nameList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,28 +86,31 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        emojiLayout.setEditTextSmile(emojiEditText);
-        editTextAtUtils = new EditTextAtUtils(emojiEditText, editNames, editIds, editTopNames, editTopIds);
-        editTextAtUtils.setEditTextAtUtilJumpListener(new EditTextAtUtilJumpListener() {
-            @Override
-            public void notifyAt() {
-                JumpUtil.goToUserList(MainActivity.this, MainActivity.REQUEST_USER_CODE_INPUT);
-            }
+        emojiLayout.setEditTextSmile(richEditText);
 
-            @Override
-            public void notifyTopic() {
-                JumpUtil.goToTopicList(MainActivity.this, MainActivity.REQUEST_TOPIC_CODE_INPUT);
-            }
-        });
+        RichEditBuilder richEditBuilder = new RichEditBuilder();
+        richEditBuilder.setEditText(richEditText)
+                .setTopicModels(topicModels)
+                .setUserModels(nameList)
+                .setEditTextAtUtilJumpListener(new OnEditTextUtilJumpListener() {
+                    @Override
+                    public void notifyAt() {
+                        JumpUtil.goToUserList(MainActivity.this, MainActivity.REQUEST_USER_CODE_INPUT);
+                    }
+
+                    @Override
+                    public void notifyTopic() {
+                        JumpUtil.goToTopicList(MainActivity.this, MainActivity.REQUEST_TOPIC_CODE_INPUT);
+                    }
+                })
+                .builder();
 
         resolveRichShow();
     }
 
-
-    private void resolveRichShow() {
-        String content = "这是测试#话题话题#文本哟 www.baidu.com " +
-                "\n来@某个人  @22222 @kkk " +
-                "\n好的,来几个表情[e2][e4][e55]，最后来一个电话 13245685478";
+    private void initData() {
+        nameList.clear();
+        topicModels.clear();
 
         UserModel userModel = new UserModel();
         userModel.setUser_name("22222");
@@ -129,6 +125,16 @@ public class MainActivity extends AppCompatActivity {
         topicModel.setTopicId("333");
         topicModel.setTopicName("话题话题");
         topicModels.add(topicModel);
+
+    }
+
+    private void resolveRichShow() {
+
+        initData();
+
+        String content = "这是测试#话题话题#文本哟 www.baidu.com " +
+                "\n来@某个人  @22222 @kkk " +
+                "\n好的,来几个表情[e2][e4][e55]，最后来一个电话 13245685478";
 
         SpanUrlCallBack spanUrlCallBack = new SpanUrlCallBack() {
             @Override
@@ -189,18 +195,8 @@ public class MainActivity extends AppCompatActivity {
                 JumpUtil.goToUserList(MainActivity.this, MainActivity.REQUEST_USER_CODE_CLICK);
                 break;
             case R.id.insert_text_btn:
-                editIds.clear();
-                editNames.clear();
-                for (int i = 0; i < topicModels.size(); i++) {
-                    editTopNames.add(topicModels.get(i).getTopicName());
-                    editTopIds.add(topicModels.get(i).getTopicId());
-                }
-
-                for (int i = 0; i < nameList.size(); i++) {
-                    editNames.add(nameList.get(i).getUser_name());
-                    editIds.add(nameList.get(i).getUser_id());
-                }
-                EditTextAtUtils.resolveInsertText(MainActivity.this, insertContent, nameList, topicModels, "#f77521", emojiEditText);
+                initData();
+                richEditText.resolveInsertText(MainActivity.this, insertContent, nameList, topicModels, "#f77521");
                 break;
             case R.id.jump_btn:
                 Intent intent = new Intent(MainActivity.this, NewEmojiActivity.class);
@@ -218,17 +214,17 @@ public class MainActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case REQUEST_USER_CODE_CLICK:
-                    EditTextAtUtils.resolveAtResult(editTextAtUtils, "#f77500", (UserModel) data.getSerializableExtra(UserListActivity.DATA));
+                    richEditText.resolveAtResult("#f77500", (UserModel) data.getSerializableExtra(UserListActivity.DATA));
                     break;
                 case REQUEST_USER_CODE_INPUT:
-                    EditTextAtUtils.resolveAtResultByEnterAt(emojiEditText, editTextAtUtils, "#f77500", (UserModel) data.getSerializableExtra(UserListActivity.DATA));
+                    richEditText.resolveAtResultByEnterAt("#f77500", (UserModel) data.getSerializableExtra(UserListActivity.DATA));
                     break;
 
                 case REQUEST_TOPIC_CODE_INPUT:
-                    EditTextAtUtils.resolveTopicResultByEnter(emojiEditText, editTextAtUtils, "#f77500", (TopicModel) data.getSerializableExtra(TopicListActivity.DATA));
+                    richEditText.resolveTopicResultByEnter("#f77500", (TopicModel) data.getSerializableExtra(TopicListActivity.DATA));
                     break;
                 case REQUEST_TOPIC_CODE_CLICK:
-                    EditTextAtUtils.resolveTopicResult(editTextAtUtils, "#f77500", (TopicModel) data.getSerializableExtra(TopicListActivity.DATA));
+                    richEditText.resolveTopicResult("#f77500", (TopicModel) data.getSerializableExtra(TopicListActivity.DATA));
                     break;
             }
         }
