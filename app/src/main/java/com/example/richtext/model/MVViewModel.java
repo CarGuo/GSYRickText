@@ -4,10 +4,13 @@ import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.ObservableField;
 import android.graphics.Color;
+import android.text.Spannable;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.shuyu.textutillib.RichTextBuilder;
+import com.shuyu.textutillib.listener.ITextViewShow;
 import com.shuyu.textutillib.listener.SpanAtUserCallBack;
 import com.shuyu.textutillib.listener.SpanTopicCallBack;
 import com.shuyu.textutillib.listener.SpanUrlCallBack;
@@ -24,11 +27,15 @@ import java.util.List;
 
 public class MVViewModel extends BaseObservable {
 
-    public final ObservableField<String> currentTextString = new ObservableField<>();
+    public final ObservableField<CharSequence> currentTextString = new ObservableField<>();
+
+    public final ObservableField<Integer> linkFlag = new ObservableField<>(0);
 
     private List<TopicModel> topicModels = new ArrayList<>();
 
     private List<UserModel> nameList = new ArrayList<>();
+
+    private ITextViewShow iTextViewShow;
 
     private Context context;
 
@@ -109,8 +116,35 @@ public class MVViewModel extends BaseObservable {
      *
      * @param text
      */
-    public void setCurrentText(String text) {
-        currentTextString.set(text);
+    private void setCurrentText(String text) {
+        RichTextBuilder richTextBuilder = new RichTextBuilder(context);
+        Spannable spannable = richTextBuilder.setContent(text)
+                .setAtColor(Color.RED)
+                .setLinkColor(Color.BLUE)
+                .setTopicColor(Color.YELLOW)
+                .setListUser(nameList)
+                .setListTopic(topicModels)
+                .setSpanAtUserCallBack(spanAtUserCallBack)
+                .setSpanUrlCallBack(spanUrlCallBack)
+                .setSpanTopicCallBack(spanTopicCallBack)
+                .buildSpan(iTextViewShow);
+        currentTextString.set(spannable);
+    }
+
+    public void setiTextViewShow(ITextViewShow iTextViewShow) {
+        this.iTextViewShow = iTextViewShow;
+    }
+
+    public void setLocalCurrentTextString(CharSequence charSequence) {
+        currentTextString.set(charSequence);
+    }
+
+    public CharSequence getLocalCurrentTextString() {
+        return currentTextString.get();
+    }
+
+    public void setLinkFlag(int flag) {
+        linkFlag.set(flag);
     }
 
     /**

@@ -30,6 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/mvvm_rich_text_title"
             android:layout_margin="10dp"
+            android:autoLink="@{viewmodel.linkFlag}"
             android:text="@{viewmodel.currentTextString}"
             android:textColor="#FFFFFF"
             android:textSize="16sp" />

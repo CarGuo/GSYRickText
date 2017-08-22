@@ -26,13 +26,13 @@ public class RichTextBuilder {
     private List<UserModel> listUser;
     private List<TopicModel> listTopic;
     private TextView textView;
+    private SpanAtUserCallBack spanAtUserCallBack;
+    private SpanUrlCallBack spanUrlCallBack;
+    private SpanTopicCallBack spanTopicCallBack;
     private int atColor = Color.BLUE;
     private int topicColor = Color.BLUE;
     private int linkColor = Color.BLUE;
     private boolean needNum = false;
-    private SpanAtUserCallBack spanAtUserCallBack;
-    private SpanUrlCallBack spanUrlCallBack;
-    private SpanTopicCallBack spanTopicCallBack;
 
     public RichTextBuilder(Context context) {
         this.context = context;
@@ -125,6 +125,28 @@ public class RichTextBuilder {
         this.spanTopicCallBack = spanTopicCallBack;
         return this;
     }
+
+
+    public Spannable buildSpan(ITextViewShow iTextViewShow) {
+        if (context == null) {
+            throw new IllegalStateException("context could not be null.");
+        }
+
+        return TextCommonUtils.getAllSpanText(
+                context,
+                content,
+                listUser,
+                listTopic,
+                iTextViewShow,
+                atColor,
+                linkColor,
+                topicColor,
+                needNum,
+                spanAtUserCallBack,
+                spanUrlCallBack,
+                spanTopicCallBack);
+    }
+
 
     public void build() {
 
