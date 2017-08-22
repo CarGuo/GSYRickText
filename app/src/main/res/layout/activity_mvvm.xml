@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewmodel"
+            type="com.example.richtext.model.MVViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/primary_material_dark">
+
+        <TextView
+            android:id="@+id/mvvm_rich_text_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/insert_text_btn"
+            android:layout_margin="10dp"
+            android:text="显示文本类型"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/mvvm_rich_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mvvm_rich_text_title"
+            android:layout_margin="10dp"
+            android:text="@{viewmodel.currentTextString}"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp" />
+
+        <View
+            android:id="@+id/mvvm_rich_text_base_line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/mvvm_rich_text" />
+
+        <Button
+            android:id="@+id/mvvm_rich_text_insert_text_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_below="@+id/mvvm_rich_text_base_line"
+            android:layout_margin="10dp"
+            android:onClick="@{() -> viewmodel.insertTextClick()}"
+            android:text="插入文本" />
+
+    </RelativeLayout>
+</layout>

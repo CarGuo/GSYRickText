@@ -31,10 +31,10 @@ public class LinkSpan extends ClickableSpan {
     public void onClick(View widget) {
         if ((url.contains("tel:") && TextUtils.isDigitsOnly(url.replace("tel:", ""))) || TextUtils.isDigitsOnly(url)) {
             if (spanUrlCallBack != null)
-                spanUrlCallBack.phone(url);
+                spanUrlCallBack.phone(widget, url);
         } else {
             if (spanUrlCallBack != null)
-                spanUrlCallBack.url(url);
+                spanUrlCallBack.url(widget, url);
         }
     }
 

@@ -1,5 +1,7 @@
 package com.shuyu.textutillib.listener;
 
+import android.view.View;
+
 import com.shuyu.textutillib.model.TopicModel;
 
 /**
@@ -8,5 +10,5 @@ import com.shuyu.textutillib.model.TopicModel;
  */
 
 public interface SpanTopicCallBack {
-    void onClick(TopicModel topicModel);
+    void onClick(View view, TopicModel topicModel);
 }

@@ -27,7 +27,7 @@ public class ClickTopicSpan extends ClickAtUserSpan {
     public void onClick(View view) {
         super.onClick(view);
         if (spanTopicCallBack != null) {
-            spanTopicCallBack.onClick(topicModel);
+            spanTopicCallBack.onClick(view, topicModel);
         }
     }
 }

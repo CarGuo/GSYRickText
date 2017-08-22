@@ -95,6 +95,15 @@
         android:textSize="16sp" />
 
 
+    <Button
+        android:id="@+id/jump_mvvm"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_below="@+id/rich_text"
+        android:layout_margin="10dp"
+        android:text="mvvm" />
+
+
     <com.shuyu.textutillib.EmojiLayout
         android:id="@+id/emojiLayout"
         android:layout_width="match_parent"

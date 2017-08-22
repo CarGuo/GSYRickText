@@ -3,8 +3,10 @@ package com.shuyu.textutillib;
 import android.content.Context;
 import android.graphics.Color;
 import android.text.Spannable;
+import android.text.method.MovementMethod;
 import android.widget.TextView;
 
+import com.shuyu.textutillib.listener.ITextViewShow;
 import com.shuyu.textutillib.listener.SpanAtUserCallBack;
 import com.shuyu.textutillib.listener.SpanTopicCallBack;
 import com.shuyu.textutillib.listener.SpanUrlCallBack;
@@ -134,12 +136,34 @@ public class RichTextBuilder {
             throw new IllegalStateException("textView could not be null.");
         }
 
+        ITextViewShow iTextViewShow = new ITextViewShow() {
+            @Override
+            public void setText(CharSequence charSequence) {
+                textView.setText(charSequence);
+            }
+
+            @Override
+            public CharSequence getText() {
+                return textView.getText();
+            }
+
+            @Override
+            public void setMovementMethod(MovementMethod movementMethod) {
+                textView.setMovementMethod(movementMethod);
+            }
+
+            @Override
+            public void setAutoLinkMask(int flag) {
+                textView.setAutoLinkMask(flag);
+            }
+        };
+
         Spannable spannable = TextCommonUtils.getAllSpanText(
                 context,
                 content,
                 listUser,
                 listTopic,
-                textView,
+                iTextViewShow,
                 atColor,
                 linkColor,
                 topicColor,

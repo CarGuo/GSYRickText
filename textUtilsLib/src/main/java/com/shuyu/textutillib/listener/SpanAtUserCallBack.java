@@ -1,5 +1,7 @@
 package com.shuyu.textutillib.listener;
 
+import android.view.View;
+
 import com.shuyu.textutillib.model.UserModel;
 
 /**
@@ -8,5 +10,5 @@ import com.shuyu.textutillib.model.UserModel;
  */
 
 public interface SpanAtUserCallBack {
-    void onClick(UserModel userModel1);
+    void onClick(View view, UserModel userModel1);
 }

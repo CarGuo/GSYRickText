@@ -11,10 +11,9 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.StyleSpan;
 import android.text.style.URLSpan;
 import android.text.util.Linkify;
-import android.widget.EditText;
-import android.widget.TextView;
 
 
+import com.shuyu.textutillib.listener.ITextViewShow;
 import com.shuyu.textutillib.listener.SpanAtUserCallBack;
 import com.shuyu.textutillib.listener.SpanTopicCallBack;
 import com.shuyu.textutillib.listener.SpanUrlCallBack;
@@ -43,7 +42,7 @@ public class TextCommonUtils {
      * @param text    包含emoji的字符串
      * @param tv      显示的textview
      */
-    public static void setEmojiText(Context context, String text, TextView tv) {
+    public static void setEmojiText(Context context, String text, ITextViewShow tv) {
         if (TextUtils.isEmpty(text)) {
             tv.setText("");
         }
@@ -79,7 +78,7 @@ public class TextCommonUtils {
      * @param spanUrlCallBack    链接点击的返回
      * @return 返回显示的spananle
      */
-    public static Spannable getUrlEmojiText(Context context, String text, TextView textView, int color, boolean needNum, SpanAtUserCallBack spanAtUserCallBack, SpanUrlCallBack spanUrlCallBack) {
+    public static Spannable getUrlEmojiText(Context context, String text, ITextViewShow textView, int color, boolean needNum, SpanAtUserCallBack spanAtUserCallBack, SpanUrlCallBack spanUrlCallBack) {
         if (!TextUtils.isEmpty(text)) {
             return getUrlSmileText(context, text, null, textView, color, 0, needNum, spanAtUserCallBack, spanUrlCallBack);
         } else {
@@ -99,7 +98,7 @@ public class TextCommonUtils {
      * @param spanAtUserCallBack AT某人点击的返回
      * @param spanUrlCallBack    链接点击的返回
      */
-    public static void setUrlSmileText(Context context, String string, List<UserModel> listUser, TextView textView, int color, boolean needNum, SpanAtUserCallBack spanAtUserCallBack, SpanUrlCallBack spanUrlCallBack) {
+    public static void setUrlSmileText(Context context, String string, List<UserModel> listUser, ITextViewShow textView, int color, boolean needNum, SpanAtUserCallBack spanAtUserCallBack, SpanUrlCallBack spanUrlCallBack) {
         Spannable spannable = getUrlSmileText(context, string, listUser, textView, color, 0, needNum, spanAtUserCallBack, spanUrlCallBack);
         textView.setText(spannable);
     }
@@ -117,7 +116,7 @@ public class TextCommonUtils {
      * @param spanAtUserCallBack AT某人点击的返回
      * @return 返回显示的spananle
      */
-    public static Spannable getAtText(Context context, List<UserModel> listUser, List<TopicModel> listTopic, String content, TextView textView, boolean clickable,
+    public static Spannable getAtText(Context context, List<UserModel> listUser, List<TopicModel> listTopic, String content, ITextViewShow textView, boolean clickable,
                                       int color, int topicColor, SpanAtUserCallBack spanAtUserCallBack, SpanTopicCallBack spanTopicCallBack) {
 
         Spannable spannable = null;
@@ -166,7 +165,7 @@ public class TextCommonUtils {
             }
         }
         SmileUtils.addSmiles(context, spannableString);
-        if (!(textView instanceof EditText) && clickable && hadHighLine)
+        if (clickable && hadHighLine)
             textView.setMovementMethod(LinkMovementMethod.getInstance());
         return spannableString;
     }
@@ -183,7 +182,7 @@ public class TextCommonUtils {
      * @param spanTopicCallBack 点击回调
      * @return Spannable
      */
-    public static Spannable getTopicText(Context context, List<TopicModel> listTopic, String content, TextView textView, boolean clickable,
+    public static Spannable getTopicText(Context context, List<TopicModel> listTopic, String content, ITextViewShow textView, boolean clickable,
                                          int color, SpanTopicCallBack spanTopicCallBack) {
 
         if (listTopic == null || listTopic.size() <= 0)
@@ -221,7 +220,7 @@ public class TextCommonUtils {
                 }
             }
         }
-        if (!(textView instanceof EditText) && clickable && hadHighLine)
+        if (clickable && hadHighLine)
             textView.setMovementMethod(LinkMovementMethod.getInstance());
         return spannableString;
     }
@@ -241,7 +240,7 @@ public class TextCommonUtils {
      * @param spanUrlCallBack    链接点击的返回
      * @return 返回显示的spananle
      */
-    public static Spannable getUrlSmileText(Context context, String string, List<UserModel> listUser, TextView textView, int colorAt, int colorLink, boolean needNum, SpanAtUserCallBack spanAtUserCallBack, SpanUrlCallBack spanUrlCallBack) {
+    public static Spannable getUrlSmileText(Context context, String string, List<UserModel> listUser, ITextViewShow textView, int colorAt, int colorLink, boolean needNum, SpanAtUserCallBack spanAtUserCallBack, SpanUrlCallBack spanUrlCallBack) {
         return getAllSpanText(context, string, listUser, null, textView, colorAt, colorLink, 0, needNum, spanAtUserCallBack, spanUrlCallBack, null);
     }
 
@@ -262,7 +261,7 @@ public class TextCommonUtils {
      * @param spanTopicCallBack  话题点击的返回
      * @return 返回显示的spananle
      */
-    public static Spannable getAllSpanText(Context context, String string, List<UserModel> listUser, List<TopicModel> listTopic, TextView textView, int colorAt, int colorLink, int colorTopic, boolean needNum, SpanAtUserCallBack spanAtUserCallBack, SpanUrlCallBack spanUrlCallBack, SpanTopicCallBack spanTopicCallBack) {
+    public static Spannable getAllSpanText(Context context, String string, List<UserModel> listUser, List<TopicModel> listTopic, ITextViewShow textView, int colorAt, int colorLink, int colorTopic, boolean needNum, SpanAtUserCallBack spanAtUserCallBack, SpanUrlCallBack spanUrlCallBack, SpanTopicCallBack spanTopicCallBack) {
         textView.setAutoLinkMask(Linkify.WEB_URLS | Linkify.PHONE_NUMBERS);
         if (!TextUtils.isEmpty(string)) {
             string = string.replaceAll("\r", "\r\n");
@@ -286,7 +285,7 @@ public class TextCommonUtils {
      * @param spanUrlCallBack 链接点击的返回
      * @return 返回显示的spananle
      */
-    private static Spannable resolveUrlLogic(Context context, TextView textView, Spannable spannable, int color, boolean needNum, SpanUrlCallBack spanUrlCallBack) {
+    private static Spannable resolveUrlLogic(Context context, ITextViewShow textView, Spannable spannable, int color, boolean needNum, SpanUrlCallBack spanUrlCallBack) {
         CharSequence charSequence = textView.getText();
         if (charSequence instanceof Spannable) {
             int end = charSequence.length();

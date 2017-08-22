@@ -1,7 +1,5 @@
 package com.shuyu.textutillib;
 
-import android.content.Intent;
-import android.widget.EditText;
 
 import com.shuyu.textutillib.listener.OnEditTextUtilJumpListener;
 import com.shuyu.textutillib.model.TopicModel;

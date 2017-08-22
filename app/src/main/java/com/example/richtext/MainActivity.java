@@ -139,31 +139,39 @@ public class MainActivity extends AppCompatActivity {
 
         SpanUrlCallBack spanUrlCallBack = new SpanUrlCallBack() {
             @Override
-            public void phone(String phone) {
-                Toast.makeText(MainActivity.this, phone + " 被点击了", Toast.LENGTH_SHORT).show();
-                richText.setHighlightColor(Color.TRANSPARENT);
+            public void phone(View view, String phone) {
+                Toast.makeText(view.getContext(), phone + " 被点击了", Toast.LENGTH_SHORT).show();
+                if (view instanceof TextView) {
+                    ((TextView)view).setHighlightColor(Color.TRANSPARENT);
+                }
             }
 
             @Override
-            public void url(String url) {
-                Toast.makeText(MainActivity.this, url + " 被点击了", Toast.LENGTH_SHORT).show();
-                richText.setHighlightColor(Color.TRANSPARENT);
+            public void url(View view, String url) {
+                Toast.makeText(view.getContext(), url + " 被点击了", Toast.LENGTH_SHORT).show();
+                if (view instanceof TextView) {
+                    ((TextView)view).setHighlightColor(Color.TRANSPARENT);
+                }
             }
         };
 
         SpanAtUserCallBack spanAtUserCallBack = new SpanAtUserCallBack() {
             @Override
-            public void onClick(UserModel userModel1) {
-                Toast.makeText(MainActivity.this, userModel1.getUser_name() + " 被点击了", Toast.LENGTH_SHORT).show();
-                richText.setHighlightColor(Color.TRANSPARENT);
+            public void onClick(View view, UserModel userModel1) {
+                Toast.makeText(view.getContext(), userModel1.getUser_name() + " 被点击了", Toast.LENGTH_SHORT).show();
+                if (view instanceof TextView) {
+                    ((TextView)view).setHighlightColor(Color.TRANSPARENT);
+                }
             }
         };
 
         SpanTopicCallBack spanTopicCallBack = new SpanTopicCallBack() {
             @Override
-            public void onClick(TopicModel topicModel) {
-                Toast.makeText(MainActivity.this, topicModel.getTopicName() + " 被点击了", Toast.LENGTH_SHORT).show();
-                richText.setHighlightColor(Color.TRANSPARENT);
+            public void onClick(View view, TopicModel topicModel) {
+                Toast.makeText(view.getContext(), topicModel.getTopicName() + " 被点击了", Toast.LENGTH_SHORT).show();
+                if (view instanceof TextView) {
+                    ((TextView)view).setHighlightColor(Color.TRANSPARENT);
+                }
             }
         };
         RichTextBuilder richTextBuilder = new RichTextBuilder(this);
@@ -181,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    @OnClick({R.id.emoji_show_bottom, R.id.emoji_show_at, R.id.insert_text_btn, R.id.jump_btn, R.id.emoji_show_topic})
+    @OnClick({R.id.emoji_show_bottom, R.id.emoji_show_at, R.id.insert_text_btn, R.id.jump_btn, R.id.emoji_show_topic, R.id.jump_mvvm})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.emoji_show_bottom:
@@ -205,6 +213,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.emoji_show_topic:
                 JumpUtil.goToTopicList(MainActivity.this, MainActivity.REQUEST_TOPIC_CODE_CLICK);
+                break;
+            case R.id.jump_mvvm:
+                startActivity(new Intent(MainActivity.this, MVVMActivity.class));
                 break;
         }
     }

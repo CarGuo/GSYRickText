@@ -29,7 +29,7 @@ public class ClickAtUserSpan extends ClickableSpan {
     @Override
     public void onClick(View view) {
         if (spanClickCallBack != null) {
-            spanClickCallBack.onClick(userModel);
+            spanClickCallBack.onClick(view, userModel);
         }
     }
 
