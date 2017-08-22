@@ -5,15 +5,11 @@ import android.databinding.BaseObservable;
 import android.databinding.ObservableField;
 import android.graphics.Color;
 import android.text.Spannable;
-import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.text.method.MovementMethod;
 
+import com.example.richtext.contract.IMVVMView;
 import com.shuyu.textutillib.RichTextBuilder;
 import com.shuyu.textutillib.listener.ITextViewShow;
-import com.shuyu.textutillib.listener.SpanAtUserCallBack;
-import com.shuyu.textutillib.listener.SpanTopicCallBack;
-import com.shuyu.textutillib.listener.SpanUrlCallBack;
 import com.shuyu.textutillib.model.TopicModel;
 import com.shuyu.textutillib.model.UserModel;
 
@@ -35,12 +31,13 @@ public class MVViewModel extends BaseObservable {
 
     private List<UserModel> nameList = new ArrayList<>();
 
-    private ITextViewShow iTextViewShow;
-
     private Context context;
 
-    public MVViewModel(Context context) {
+    private IMVVMView imvvmView;
+
+    public MVViewModel(Context context, IMVVMView imvvmView) {
         this.context = context;
+        this.imvvmView = imvvmView;
         initData();
     }
 
@@ -64,50 +61,25 @@ public class MVViewModel extends BaseObservable {
 
     }
 
-    /**
-     * 链接回调
-     */
-    private SpanUrlCallBack spanUrlCallBack = new SpanUrlCallBack() {
+    private ITextViewShow iTextViewShow = new ITextViewShow() {
         @Override
-        public void phone(View view, String phone) {
-            Toast.makeText(view.getContext(), phone + " 被点击了", Toast.LENGTH_SHORT).show();
-            if (view instanceof TextView) {
-                ((TextView) view).setHighlightColor(Color.TRANSPARENT);
-            }
+        public void setText(CharSequence charSequence) {
+            setLocalCurrentTextString(charSequence);
         }
 
         @Override
-        public void url(View view, String url) {
-            Toast.makeText(view.getContext(), url + " 被点击了", Toast.LENGTH_SHORT).show();
-            if (view instanceof TextView) {
-                ((TextView) view).setHighlightColor(Color.TRANSPARENT);
-            }
+        public CharSequence getText() {
+            return getLocalCurrentTextString();
         }
-    };
 
-    /**
-     * at回调
-     */
-    private SpanAtUserCallBack spanAtUserCallBack = new SpanAtUserCallBack() {
         @Override
-        public void onClick(View view, UserModel userModel1) {
-            Toast.makeText(view.getContext(), userModel1.getUser_name() + " 被点击了", Toast.LENGTH_SHORT).show();
-            if (view instanceof TextView) {
-                ((TextView) view).setHighlightColor(Color.TRANSPARENT);
-            }
+        public void setMovementMethod(MovementMethod movementMethod) {
+            imvvmView.setMovementMethod(movementMethod);
         }
-    };
 
-    /**
-     * 话题回调
-     */
-    private SpanTopicCallBack spanTopicCallBack = new SpanTopicCallBack() {
         @Override
-        public void onClick(View view, TopicModel topicModel) {
-            Toast.makeText(view.getContext(), topicModel.getTopicName() + " 被点击了", Toast.LENGTH_SHORT).show();
-            if (view instanceof TextView) {
-                ((TextView) view).setHighlightColor(Color.TRANSPARENT);
-            }
+        public void setAutoLinkMask(int flag) {
+            setLinkFlag(flag);
         }
     };
 
@@ -124,15 +96,11 @@ public class MVViewModel extends BaseObservable {
                 .setTopicColor(Color.YELLOW)
                 .setListUser(nameList)
                 .setListTopic(topicModels)
-                .setSpanAtUserCallBack(spanAtUserCallBack)
-                .setSpanUrlCallBack(spanUrlCallBack)
-                .setSpanTopicCallBack(spanTopicCallBack)
+                .setSpanAtUserCallBack(imvvmView.getSpanAtUserCallBack())
+                .setSpanUrlCallBack(imvvmView.getSpanUrlCallBack())
+                .setSpanTopicCallBack(imvvmView.getSpanTopicCallBack())
                 .buildSpan(iTextViewShow);
         currentTextString.set(spannable);
-    }
-
-    public void setiTextViewShow(ITextViewShow iTextViewShow) {
-        this.iTextViewShow = iTextViewShow;
     }
 
     public void setLocalCurrentTextString(CharSequence charSequence) {
