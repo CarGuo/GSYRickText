@@ -35,6 +35,8 @@ public class MVViewModel extends BaseObservable {
 
     private IMVVMView imvvmView;
 
+    private int textFlag = 0;
+
     public MVViewModel(Context context, IMVVMView imvvmView) {
         this.context = context;
         this.imvvmView = imvvmView;
@@ -103,15 +105,15 @@ public class MVViewModel extends BaseObservable {
         currentTextString.set(spannable);
     }
 
-    public void setLocalCurrentTextString(CharSequence charSequence) {
+    private void setLocalCurrentTextString(CharSequence charSequence) {
         currentTextString.set(charSequence);
     }
 
-    public CharSequence getLocalCurrentTextString() {
+    private CharSequence getLocalCurrentTextString() {
         return currentTextString.get();
     }
 
-    public void setLinkFlag(int flag) {
+    private void setLinkFlag(int flag) {
         linkFlag.set(flag);
     }
 
@@ -119,9 +121,28 @@ public class MVViewModel extends BaseObservable {
      * 插入文本点击
      */
     public void insertTextClick() {
-        String content = "这是测试#话题话题#文本哟 www.baidu.com " +
-                "\n来@某个人  @22222 @kkk " +
-                "\n好的,来几个表情[e2][e4][e55]，最后来一个电话 13245685478";
+        String content = "";
+        switch (textFlag) {
+            case 0:
+                textFlag = 1;
+                content = "这是测试#话题话题#文本哟 www.baidu.com " +
+                        "\n来@某个人  @22222 @kkk " +
+                        "\n好的,来几个表情[e2][e4][e55]，最后来一个电话 13245685478";
+                break;
+            case 1:
+                textFlag = 2;
+                content = "这是普通的测试文本";
+                break;
+            case 2:
+                textFlag = 3;
+                content = "这是只有表情[e2][e4][e55]";
+                break;
+            case 3:
+                textFlag = 0;
+                content = "这是测试@人的文本 " +
+                        "\n来@kkk  @22222 ";
+                break;
+        }
         setCurrentText(content);
     }
 }

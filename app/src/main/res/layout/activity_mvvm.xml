@@ -31,6 +31,7 @@
             android:layout_below="@+id/mvvm_rich_text_title"
             android:layout_margin="10dp"
             android:autoLink="@{viewmodel.linkFlag}"
+            android:minLines="8"
             android:text="@{viewmodel.currentTextString}"
             android:textColor="#FFFFFF"
             android:textSize="16sp" />
@@ -48,7 +49,7 @@
             android:layout_below="@+id/mvvm_rich_text_base_line"
             android:layout_margin="10dp"
             android:onClick="@{() -> viewmodel.insertTextClick()}"
-            android:text="插入文本" />
+            android:text="插入切换文本" />
 
     </RelativeLayout>
 </layout>
