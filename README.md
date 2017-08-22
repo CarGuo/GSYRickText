@@ -37,7 +37,7 @@ allprojects {
 
 ```
 dependencies {
-     compile 'com.github.CarGuo:RickText:v2.0.1'
+     compile 'com.github.CarGuo:RickText:v2.0.2'
 }
 
 ```
@@ -135,4 +135,15 @@ richEditBuilder.setEditText(richEditText)
             }
         })
         .builder();
+```
+
+## 版本更新
+
+* v2.0.2
+优化了文本显示逻辑。
+
+## License
+
+```
+MIT
 ```
