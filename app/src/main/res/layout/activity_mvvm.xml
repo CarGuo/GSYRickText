@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/insert_text_btn"
             android:layout_margin="10dp"
-            android:text="显示文本类型"
+            android:text="@{viewmodel.currentTextTitle}"
             android:textColor="#FFFFFF"
             android:textSize="18sp" />
 

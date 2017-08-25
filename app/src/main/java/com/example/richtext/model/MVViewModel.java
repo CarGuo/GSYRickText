@@ -25,6 +25,8 @@ public class MVViewModel extends BaseObservable {
 
     public final ObservableField<CharSequence> currentTextString = new ObservableField<>();
 
+    public final ObservableField<String> currentTextTitle= new ObservableField<>("未输入文本");
+
     public final ObservableField<Integer> linkFlag = new ObservableField<>(0);
 
     private List<TopicModel> topicModels = new ArrayList<>();
@@ -81,7 +83,7 @@ public class MVViewModel extends BaseObservable {
 
         @Override
         public void setAutoLinkMask(int flag) {
-            setLinkFlag(flag);
+            setForLinkFlag(flag);
         }
     };
 
@@ -113,7 +115,7 @@ public class MVViewModel extends BaseObservable {
         return currentTextString.get();
     }
 
-    private void setLinkFlag(int flag) {
+    private void setForLinkFlag(int flag) {
         linkFlag.set(flag);
     }
 
@@ -122,27 +124,33 @@ public class MVViewModel extends BaseObservable {
      */
     public void insertTextClick() {
         String content = "";
+        String title = "";
         switch (textFlag) {
             case 0:
                 textFlag = 1;
                 content = "这是测试#话题话题#文本哟 www.baidu.com " +
                         "\n来@某个人  @22222 @kkk " +
                         "\n好的,来几个表情[e2][e4][e55]，最后来一个电话 13245685478";
+                title = "多种数据类型";
                 break;
             case 1:
                 textFlag = 2;
                 content = "这是普通的测试文本";
+                title = "普通文本类型";
                 break;
             case 2:
                 textFlag = 3;
                 content = "这是只有表情[e2][e4][e55]";
+                title = "标签文本类型";
                 break;
             case 3:
                 textFlag = 0;
                 content = "这是测试@人的文本 " +
                         "\n来@kkk  @22222 ";
+                title = "@人文本类型";
                 break;
         }
         setCurrentText(content);
+        currentTextTitle.set(title);
     }
 }

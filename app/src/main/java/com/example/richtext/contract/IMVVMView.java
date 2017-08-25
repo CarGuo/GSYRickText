@@ -19,4 +19,6 @@ public interface IMVVMView {
     SpanUrlCallBack getSpanUrlCallBack();
 
     void setMovementMethod(MovementMethod movementMethod);
+
+    void setAutoLinkMask(int linkMask);
 }

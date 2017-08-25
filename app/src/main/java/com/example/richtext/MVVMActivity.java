@@ -12,7 +12,6 @@ import android.widget.Toast;
 import com.example.richtext.contract.IMVVMView;
 import com.example.richtext.databinding.ActivityMvvmBinding;
 import com.example.richtext.model.MVViewModel;
-import com.shuyu.textutillib.listener.ITextViewShow;
 import com.shuyu.textutillib.listener.SpanAtUserCallBack;
 import com.shuyu.textutillib.listener.SpanTopicCallBack;
 import com.shuyu.textutillib.listener.SpanUrlCallBack;
@@ -62,6 +61,11 @@ public class MVVMActivity extends Activity implements IMVVMView {
     @Override
     public void setMovementMethod(MovementMethod movementMethod) {
         mvvmRichText.setMovementMethod(movementMethod);
+    }
+
+    @Override
+    public void setAutoLinkMask(int linkMask) {
+        mvvmRichText.setAutoLinkMask(linkMask);
     }
 
     /**
