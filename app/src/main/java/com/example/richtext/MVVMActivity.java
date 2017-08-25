@@ -63,11 +63,6 @@ public class MVVMActivity extends Activity implements IMVVMView {
         mvvmRichText.setMovementMethod(movementMethod);
     }
 
-    @Override
-    public void setAutoLinkMask(int linkMask) {
-        mvvmRichText.setAutoLinkMask(linkMask);
-    }
-
     /**
      * 链接回调
      */
