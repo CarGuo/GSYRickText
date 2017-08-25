@@ -68,12 +68,12 @@ public class MVViewModel extends BaseObservable {
     private ITextViewShow iTextViewShow = new ITextViewShow() {
         @Override
         public void setText(CharSequence charSequence) {
-            setLocalCurrentTextString(charSequence);
+            imvvmView.setText(charSequence);
         }
 
         @Override
         public CharSequence getText() {
-            return getLocalCurrentTextString();
+            return imvvmView.getText();
         }
 
         @Override
@@ -83,7 +83,7 @@ public class MVViewModel extends BaseObservable {
 
         @Override
         public void setAutoLinkMask(int flag) {
-            setForLinkFlag(flag);
+            imvvmView.setAutoLinkMask(flag);
         }
     };
 
@@ -104,7 +104,7 @@ public class MVViewModel extends BaseObservable {
                 .setSpanUrlCallBack(imvvmView.getSpanUrlCallBack())
                 .setSpanTopicCallBack(imvvmView.getSpanTopicCallBack())
                 .buildSpan(iTextViewShow);
-        currentTextString.set(spannable);
+        setLocalCurrentTextString(spannable);
     }
 
     private void setLocalCurrentTextString(CharSequence charSequence) {

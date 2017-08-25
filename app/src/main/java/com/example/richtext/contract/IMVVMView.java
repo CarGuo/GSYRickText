@@ -19,4 +19,10 @@ public interface IMVVMView {
     SpanUrlCallBack getSpanUrlCallBack();
 
     void setMovementMethod(MovementMethod movementMethod);
+
+    CharSequence getText();
+
+    void setText(CharSequence charSequence);
+
+    void setAutoLinkMask(int flag);
 }

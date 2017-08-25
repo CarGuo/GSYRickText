@@ -63,6 +63,21 @@ public class MVVMActivity extends Activity implements IMVVMView {
         mvvmRichText.setMovementMethod(movementMethod);
     }
 
+    @Override
+    public CharSequence getText() {
+        return mvvmRichText.getText();
+    }
+
+    @Override
+    public void setText(CharSequence charSequence) {
+        mvvmRichText.setText(charSequence);
+    }
+
+    @Override
+    public void setAutoLinkMask(int flag) {
+        mvvmRichText.setAutoLinkMask(flag);
+    }
+
     /**
      * 链接回调
      */
