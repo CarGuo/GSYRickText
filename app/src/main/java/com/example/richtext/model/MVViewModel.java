@@ -1,21 +1,18 @@
 package com.example.richtext.model;
 
-import android.content.Context;
+
 import android.databinding.BaseObservable;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableField;
 import android.graphics.Color;
-import android.text.Spannable;
-import android.text.method.MovementMethod;
 
 import com.example.richtext.contract.IMVVMView;
-import com.shuyu.textutillib.RichTextBuilder;
-import com.shuyu.textutillib.listener.ITextViewShow;
+import com.shuyu.textutillib.listener.SpanAtUserCallBack;
+import com.shuyu.textutillib.listener.SpanTopicCallBack;
+import com.shuyu.textutillib.listener.SpanUrlCallBack;
 import com.shuyu.textutillib.model.TopicModel;
 import com.shuyu.textutillib.model.UserModel;
 
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * view model
@@ -24,13 +21,9 @@ import java.util.List;
 
 public class MVViewModel extends BaseObservable {
 
-    public final ObservableField<CharSequence> currentTextString = new ObservableField<>();
-
     public final ObservableField<String> currentTextViewString = new ObservableField<>();
 
     public final ObservableField<String> currentTextTitle = new ObservableField<>("未输入文本");
-
-    public final ObservableField<Integer> linkFlag = new ObservableField<>(0);
 
     public final ObservableArrayList<TopicModel> topicListOb = new ObservableArrayList<>();
 
@@ -44,81 +37,44 @@ public class MVViewModel extends BaseObservable {
 
     public final ObservableField<Boolean> needNumberShow = new ObservableField<>(true);
 
-    private List<TopicModel> topicModels = new ArrayList<>();
+    public final ObservableField<SpanAtUserCallBack> spanAtUserCallback = new ObservableField<>();
 
-    private List<UserModel> nameList = new ArrayList<>();
+    public final ObservableField<SpanTopicCallBack> spanTopicCallback = new ObservableField<>();
 
-    private Context context;
+    public final ObservableField<SpanUrlCallBack> spanUrlCallback = new ObservableField<>();
 
     private IMVVMView imvvmView;
 
     private int textFlag = 0;
 
-    public MVViewModel(Context context, IMVVMView imvvmView) {
-        this.context = context;
+    public MVViewModel(IMVVMView imvvmView) {
         this.imvvmView = imvvmView;
         initData();
     }
 
     private void initData() {
-        nameList.clear();
-        topicModels.clear();
         nameListOb.clear();
         topicListOb.clear();
 
         UserModel userModel = new UserModel();
         userModel.setUser_name("22222");
         userModel.setUser_id("2222");
-        nameList.add(userModel);
+        nameListOb.add(userModel);
         userModel = new UserModel();
         userModel.setUser_name("kkk");
         userModel.setUser_id("23333");
-        nameList.add(userModel);
+        nameListOb.add(userModel);
 
         TopicModel topicModel = new TopicModel();
         topicModel.setTopicId("333");
         topicModel.setTopicName("话题话题");
-        topicModels.add(topicModel);
-
-
-        userModel = new UserModel();
-        userModel.setUser_name("22222");
-        userModel.setUser_id("2222");
-        nameListOb.add(userModel);
-        userModel = new UserModel();
-        userModel.setUser_name("kkk");
-        userModel.setUser_id("23333");
-        nameListOb.add(userModel);
-
-        topicModel = new TopicModel();
-        topicModel.setTopicId("333");
-        topicModel.setTopicName("话题话题");
         topicListOb.add(topicModel);
 
+        spanAtUserCallback.set(imvvmView.getSpanAtUserCallBack());
+        spanTopicCallback.set(imvvmView.getSpanTopicCallBack());
+        spanUrlCallback.set(imvvmView.getSpanUrlCallBack());
 
     }
-
-    private ITextViewShow iTextViewShow = new ITextViewShow() {
-        @Override
-        public void setText(CharSequence charSequence) {
-            imvvmView.setText(charSequence);
-        }
-
-        @Override
-        public CharSequence getText() {
-            return imvvmView.getText();
-        }
-
-        @Override
-        public void setMovementMethod(MovementMethod movementMethod) {
-            imvvmView.setMovementMethod(movementMethod);
-        }
-
-        @Override
-        public void setAutoLinkMask(int flag) {
-            imvvmView.setAutoLinkMask(flag);
-        }
-    };
 
     /**
      * 设置显示文本
@@ -126,31 +82,7 @@ public class MVViewModel extends BaseObservable {
      * @param text
      */
     private void setCurrentText(String text) {
-        RichTextBuilder richTextBuilder = new RichTextBuilder(context);
-        Spannable spannable = richTextBuilder.setContent(text)
-                .setAtColor(Color.RED)
-                .setLinkColor(Color.BLUE)
-                .setTopicColor(Color.YELLOW)
-                .setListUser(nameList)
-                .setListTopic(topicModels)
-                .setSpanAtUserCallBack(imvvmView.getSpanAtUserCallBack())
-                .setSpanUrlCallBack(imvvmView.getSpanUrlCallBack())
-                .setSpanTopicCallBack(imvvmView.getSpanTopicCallBack())
-                .buildSpan(iTextViewShow);
-        setLocalCurrentTextString(spannable);
         currentTextViewString.set(text);
-    }
-
-    private void setLocalCurrentTextString(CharSequence charSequence) {
-        currentTextString.set(charSequence);
-    }
-
-    private CharSequence getLocalCurrentTextString() {
-        return currentTextString.get();
-    }
-
-    private void setForLinkFlag(int flag) {
-        linkFlag.set(flag);
     }
 
     /**

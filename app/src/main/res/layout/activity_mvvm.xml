@@ -18,29 +18,37 @@
             android:id="@+id/mvvm_rich_text_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/insert_text_btn"
             android:layout_margin="10dp"
             android:text="@{viewmodel.currentTextTitle}"
             android:textColor="#FFFFFF"
             android:textSize="18sp" />
 
-        <TextView
-            android:id="@+id/mvvm_rich_text"
+
+        <com.shuyu.textutillib.RichTextView
+            android:id="@+id/mvvm_rich_text_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/mvvm_rich_text_title"
-            android:layout_margin="10dp"
-            android:autoLink="@{viewmodel.linkFlag}"
             android:minLines="8"
-            android:text="@{viewmodel.currentTextString}"
             android:textColor="#FFFFFF"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            app:atColor="@{viewmodel.atColor}"
+            app:linkColor="@{viewmodel.linkColor}"
+            app:nameList="@{viewmodel.nameListOb}"
+            app:needNumberShow="@{viewmodel.needNumberShow}"
+            app:richText="@{viewmodel.currentTextViewString}"
+            app:spanAtUserCallBackListener="@{viewmodel.spanAtUserCallback}"
+            app:spanTopicCallBackListener="@{viewmodel.spanTopicCallback}"
+            app:spanUrlCallBackListener="@{viewmodel.spanUrlCallback}"
+            app:topicColor="@{viewmodel.topicColor}"
+            app:topicList="@{viewmodel.topicListOb}" />
+
 
         <View
             android:id="@+id/mvvm_rich_text_base_line"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_below="@+id/mvvm_rich_text" />
+            android:layout_below="@+id/mvvm_rich_text_content" />
 
         <Button
             android:id="@+id/mvvm_rich_text_insert_text_btn"
@@ -50,22 +58,5 @@
             android:layout_margin="10dp"
             android:onClick="@{() -> viewmodel.insertTextClick()}"
             android:text="插入切换文本" />
-
-        <com.shuyu.textutillib.RichTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/mvvm_rich_text_insert_text_btn"
-            android:minLines="8"
-            android:textColor="#FFFFFF"
-            android:textSize="16sp"
-            app:richText="@{viewmodel.currentTextViewString}"
-            app:nameList="@{viewmodel.nameListOb}"
-            app:topicList="@{viewmodel.topicListOb}"
-            app:atColor="@{viewmodel.atColor}"
-            app:topicColor="@{viewmodel.topicColor}"
-            app:linkColor="@{viewmodel.linkColor}"
-            app:needNumberShow="@{viewmodel.needNumberShow}"
-            />
-
     </RelativeLayout>
 </layout>

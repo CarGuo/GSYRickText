@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.text.method.MovementMethod;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,16 +17,7 @@ import com.shuyu.textutillib.listener.SpanUrlCallBack;
 import com.shuyu.textutillib.model.TopicModel;
 import com.shuyu.textutillib.model.UserModel;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 public class MVVMActivity extends Activity implements IMVVMView {
-
-
-    @BindView(R.id.mvvm_rich_text_title)
-    TextView mvvmRichTextTitle;
-    @BindView(R.id.mvvm_rich_text)
-    TextView mvvmRichText;
 
     MVViewModel mvViewModel;
 
@@ -36,10 +26,8 @@ public class MVVMActivity extends Activity implements IMVVMView {
         super.onCreate(savedInstanceState);
         ActivityMvvmBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_mvvm);
 
-        mvViewModel = new MVViewModel(this, this);
+        mvViewModel = new MVViewModel(this);
         binding.setViewmodel(mvViewModel);
-
-        ButterKnife.bind(this);
 
     }
 
@@ -56,26 +44,6 @@ public class MVVMActivity extends Activity implements IMVVMView {
     @Override
     public SpanUrlCallBack getSpanUrlCallBack() {
         return spanUrlCallBack;
-    }
-
-    @Override
-    public void setMovementMethod(MovementMethod movementMethod) {
-        mvvmRichText.setMovementMethod(movementMethod);
-    }
-
-    @Override
-    public CharSequence getText() {
-        return mvvmRichText.getText();
-    }
-
-    @Override
-    public void setText(CharSequence charSequence) {
-        mvvmRichText.setText(charSequence);
-    }
-
-    @Override
-    public void setAutoLinkMask(int flag) {
-        mvvmRichText.setAutoLinkMask(flag);
     }
 
     /**
