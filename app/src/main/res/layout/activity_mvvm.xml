@@ -51,5 +51,21 @@
             android:onClick="@{() -> viewmodel.insertTextClick()}"
             android:text="插入切换文本" />
 
+        <com.shuyu.textutillib.RichTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mvvm_rich_text_insert_text_btn"
+            android:minLines="8"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            app:richText="@{viewmodel.currentTextViewString}"
+            app:nameList="@{viewmodel.nameListOb}"
+            app:topicList="@{viewmodel.topicListOb}"
+            app:atColor="@{viewmodel.atColor}"
+            app:topicColor="@{viewmodel.topicColor}"
+            app:linkColor="@{viewmodel.linkColor}"
+            app:needNumberShow="@{viewmodel.needNumberShow}"
+            />
+
     </RelativeLayout>
 </layout>

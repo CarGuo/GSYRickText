@@ -313,6 +313,13 @@ public class TextCommonUtils {
 
                 }
                 for (ClickAtUserSpan atUserSpan : atSpan) {
+                    //剔除话题和at某人中的link span
+                    LinkSpan[] removeUrls = style.getSpans(sp.getSpanStart(atUserSpan), sp.getSpanEnd(atUserSpan), LinkSpan.class);
+                    if (removeUrls != null && removeUrls.length > 0) {
+                        for (LinkSpan linkSpan : removeUrls) {
+                            style.removeSpan(linkSpan);
+                        }
+                    }
                     style.setSpan(atUserSpan, sp.getSpanStart(atUserSpan), sp.getSpanEnd(atUserSpan), Spanned.SPAN_MARK_POINT);
                 }
                 SmileUtils.addSmiles(context, style);

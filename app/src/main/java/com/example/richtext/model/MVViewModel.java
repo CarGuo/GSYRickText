@@ -2,6 +2,7 @@ package com.example.richtext.model;
 
 import android.content.Context;
 import android.databinding.BaseObservable;
+import android.databinding.ObservableArrayList;
 import android.databinding.ObservableField;
 import android.graphics.Color;
 import android.text.Spannable;
@@ -25,9 +26,23 @@ public class MVViewModel extends BaseObservable {
 
     public final ObservableField<CharSequence> currentTextString = new ObservableField<>();
 
-    public final ObservableField<String> currentTextTitle= new ObservableField<>("未输入文本");
+    public final ObservableField<String> currentTextViewString = new ObservableField<>();
+
+    public final ObservableField<String> currentTextTitle = new ObservableField<>("未输入文本");
 
     public final ObservableField<Integer> linkFlag = new ObservableField<>(0);
+
+    public final ObservableArrayList<TopicModel> topicListOb = new ObservableArrayList<>();
+
+    public final ObservableArrayList<UserModel> nameListOb = new ObservableArrayList<>();
+
+    public final ObservableField<Integer> atColor = new ObservableField<>(Color.YELLOW);
+
+    public final ObservableField<Integer> topicColor = new ObservableField<>(Color.RED);
+
+    public final ObservableField<Integer> linkColor = new ObservableField<>(Color.BLUE);
+
+    public final ObservableField<Boolean> needNumberShow = new ObservableField<>(true);
 
     private List<TopicModel> topicModels = new ArrayList<>();
 
@@ -48,6 +63,8 @@ public class MVViewModel extends BaseObservable {
     private void initData() {
         nameList.clear();
         topicModels.clear();
+        nameListOb.clear();
+        topicListOb.clear();
 
         UserModel userModel = new UserModel();
         userModel.setUser_name("22222");
@@ -62,6 +79,22 @@ public class MVViewModel extends BaseObservable {
         topicModel.setTopicId("333");
         topicModel.setTopicName("话题话题");
         topicModels.add(topicModel);
+
+
+        userModel = new UserModel();
+        userModel.setUser_name("22222");
+        userModel.setUser_id("2222");
+        nameListOb.add(userModel);
+        userModel = new UserModel();
+        userModel.setUser_name("kkk");
+        userModel.setUser_id("23333");
+        nameListOb.add(userModel);
+
+        topicModel = new TopicModel();
+        topicModel.setTopicId("333");
+        topicModel.setTopicName("话题话题");
+        topicListOb.add(topicModel);
+
 
     }
 
@@ -105,6 +138,7 @@ public class MVViewModel extends BaseObservable {
                 .setSpanTopicCallBack(imvvmView.getSpanTopicCallBack())
                 .buildSpan(iTextViewShow);
         setLocalCurrentTextString(spannable);
+        currentTextViewString.set(text);
     }
 
     private void setLocalCurrentTextString(CharSequence charSequence) {
