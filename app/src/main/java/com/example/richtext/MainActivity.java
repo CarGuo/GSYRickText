@@ -182,6 +182,8 @@ public class MainActivity extends AppCompatActivity {
                 .setListUser(nameList)
                 .setListTopic(topicModels)
                 .setTextView(richText)
+                .setNeedUrl(true)
+                .setNeedNum(true)
                 .setSpanAtUserCallBack(spanAtUserCallBack)
                 .setSpanUrlCallBack(spanUrlCallBack)
                 .setSpanTopicCallBack(spanTopicCallBack)

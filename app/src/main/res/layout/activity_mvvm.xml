@@ -36,6 +36,7 @@
             app:linkColor="@{viewmodel.linkColor}"
             app:nameList="@{viewmodel.nameListOb}"
             app:needNumberShow="@{viewmodel.needNumberShow}"
+            app:needUrlShow="@{viewmodel.needUrlShow}"
             app:richText="@{viewmodel.currentTextViewString}"
             app:spanAtUserCallBackListener="@{viewmodel.spanAtUserCallback}"
             app:spanTopicCallBackListener="@{viewmodel.spanTopicCallback}"

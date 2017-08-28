@@ -16,6 +16,7 @@
 
     <declare-styleable name="RichTextView">
         <attr name="needNumberShow" format="boolean" />
+        <attr name="needUrlShow" format="boolean" />
         <attr name="richText" format="string" />
         <attr name="topicList" format="reference" />
         <attr name="nameList" format="reference" />

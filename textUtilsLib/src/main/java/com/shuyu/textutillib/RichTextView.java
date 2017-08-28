@@ -40,6 +40,8 @@ public class RichTextView extends TextView {
 
     private boolean needNumberShow = true;//是否需要数字处理
 
+    private boolean needUrlShow = true;//是否需要url处理
+
     public RichTextView(Context context) {
         super(context);
     }
@@ -100,6 +102,7 @@ public class RichTextView extends TextView {
                 .setListUser(nameList)
                 .setListTopic(topicList)
                 .setNeedNum(needNumberShow)
+                .setNeedUrl(needUrlShow)
                 .setTextView(this)
                 .setSpanAtUserCallBack(spanAtUserCallBack)
                 .setSpanUrlCallBack(spanUrlCallBack)
@@ -187,6 +190,19 @@ public class RichTextView extends TextView {
      */
     public void setNeedNumberShow(boolean needNumberShow) {
         this.needNumberShow = needNumberShow;
+    }
+
+    public boolean isNeedUrlShow() {
+        return needUrlShow;
+    }
+
+    /**
+     * 是否需要处理数字
+     *
+     * @param needUrlShow 是否需要高亮url和点击
+     */
+    public void setNeedUrlShow(boolean needUrlShow) {
+        this.needUrlShow = needUrlShow;
     }
 
     /**

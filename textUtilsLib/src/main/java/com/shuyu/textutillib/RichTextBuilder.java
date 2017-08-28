@@ -33,6 +33,7 @@ public class RichTextBuilder {
     private int topicColor = Color.BLUE;
     private int linkColor = Color.BLUE;
     private boolean needNum = false;
+    private boolean needUrl = false;
 
     public RichTextBuilder(Context context) {
         this.context = context;
@@ -102,6 +103,11 @@ public class RichTextBuilder {
         return this;
     }
 
+    public RichTextBuilder setNeedUrl(boolean needUrl) {
+        this.needUrl = needUrl;
+        return this;
+    }
+
     /**
      * at某人点击回调
      */
@@ -142,6 +148,7 @@ public class RichTextBuilder {
                 linkColor,
                 topicColor,
                 needNum,
+                needUrl,
                 spanAtUserCallBack,
                 spanUrlCallBack,
                 spanTopicCallBack);
@@ -190,6 +197,7 @@ public class RichTextBuilder {
                 linkColor,
                 topicColor,
                 needNum,
+                needUrl,
                 spanAtUserCallBack,
                 spanUrlCallBack,
                 spanTopicCallBack);

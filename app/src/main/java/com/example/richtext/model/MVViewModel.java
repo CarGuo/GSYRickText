@@ -37,6 +37,8 @@ public class MVViewModel extends BaseObservable {
 
     public final ObservableField<Boolean> needNumberShow = new ObservableField<>(true);
 
+    public final ObservableField<Boolean> needUrlShow = new ObservableField<>(true);
+
     public final ObservableField<SpanAtUserCallBack> spanAtUserCallback = new ObservableField<>();
 
     public final ObservableField<SpanTopicCallBack> spanTopicCallback = new ObservableField<>();

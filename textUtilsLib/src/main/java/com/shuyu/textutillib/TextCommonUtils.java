@@ -241,7 +241,7 @@ public class TextCommonUtils {
      * @return 返回显示的spananle
      */
     public static Spannable getUrlSmileText(Context context, String string, List<UserModel> listUser, ITextViewShow textView, int colorAt, int colorLink, boolean needNum, SpanAtUserCallBack spanAtUserCallBack, SpanUrlCallBack spanUrlCallBack) {
-        return getAllSpanText(context, string, listUser, null, textView, colorAt, colorLink, 0, needNum, spanAtUserCallBack, spanUrlCallBack, null);
+        return getAllSpanText(context, string, listUser, null, textView, colorAt, colorLink, 0, needNum, true, spanAtUserCallBack, spanUrlCallBack, null);
     }
 
     /**
@@ -256,18 +256,25 @@ public class TextCommonUtils {
      * @param colorLink          需要显示的颜色
      * @param colorTopic         需要显示的颜色
      * @param needNum            是否需要显示号码
+     * @param needUrl            是否需要显示url
      * @param spanAtUserCallBack AT某人点击的返回
      * @param spanUrlCallBack    链接点击的返回
      * @param spanTopicCallBack  话题点击的返回
      * @return 返回显示的spananle
      */
-    public static Spannable getAllSpanText(Context context, String string, List<UserModel> listUser, List<TopicModel> listTopic, ITextViewShow textView, int colorAt, int colorLink, int colorTopic, boolean needNum, SpanAtUserCallBack spanAtUserCallBack, SpanUrlCallBack spanUrlCallBack, SpanTopicCallBack spanTopicCallBack) {
-        textView.setAutoLinkMask(Linkify.WEB_URLS | Linkify.PHONE_NUMBERS);
+    public static Spannable getAllSpanText(Context context, String string, List<UserModel> listUser, List<TopicModel> listTopic, ITextViewShow textView, int colorAt, int colorLink, int colorTopic, boolean needNum, boolean needUrl, SpanAtUserCallBack spanAtUserCallBack, SpanUrlCallBack spanUrlCallBack, SpanTopicCallBack spanTopicCallBack) {
+        if (needUrl || needNum) {
+            textView.setAutoLinkMask(Linkify.WEB_URLS | Linkify.PHONE_NUMBERS);
+        }
         if (!TextUtils.isEmpty(string)) {
             string = string.replaceAll("\r", "\r\n");
             Spannable spannable = getAtText(context, listUser, listTopic, string, textView, true, colorAt, colorTopic, spanAtUserCallBack, spanTopicCallBack);
             textView.setText(spannable);
-            return resolveUrlLogic(context, textView, spannable, colorLink, needNum, spanUrlCallBack);
+            if (needUrl || needNum) {
+                return resolveUrlLogic(context, textView, spannable, colorLink, needNum, needUrl, spanUrlCallBack);
+            } else {
+                return spannable;
+            }
         } else {
             return new SpannableString(" ");
         }
@@ -282,10 +289,11 @@ public class TextCommonUtils {
      * @param spannable       显示的spananle
      * @param color           需要显示的颜色
      * @param needNum         是否需要显示号码
+     * @param needUrl            是否需要显示url
      * @param spanUrlCallBack 链接点击的返回
      * @return 返回显示的spananle
      */
-    private static Spannable resolveUrlLogic(Context context, ITextViewShow textView, Spannable spannable, int color, boolean needNum, SpanUrlCallBack spanUrlCallBack) {
+    private static Spannable resolveUrlLogic(Context context, ITextViewShow textView, Spannable spannable, int color, boolean needNum, boolean needUrl, SpanUrlCallBack spanUrlCallBack) {
         CharSequence charSequence = textView.getText();
         if (charSequence instanceof Spannable) {
             int end = charSequence.length();
@@ -304,7 +312,7 @@ public class TextCommonUtils {
                             LinkSpan linkSpan = new LinkSpan(context, url.getURL(), color, spanUrlCallBack);
                             style.setSpan(linkSpan, sp.getSpanStart(url), sp.getSpanEnd(url), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
                         }
-                    } else if (isTopURL(urlString.toLowerCase())) {
+                    } else if (needUrl && isTopURL(urlString.toLowerCase())) {
                         LinkSpan linkSpan = new LinkSpan(context, url.getURL(), color, spanUrlCallBack);
                         style.setSpan(linkSpan, sp.getSpanStart(url), sp.getSpanEnd(url), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
                     } else {
