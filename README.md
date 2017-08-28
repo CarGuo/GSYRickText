@@ -160,14 +160,14 @@ richEditBuilder.setEditText(richEditText)
 
 ## 版本更新
 
-* v2.0.3 （2017-08-28）
+#### v2.0.3 （2017-08-28）
 
-新增加了RichTextView
-优化了接口
-MVVM支持
+* 新增加了RichTextView
+* 优化了接口
+* MVVM支持
 
-* v2.0.2
-优化了文本显示逻辑。
+#### v2.0.2
+* 优化了文本显示逻辑。
 
 ## License
 
