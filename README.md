@@ -10,10 +10,11 @@
 **支持**|**表情**
 **支持**|**#话题**
 **支持**|**@某人**
-**支持**|**url与数字**
+**支持**|**url与数字（可配置）**
 **支持**|**点击效果**
 **支持**|**表情、#话题与@某人编辑时整块删除**
 **支持**|**表情、#话题与@某人编辑时选择复制限制整块选择。**
+**支持**|**MVVM（DataBing）。**
 
 
 ----------------------------------
@@ -37,7 +38,7 @@ allprojects {
 
 ```
 dependencies {
-     compile 'com.github.CarGuo:RickText:v2.0.1'
+     compile 'com.github.CarGuo:RickText:v2.0.3'
 }
 
 ```
@@ -54,13 +55,40 @@ dependencies {
 ### [旧版README](https://github.com/CarGuo/RickText/blob/master/OLD_README.md)
 
 ### QQ群，有兴趣的可以进来，群里平常可能比较吵：174815284 。
+----------------------------------
+
+## 版本更新
+
+#### v2.0.3 （2017-08-28）
+
+* 新增加了RichTextView
+* 优化了接口
+* MVVM支持
 
 
 ----------------------------------
 
 ## 使用方式参考demo
 
-### 文本模式
+### 1、文本模式
+
+#### 1.1、RichTextView
+```
+richTextView = (RichTextView) findViewById(R.id.rich_text_2);
+//直接使用RichTextView
+richTextView.setAtColor(Color.RED);
+richTextView.setTopicColor(Color.BLUE);
+richTextView.setLinkColor(Color.YELLOW);
+richTextView.setNeedNumberShow(true);
+richTextView.setNeedUrlShow(true);
+richTextView.setSpanAtUserCallBackListener(spanAtUserCallBack);
+richTextView.setSpanTopicCallBackListener(spanTopicCallBack);
+richTextView.setSpanUrlCallBackListener(spanUrlCallBack);
+//所有配置完成后才设置text
+richTextView.setRichText(content, nameList, topicModels);
+```
+
+#### 1.2、普通TextView
 
 ```
 //url点击回调
@@ -112,7 +140,7 @@ richTextBuilder.setContent(content)
 
 ```
 
-### 编辑模式
+### 2、编辑模式（RichEditText）
 
 ```
 richEditText = (RichEditText) findViewById(R.id.emoji_edit_text);

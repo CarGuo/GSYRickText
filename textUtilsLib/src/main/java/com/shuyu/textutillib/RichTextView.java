@@ -1,6 +1,7 @@
 package com.shuyu.textutillib;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -44,14 +45,32 @@ public class RichTextView extends TextView {
 
     public RichTextView(Context context) {
         super(context);
+        init(context, null);
     }
 
     public RichTextView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        init(context, attrs);
     }
 
     public RichTextView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        init(context, attrs);
+    }
+
+    private void init(Context context, AttributeSet attrs) {
+        if (isInEditMode())
+            return;
+
+        if (attrs != null) {
+            TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.RichTextView);
+            needNumberShow = array.getBoolean(R.styleable.RichTextView_needNumberShow, false);
+            needUrlShow = array.getBoolean(R.styleable.RichTextView_needUrlShow, false);
+            atColor = array.getColor(R.styleable.RichTextView_atColor, Color.BLUE);
+            topicColor = array.getColor(R.styleable.RichTextView_topicColor, Color.BLUE);
+            linkColor = array.getColor(R.styleable.RichTextView_linkColor, Color.BLUE);
+            array.recycle();
+        }
     }
 
     private SpanUrlCallBack spanUrlCallBack = new SpanUrlCallBack() {

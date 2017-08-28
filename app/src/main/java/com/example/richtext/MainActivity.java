@@ -15,6 +15,7 @@ import com.shuyu.textutillib.EmojiLayout;
 import com.shuyu.textutillib.RichEditBuilder;
 import com.shuyu.textutillib.RichEditText;
 import com.shuyu.textutillib.RichTextBuilder;
+import com.shuyu.textutillib.RichTextView;
 import com.shuyu.textutillib.listener.OnEditTextUtilJumpListener;
 import com.shuyu.textutillib.listener.SpanAtUserCallBack;
 import com.shuyu.textutillib.listener.SpanTopicCallBack;
@@ -49,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
     ImageView emojiShowAt;
     @BindView(R.id.rich_text)
     TextView richText;
+    @BindView(R.id.rich_text_2)
+    RichTextView richTextView;
 
     List<TopicModel> topicModels = new ArrayList<>();
 
@@ -142,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
             public void phone(View view, String phone) {
                 Toast.makeText(view.getContext(), phone + " 被点击了", Toast.LENGTH_SHORT).show();
                 if (view instanceof TextView) {
-                    ((TextView)view).setHighlightColor(Color.TRANSPARENT);
+                    ((TextView) view).setHighlightColor(Color.TRANSPARENT);
                 }
             }
 
@@ -150,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
             public void url(View view, String url) {
                 Toast.makeText(view.getContext(), url + " 被点击了", Toast.LENGTH_SHORT).show();
                 if (view instanceof TextView) {
-                    ((TextView)view).setHighlightColor(Color.TRANSPARENT);
+                    ((TextView) view).setHighlightColor(Color.TRANSPARENT);
                 }
             }
         };
@@ -160,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view, UserModel userModel1) {
                 Toast.makeText(view.getContext(), userModel1.getUser_name() + " 被点击了", Toast.LENGTH_SHORT).show();
                 if (view instanceof TextView) {
-                    ((TextView)view).setHighlightColor(Color.TRANSPARENT);
+                    ((TextView) view).setHighlightColor(Color.TRANSPARENT);
                 }
             }
         };
@@ -170,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view, TopicModel topicModel) {
                 Toast.makeText(view.getContext(), topicModel.getTopicName() + " 被点击了", Toast.LENGTH_SHORT).show();
                 if (view instanceof TextView) {
-                    ((TextView)view).setHighlightColor(Color.TRANSPARENT);
+                    ((TextView) view).setHighlightColor(Color.TRANSPARENT);
                 }
             }
         };
@@ -188,6 +191,18 @@ public class MainActivity extends AppCompatActivity {
                 .setSpanUrlCallBack(spanUrlCallBack)
                 .setSpanTopicCallBack(spanTopicCallBack)
                 .build();
+
+        //直接使用RichTextView
+        richTextView.setAtColor(Color.RED);
+        richTextView.setTopicColor(Color.BLUE);
+        richTextView.setLinkColor(Color.YELLOW);
+        richTextView.setNeedNumberShow(true);
+        richTextView.setNeedUrlShow(true);
+        richTextView.setSpanAtUserCallBackListener(spanAtUserCallBack);
+        richTextView.setSpanTopicCallBackListener(spanTopicCallBack);
+        richTextView.setSpanUrlCallBackListener(spanUrlCallBack);
+        //所有配置完成后才设置text
+        richTextView.setRichText(content, nameList, topicModels);
 
     }
 
