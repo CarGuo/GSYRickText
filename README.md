@@ -55,15 +55,6 @@ dependencies {
 ### [旧版README](https://github.com/CarGuo/RickText/blob/master/OLD_README.md)
 
 ### QQ群，有兴趣的可以进来，群里平常可能比较吵：174815284 。
-----------------------------------
-
-## 版本更新
-
-#### v2.0.3 （2017-08-28）
-
-* 新增加了RichTextView
-* 优化了接口
-* MVVM支持
 
 
 ----------------------------------
@@ -163,4 +154,23 @@ richEditBuilder.setEditText(richEditText)
             }
         })
         .builder();
+```
+
+----------------------------------
+
+## 版本更新
+
+* v2.0.3 （2017-08-28）
+
+新增加了RichTextView
+优化了接口
+MVVM支持
+
+* v2.0.2
+优化了文本显示逻辑。
+
+## License
+
+```
+MIT
 ```

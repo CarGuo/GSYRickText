@@ -134,7 +134,7 @@ public class TextCommonUtils {
         boolean hadHighLine = false;
         Map<String, String> map = new HashMap<>();
         for (int i = 0; i < listUser.size(); i++) {
-            int index = content.indexOf(listUser.get(i).getUser_name(), indexStart);
+            int index = content.indexOf("@" + listUser.get(i).getUser_name(), indexStart) + 1;
             if (index < 0 && indexStart > 0) {
                 index = content.indexOf(listUser.get(i).getUser_name());
                 if (map.containsKey("" + index)) {
@@ -193,7 +193,7 @@ public class TextCommonUtils {
         boolean hadHighLine = false;
         Map<String, String> map = new HashMap<>();
         for (int i = 0; i < listTopic.size(); i++) {
-            int index = content.indexOf(listTopic.get(i).getTopicName(), indexStart);
+            int index = content.indexOf("#" + listTopic.get(i).getTopicName() + "#", indexStart) + 1;
             if (index < 0 && indexStart > 0) {
                 index = content.indexOf(listTopic.get(i).getTopicName());
                 if (map.containsKey("" + index)) {
