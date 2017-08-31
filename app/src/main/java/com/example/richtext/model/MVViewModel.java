@@ -1,17 +1,25 @@
 package com.example.richtext.model;
 
 
+import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableField;
 import android.graphics.Color;
 
 import com.example.richtext.contract.IMVVMView;
+import com.example.richtext.span.CustomClickAtUserSpan;
+import com.example.richtext.span.CustomClickTopicSpan;
+import com.example.richtext.span.CustomLinkSpan;
 import com.shuyu.textutillib.listener.SpanAtUserCallBack;
+import com.shuyu.textutillib.listener.SpanCreateListener;
 import com.shuyu.textutillib.listener.SpanTopicCallBack;
 import com.shuyu.textutillib.listener.SpanUrlCallBack;
 import com.shuyu.textutillib.model.TopicModel;
 import com.shuyu.textutillib.model.UserModel;
+import com.shuyu.textutillib.span.ClickAtUserSpan;
+import com.shuyu.textutillib.span.ClickTopicSpan;
+import com.shuyu.textutillib.span.LinkSpan;
 
 
 /**
@@ -45,6 +53,8 @@ public class MVViewModel extends BaseObservable {
 
     public final ObservableField<SpanUrlCallBack> spanUrlCallback = new ObservableField<>();
 
+    public final ObservableField<SpanCreateListener> spanCreateListener = new ObservableField<>();
+
     private IMVVMView imvvmView;
 
     private int textFlag = 0;
@@ -76,7 +86,28 @@ public class MVViewModel extends BaseObservable {
         spanTopicCallback.set(imvvmView.getSpanTopicCallBack());
         spanUrlCallback.set(imvvmView.getSpanUrlCallBack());
 
+        //如果不需要可不设置
+        spanCreateListener.set(spanListener);
+
     }
+
+    //如果不需要可不设置
+    private SpanCreateListener spanListener = new SpanCreateListener() {
+        @Override
+        public ClickAtUserSpan getCustomClickAtUserSpan(Context context, UserModel userModel, int color, SpanAtUserCallBack spanClickCallBack) {
+            return new CustomClickAtUserSpan(context, userModel, color, spanClickCallBack);
+        }
+
+        @Override
+        public ClickTopicSpan getCustomClickTopicSpan(Context context, TopicModel topicModel, int color, SpanTopicCallBack spanTopicCallBack) {
+            return new CustomClickTopicSpan(context, topicModel, color, spanTopicCallBack);
+        }
+
+        @Override
+        public LinkSpan getCustomLinkSpan(Context context, String url, int color, SpanUrlCallBack spanUrlCallBack) {
+            return new CustomLinkSpan(context, url, color, spanUrlCallBack);
+        }
+    };
 
     /**
      * 设置显示文本

@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.shuyu.textutillib.listener.SpanAtUserCallBack;
+import com.shuyu.textutillib.listener.SpanCreateListener;
 import com.shuyu.textutillib.listener.SpanTopicCallBack;
 import com.shuyu.textutillib.listener.SpanUrlCallBack;
 import com.shuyu.textutillib.model.TopicModel;
@@ -38,6 +39,8 @@ public class RichTextView extends TextView {
     private SpanAtUserCallBack spanAtUserCallBackListener;
 
     private SpanTopicCallBack spanTopicCallBackListener;
+
+    private SpanCreateListener spanCreateListener;
 
     private boolean needNumberShow = true;//是否需要数字处理
 
@@ -126,6 +129,7 @@ public class RichTextView extends TextView {
                 .setSpanAtUserCallBack(spanAtUserCallBack)
                 .setSpanUrlCallBack(spanUrlCallBack)
                 .setSpanTopicCallBack(spanTopicCallBack)
+                .setSpanCreateListener(spanCreateListener)
                 .build();
 
     }
@@ -239,6 +243,13 @@ public class RichTextView extends TextView {
     }
 
     /**
+     * 设置自定义span回调
+     */
+    public void setSpanCreateListener(SpanCreateListener spanCreateListener) {
+        this.spanCreateListener = spanCreateListener;
+    }
+
+    /**
      * 话题点击
      */
     public void setSpanTopicCallBackListener(SpanTopicCallBack spanTopicCallBackListener) {
@@ -259,6 +270,7 @@ public class RichTextView extends TextView {
     public int getTopicColor() {
         return topicColor;
     }
+
     /**
      * 话题颜色
      */

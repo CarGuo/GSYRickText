@@ -26,6 +26,7 @@
         <attr name="spanUrlCallBackListener" format="reference" />
         <attr name="spanAtUserCallBackListener" format="reference" />
         <attr name="spanTopicCallBackListener" format="reference" />
+        <attr name="spanCreateListener" format="reference" />
     </declare-styleable>
 
 </resources>

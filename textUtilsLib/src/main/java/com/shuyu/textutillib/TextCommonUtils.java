@@ -158,7 +158,16 @@ public class TextCommonUtils {
                             indexStart = indexEnd;
                         }
                         hadHighLine = true;
-                        spannableString.setSpan(new ClickAtUserSpan(context, listUser.get(i), color, spanAtUserCallBack), mathStart, (indexEnd == lenght) ? lenght : matchEnd, Spanned.SPAN_MARK_POINT);
+                        ClickAtUserSpan clickAtUserSpan = null;
+                        if (textView != null) {
+                            clickAtUserSpan = textView.getCustomClickAtUserSpan(context, listUser.get(i), color, spanAtUserCallBack);
+                        }
+
+                        if (clickAtUserSpan == null) {
+                            clickAtUserSpan = new ClickAtUserSpan(context, listUser.get(i), color, spanAtUserCallBack);
+                        }
+
+                        spannableString.setSpan(clickAtUserSpan, mathStart, (indexEnd == lenght) ? lenght : matchEnd, Spanned.SPAN_MARK_POINT);
 
                     }
                 }
@@ -173,13 +182,13 @@ public class TextCommonUtils {
     /**
      * 话题span
      *
-     * @param context           上下文
-     * @param listTopic         需要的话题列表
-     * @param content           需要处理的文本
-     * @param textView          需要显示的view
-     * @param clickable         是否可以点击
-     * @param color             颜色
-     * @param spanTopicCallBack 点击回调
+     * @param context            上下文
+     * @param listTopic          需要的话题列表
+     * @param content            需要处理的文本
+     * @param textView           需要显示的view
+     * @param clickable          是否可以点击
+     * @param color              颜色
+     * @param spanTopicCallBack  点击回调
      * @return Spannable
      */
     public static Spannable getTopicText(Context context, List<TopicModel> listTopic, String content, ITextViewShow textView, boolean clickable,
@@ -216,7 +225,14 @@ public class TextCommonUtils {
                         indexStart = indexEnd;
                     }
                     hadHighLine = true;
-                    spannableString.setSpan(new ClickTopicSpan(context, listTopic.get(i), color, spanTopicCallBack), mathStart, (indexEnd == lenght) ? lenght : matchEnd, Spanned.SPAN_MARK_POINT);
+                    ClickTopicSpan clickTopicSpan = null;
+                    if (textView != null) {
+                        clickTopicSpan = textView.getCustomClickTopicSpan(context, listTopic.get(i), color, spanTopicCallBack);
+                    }
+                    if (clickTopicSpan == null) {
+                        clickTopicSpan = new ClickTopicSpan(context, listTopic.get(i), color, spanTopicCallBack);
+                    }
+                    spannableString.setSpan(clickTopicSpan, mathStart, (indexEnd == lenght) ? lenght : matchEnd, Spanned.SPAN_MARK_POINT);
                 }
             }
         }
@@ -284,13 +300,13 @@ public class TextCommonUtils {
     /**
      * 处理带URL的逻辑
      *
-     * @param context         上下文
-     * @param textView        需要显示的view
-     * @param spannable       显示的spananle
-     * @param color           需要显示的颜色
-     * @param needNum         是否需要显示号码
+     * @param context            上下文
+     * @param textView           需要显示的view
+     * @param spannable          显示的spananle
+     * @param color              需要显示的颜色
+     * @param needNum            是否需要显示号码
      * @param needUrl            是否需要显示url
-     * @param spanUrlCallBack 链接点击的返回
+     * @param spanUrlCallBack    链接点击的返回
      * @return 返回显示的spananle
      */
     private static Spannable resolveUrlLogic(Context context, ITextViewShow textView, Spannable spannable, int color, boolean needNum, boolean needUrl, SpanUrlCallBack spanUrlCallBack) {
@@ -309,11 +325,24 @@ public class TextCommonUtils {
                         if (!needNum && !isMobileSimple(urlString.replace("tel:", ""))) {
                             style.setSpan(new StyleSpan(Typeface.NORMAL), sp.getSpanStart(url), sp.getSpanEnd(url), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
                         } else {
-                            LinkSpan linkSpan = new LinkSpan(context, url.getURL(), color, spanUrlCallBack);
+                            LinkSpan linkSpan = null;
+                            if (textView != null) {
+                                linkSpan = textView.getCustomLinkSpan(context, url.getURL(), color, spanUrlCallBack);
+                            }
+                            if (linkSpan == null) {
+                                linkSpan = new LinkSpan(context, url.getURL(), color, spanUrlCallBack);
+                            }
+
                             style.setSpan(linkSpan, sp.getSpanStart(url), sp.getSpanEnd(url), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
                         }
                     } else if (needUrl && isTopURL(urlString.toLowerCase())) {
-                        LinkSpan linkSpan = new LinkSpan(context, url.getURL(), color, spanUrlCallBack);
+                        LinkSpan linkSpan = null;
+                        if (textView != null) {
+                            linkSpan = textView.getCustomLinkSpan(context, url.getURL(), color, spanUrlCallBack);
+                        }
+                        if (linkSpan == null) {
+                            linkSpan = new LinkSpan(context, url.getURL(), color, spanUrlCallBack);
+                        }
                         style.setSpan(linkSpan, sp.getSpanStart(url), sp.getSpanEnd(url), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
                     } else {
                         style.setSpan(new StyleSpan(Typeface.NORMAL), sp.getSpanStart(url), sp.getSpanEnd(url), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);

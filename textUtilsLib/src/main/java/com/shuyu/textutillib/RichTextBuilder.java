@@ -8,10 +8,14 @@ import android.widget.TextView;
 
 import com.shuyu.textutillib.listener.ITextViewShow;
 import com.shuyu.textutillib.listener.SpanAtUserCallBack;
+import com.shuyu.textutillib.listener.SpanCreateListener;
 import com.shuyu.textutillib.listener.SpanTopicCallBack;
 import com.shuyu.textutillib.listener.SpanUrlCallBack;
 import com.shuyu.textutillib.model.TopicModel;
 import com.shuyu.textutillib.model.UserModel;
+import com.shuyu.textutillib.span.ClickAtUserSpan;
+import com.shuyu.textutillib.span.ClickTopicSpan;
+import com.shuyu.textutillib.span.LinkSpan;
 
 import java.util.List;
 
@@ -29,6 +33,7 @@ public class RichTextBuilder {
     private SpanAtUserCallBack spanAtUserCallBack;
     private SpanUrlCallBack spanUrlCallBack;
     private SpanTopicCallBack spanTopicCallBack;
+    private SpanCreateListener spanCreateListener;
     private int atColor = Color.BLUE;
     private int topicColor = Color.BLUE;
     private int linkColor = Color.BLUE;
@@ -132,6 +137,13 @@ public class RichTextBuilder {
         return this;
     }
 
+    /**
+     * 自定义span回调，如果不需要可不设置
+     */
+    public RichTextBuilder setSpanCreateListener(SpanCreateListener spanCreateListener) {
+        this.spanCreateListener = spanCreateListener;
+        return this;
+    }
 
     public Spannable buildSpan(ITextViewShow iTextViewShow) {
         if (context == null) {
@@ -184,6 +196,31 @@ public class RichTextBuilder {
             @Override
             public void setAutoLinkMask(int flag) {
                 textView.setAutoLinkMask(flag);
+            }
+
+
+            @Override
+            public ClickAtUserSpan getCustomClickAtUserSpan(Context context, UserModel userModel, int color, SpanAtUserCallBack spanClickCallBack) {
+                if (spanCreateListener != null) {
+                    return spanCreateListener.getCustomClickAtUserSpan(context, userModel, color, spanClickCallBack);
+                }
+                return null;
+            }
+
+            @Override
+            public ClickTopicSpan getCustomClickTopicSpan(Context context, TopicModel topicModel, int color, SpanTopicCallBack spanTopicCallBack) {
+                if (spanCreateListener != null) {
+                    return spanCreateListener.getCustomClickTopicSpan(context, topicModel, color, spanTopicCallBack);
+                }
+                return null;
+            }
+
+            @Override
+            public LinkSpan getCustomLinkSpan(Context context, String url, int color, SpanUrlCallBack spanUrlCallBack) {
+                if (spanCreateListener != null) {
+                    return spanCreateListener.getCustomLinkSpan(context, url, color, spanUrlCallBack);
+                }
+                return null;
             }
         };
 
