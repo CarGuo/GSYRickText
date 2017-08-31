@@ -160,6 +160,9 @@ richEditBuilder.setEditText(richEditText)
 
 ## 版本更新
 
+#### v2.0.4 (2071-08-31)
+* 增加了可自定义span样式的接口。
+
 #### v2.0.3 （2017-08-28）
 
 * 新增加了RichTextView
