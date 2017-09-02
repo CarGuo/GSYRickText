@@ -53,7 +53,7 @@ import java.util.regex.Pattern;
 class MentionEditText extends AppCompatEditText {
     //public static final String DEFAULT_MENTION_PATTERN = "@[\\u4e00-\\u9fa5\\w\\-]+";
 
-    public static final String DEFAULT_MENTION_PATTERN = "@.*?\\u0008";
+    public static final String DEFAULT_MENTION_PATTERN = "@[^\\s]+?\\u0008";
     public static final String TOPIC_MENTION_PATTERN = "#.*?#";
 
     protected Pattern mPattern;
