@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <import type="android.view.View" />
 
         <variable
@@ -20,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:minLines="10"
+            android:minLines="7"
             android:text="@{viewmodel.currentTextTitle}"
             android:textColor="#FFFFFF"
             android:textSize="18sp" />
@@ -40,7 +41,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/mvvm_rich_text_title"
-            android:minLines="8"
+            android:minLines="7"
             android:textColor="#FFFFFF"
             android:textSize="16sp"
             android:visibility="@{viewmodel.textViewShow ? View.VISIBLE : View.GONE}"
@@ -61,8 +62,11 @@
             android:id="@+id/mvvm_rich_edit_text"
             android:layout_width="match_parent"
             android:layout_height="120dp"
+            android:layout_alignBottom="@+id/mvvm_rich_text_content"
             android:layout_below="@+id/mvvm_rich_text_title"
-            android:layout_margin="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
             android:background="@null"
             android:gravity="left"
             android:hint="请输入贴子内容"
@@ -106,6 +110,30 @@
             android:layout_toRightOf="@+id/mvvm_rich_text_insert_text_btn"
             android:onClick="@{() -> viewmodel.changeToEdit()}"
             android:text="输入框" />
+
+        <Button
+            android:id="@+id/mvvm_rich_text_edit_img_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_below="@+id/mvvm_rich_text_base_line"
+            android:layout_margin="10dp"
+            android:layout_toRightOf="@+id/mvvm_rich_text_edit_text_btn"
+            android:onClick="@{() -> viewmodel.showEmoji()}"
+            android:text="表情"
+            android:visibility="@{viewmodel.editTextShow ? View.VISIBLE : View.GONE}" />
+
+        <com.shuyu.textutillib.EmojiLayout
+            android:id="@+id/mvvm_rich_text_edit_emojiLayout"
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:layout_alignParentBottom="true"
+            android:visibility="@{viewmodel.emojiShow ? View.VISIBLE : View.GONE}"
+            app:emojiRichTextView="@{viewmodel.curRichTextView}"
+            app:richIndicatorFocus="@drawable/page_indicator_focused"
+            app:richIndicatorUnFocus="@drawable/page_indicator_unfocused"
+            app:richMarginBottom="8dp"
+            app:richMarginTop="15dp" />
+
 
     </RelativeLayout>
 </layout>

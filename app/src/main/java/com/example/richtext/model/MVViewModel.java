@@ -8,9 +8,9 @@ import android.databinding.BaseObservable;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableField;
 import android.graphics.Color;
-import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 
-import com.example.richtext.MainActivity;
 import com.example.richtext.TopicListActivity;
 import com.example.richtext.UserListActivity;
 import com.example.richtext.contract.IMVVMView;
@@ -97,6 +97,10 @@ public class MVViewModel extends BaseObservable {
 
     public final ObservableField<Boolean> editTextShow = new ObservableField<>(false);
 
+    public final ObservableField<Boolean> emojiShow = new ObservableField<>(false);
+
+    public final ObservableField<Context> curRichTextView = new ObservableField<>();
+
     private IMVVMView imvvmView;
 
     private int textFlag = 0;
@@ -130,6 +134,7 @@ public class MVViewModel extends BaseObservable {
 
         //如果不需要可不设置
         spanCreateListener.set(spanListener);
+        curRichTextView.set(imvvmView.getContext());
 
     }
 
@@ -160,11 +165,27 @@ public class MVViewModel extends BaseObservable {
         currentTextViewString.set(text);
     }
 
+
+    /**
+     * 隐藏软键盘
+     */
+    private void hideKeyboard() {
+        Activity context = (Activity) imvvmView.getContext();
+        if (context.getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN) {
+            if (context.getCurrentFocus() != null) {
+                ((InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE)).
+                        hideSoftInputFromWindow(context.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            }
+        }
+    }
+
+
     /**
      * 插入文本点击
      */
     public void insertTextClick() {
         editTextShow.set(false);
+        emojiShow.set(false);
         textViewShow.set(true);
         String content = "";
         String title = "";
@@ -203,11 +224,20 @@ public class MVViewModel extends BaseObservable {
     public void changeToEdit() {
         editTextShow.set(true);
         textViewShow.set(false);
+        emojiShow.set(false);
         currentTextTitle.set("编辑框模式");
         editJump.set(onEditTextUtilJumpListener);
 
     }
 
+    public void showEmoji() {
+        if (emojiShow.get()) {
+            emojiShow.set(false);
+        } else {
+            emojiShow.set(true);
+            hideKeyboard();
+        }
+    }
 
     private final OnEditTextUtilJumpListener onEditTextUtilJumpListener = new OnEditTextUtilJumpListener() {
         @Override
