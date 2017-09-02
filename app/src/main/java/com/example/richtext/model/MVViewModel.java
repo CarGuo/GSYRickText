@@ -1,16 +1,24 @@
 package com.example.richtext.model;
 
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableField;
 import android.graphics.Color;
+import android.view.View;
 
+import com.example.richtext.MainActivity;
+import com.example.richtext.TopicListActivity;
+import com.example.richtext.UserListActivity;
 import com.example.richtext.contract.IMVVMView;
 import com.example.richtext.span.CustomClickAtUserSpan;
 import com.example.richtext.span.CustomClickTopicSpan;
 import com.example.richtext.span.CustomLinkSpan;
+import com.example.richtext.utils.JumpUtil;
+import com.shuyu.textutillib.listener.OnEditTextUtilJumpListener;
 import com.shuyu.textutillib.listener.SpanAtUserCallBack;
 import com.shuyu.textutillib.listener.SpanCreateListener;
 import com.shuyu.textutillib.listener.SpanTopicCallBack;
@@ -28,6 +36,15 @@ import com.shuyu.textutillib.span.LinkSpan;
  */
 
 public class MVViewModel extends BaseObservable {
+
+
+    public final static int REQUEST_USER_CODE_INPUT = 1111;
+
+    public final static int REQUEST_USER_CODE_CLICK = 2222;
+
+    public final static int REQUEST_TOPIC_CODE_INPUT = 3333;
+
+    public final static int REQUEST_TOPIC_CODE_CLICK = 4444;
 
     public final ObservableField<String> currentTextViewString = new ObservableField<>();
 
@@ -54,6 +71,31 @@ public class MVViewModel extends BaseObservable {
     public final ObservableField<SpanUrlCallBack> spanUrlCallback = new ObservableField<>();
 
     public final ObservableField<SpanCreateListener> spanCreateListener = new ObservableField<>();
+
+    public final ObservableField<Boolean> textViewShow = new ObservableField<>(true);
+
+
+    public final ObservableField<Integer> richMaxLength = new ObservableField<>(2000);
+
+    public final ObservableField<String> colorAtUser = new ObservableField<>("#FA88FF");
+
+    public final ObservableField<String> colorTopic = new ObservableField<>("#9800FF");
+
+    public final ObservableArrayList<UserModel> nameListObEd = new ObservableArrayList<>();
+
+    public final ObservableArrayList<TopicModel> topicListObEd = new ObservableArrayList<>();
+
+    public final ObservableField<OnEditTextUtilJumpListener> editJump = new ObservableField<>();
+
+    public final ObservableField<UserModel> atResult = new ObservableField<>();
+
+    public final ObservableField<UserModel> atResultByEnter = new ObservableField<>();
+
+    public final ObservableField<TopicModel> topicResultByEnter = new ObservableField<>();
+
+    public final ObservableField<TopicModel> topicResult = new ObservableField<>();
+
+    public final ObservableField<Boolean> editTextShow = new ObservableField<>(false);
 
     private IMVVMView imvvmView;
 
@@ -122,6 +164,8 @@ public class MVViewModel extends BaseObservable {
      * 插入文本点击
      */
     public void insertTextClick() {
+        editTextShow.set(false);
+        textViewShow.set(true);
         String content = "";
         String title = "";
         switch (textFlag) {
@@ -151,5 +195,51 @@ public class MVViewModel extends BaseObservable {
         }
         setCurrentText(content);
         currentTextTitle.set(title);
+    }
+
+    /**
+     * 切换到输入
+     */
+    public void changeToEdit() {
+        editTextShow.set(true);
+        textViewShow.set(false);
+        currentTextTitle.set("编辑框模式");
+        editJump.set(onEditTextUtilJumpListener);
+
+    }
+
+
+    private final OnEditTextUtilJumpListener onEditTextUtilJumpListener = new OnEditTextUtilJumpListener() {
+        @Override
+        public void notifyAt() {
+            JumpUtil.goToUserList((Activity) imvvmView.getContext(), REQUEST_USER_CODE_INPUT);
+        }
+
+        @Override
+        public void notifyTopic() {
+            JumpUtil.goToTopicList((Activity) imvvmView.getContext(), REQUEST_TOPIC_CODE_INPUT);
+        }
+    };
+
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK) {
+            switch (requestCode) {
+                case REQUEST_USER_CODE_CLICK:
+                    atResult.set((UserModel) data.getSerializableExtra(UserListActivity.DATA));
+                    break;
+                case REQUEST_USER_CODE_INPUT:
+                    atResultByEnter.set((UserModel) data.getSerializableExtra(UserListActivity.DATA));
+                    break;
+
+                case REQUEST_TOPIC_CODE_INPUT:
+                    topicResultByEnter.set((TopicModel) data.getSerializableExtra(TopicListActivity.DATA));
+                    break;
+                case REQUEST_TOPIC_CODE_CLICK:
+                    topicResult.set((TopicModel) data.getSerializableExtra(TopicListActivity.DATA));
+                    break;
+            }
+        }
+
     }
 }

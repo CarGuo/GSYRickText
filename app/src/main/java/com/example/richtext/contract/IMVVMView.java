@@ -1,5 +1,6 @@
 package com.example.richtext.contract;
 
+import android.content.Context;
 import android.text.method.MovementMethod;
 
 import com.shuyu.textutillib.listener.SpanAtUserCallBack;
@@ -17,4 +18,6 @@ public interface IMVVMView {
     SpanAtUserCallBack getSpanAtUserCallBack();
 
     SpanUrlCallBack getSpanUrlCallBack();
+
+    Context getContext();
 }

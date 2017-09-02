@@ -4,6 +4,11 @@
     <declare-styleable name="RichEditText">
         <attr name="richMaxLength" format="integer" />
         <attr name="richIconSize" format="dimension" />
+        <attr name="editTextAtUtilJumpListener" format="reference" />
+        <attr name="richEditTopicList" format="reference" />
+        <attr name="richEditNameList" format="reference" />
+        <attr name="richEditColorAtUser" format="string" />
+        <attr name="richEditColorTopic" format="string" />
     </declare-styleable>
 
     <declare-styleable name="EmojiLayout">

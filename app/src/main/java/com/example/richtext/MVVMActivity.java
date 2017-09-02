@@ -1,6 +1,8 @@
 package com.example.richtext;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -44,6 +46,17 @@ public class MVVMActivity extends Activity implements IMVVMView {
     @Override
     public SpanUrlCallBack getSpanUrlCallBack() {
         return spanUrlCallBack;
+    }
+
+    @Override
+    public Context getContext() {
+        return this;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        mvViewModel.onActivityResult(requestCode, resultCode, data);
     }
 
     /**

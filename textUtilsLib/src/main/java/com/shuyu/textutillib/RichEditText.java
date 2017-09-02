@@ -2,6 +2,7 @@ package com.shuyu.textutillib;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.text.Editable;
 import android.text.Html;
@@ -37,12 +38,12 @@ public class RichEditText extends MentionEditText {
     /**
      * 默认最长输入
      */
-    private int maxLength = 9999;
+    private int richMaxLength = 9999;
 
     /**
      * 表情大小
      */
-    private int size;
+    private int richIconSize;
 
     /**
      * 是否可以在列表增加触摸滑动
@@ -98,11 +99,19 @@ public class RichEditText extends MentionEditText {
             TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.RichEditText);
             int textLength = array.getInteger(R.styleable.RichEditText_richMaxLength, 9999);
             float iconSize = (int) array.getDimension(R.styleable.RichEditText_richIconSize, 0);
-            maxLength = textLength;
-            InputFilter[] filters = {new InputFilter.LengthFilter(maxLength)};
+            String colorAtUser = array.getString(R.styleable.RichEditText_richEditColorAtUser);
+            String colorTopic = array.getString(R.styleable.RichEditText_richEditColorTopic);
+            richMaxLength = textLength;
+            InputFilter[] filters = {new InputFilter.LengthFilter(richMaxLength)};
             setFilters(filters);
             if (iconSize == 0) {
-                size = dip2px(context, 20);
+                richIconSize = dip2px(context, 20);
+            }
+            if (!TextUtils.isEmpty(colorAtUser)) {
+                this.colorAtUser = colorAtUser;
+            }
+            if (!TextUtils.isEmpty(colorTopic)) {
+                this.colorTopic = colorTopic;
             }
             array.recycle();
         }
@@ -383,6 +392,53 @@ public class RichEditText extends MentionEditText {
         this.topicList = topicList;
     }
 
+    public int getRichMaxLength() {
+        return richMaxLength;
+    }
+
+    /**
+     * 最长输入
+     *
+     * @param richMaxLength
+     */
+    public void setRichMaxLength(int richMaxLength) {
+        this.richMaxLength = richMaxLength;
+    }
+
+    public int getRichIconSize() {
+        return richIconSize;
+    }
+
+
+    public void setRichEditTopicList(List<TopicModel> list) {
+        if (list != null) {
+            this.topicList = list;
+        }
+    }
+
+    public void setRichEditNameList(List<UserModel> list) {
+        if (list != null) {
+            this.nameList = list;
+        }
+    }
+
+    public void setRichEditColorAtUser(String color) {
+        this.colorAtUser = color;
+    }
+
+    public void setRichEditColorTopic(String color) {
+        this.colorTopic = color;
+    }
+
+    /**
+     * 表情大小
+     *
+     * @param richIconSize
+     */
+    public void setRichIconSize(int richIconSize) {
+        this.richIconSize = richIconSize;
+    }
+
     /**
      * 话题颜色
      *
@@ -537,7 +593,7 @@ public class RichEditText extends MentionEditText {
     public void insertIcon(String name) {
 
         String curString = getText().toString();
-        if ((curString.length() + name.length()) > maxLength) {
+        if ((curString.length() + name.length()) > richMaxLength) {
             return;
         }
 
@@ -546,7 +602,7 @@ public class RichEditText extends MentionEditText {
         Drawable drawable = this.getResources().getDrawable(resId);
         if (drawable == null)
             return;
-        drawable.setBounds(0, 0, size, size);//这里设置图片的大小
+        drawable.setBounds(0, 0, richIconSize, richIconSize);//这里设置图片的大小
         ImageSpan imageSpan = new ImageSpan(drawable);
         SpannableString spannableString = new SpannableString(name);
         spannableString.setSpan(imageSpan, 0, spannableString.length(), SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -570,7 +626,7 @@ public class RichEditText extends MentionEditText {
     public void insertIconString(String string) {
 
         String curString = getText().toString();
-        if ((curString.length() + string.length()) > maxLength) {
+        if ((curString.length() + string.length()) > richMaxLength) {
             return;
         }
         int index = Math.max(getSelectionStart(), 0);
@@ -602,11 +658,11 @@ public class RichEditText extends MentionEditText {
      * @param maxLength
      */
     public void setEditTextMaxLength(int maxLength) {
-        this.maxLength = maxLength;
+        this.richMaxLength = maxLength;
     }
 
     public int getEditTextMaxLength() {
-        return maxLength;
+        return richMaxLength;
     }
 
 }

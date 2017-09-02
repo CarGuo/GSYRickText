@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="android.view.View" />
 
         <variable
             name="viewmodel"
@@ -13,6 +14,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/primary_material_dark">
+
+        <TextView
+            android:id="@+id/mvvm_rich_text_line"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:minLines="10"
+            android:text="@{viewmodel.currentTextTitle}"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/mvvm_rich_text_title"
@@ -32,6 +43,7 @@
             android:minLines="8"
             android:textColor="#FFFFFF"
             android:textSize="16sp"
+            android:visibility="@{viewmodel.textViewShow ? View.VISIBLE : View.GONE}"
             app:atColor="@{viewmodel.atColor}"
             app:linkColor="@{viewmodel.linkColor}"
             app:nameList="@{viewmodel.nameListOb}"
@@ -39,19 +51,42 @@
             app:needUrlShow="@{viewmodel.needUrlShow}"
             app:richText="@{viewmodel.currentTextViewString}"
             app:spanAtUserCallBackListener="@{viewmodel.spanAtUserCallback}"
+            app:spanCreateListener="@{viewmodel.spanCreateListener}"
             app:spanTopicCallBackListener="@{viewmodel.spanTopicCallback}"
             app:spanUrlCallBackListener="@{viewmodel.spanUrlCallback}"
             app:topicColor="@{viewmodel.topicColor}"
-            app:topicList="@{viewmodel.topicListOb}"
-            app:spanCreateListener="@{viewmodel.spanCreateListener}"
-            />
+            app:topicList="@{viewmodel.topicListOb}" />
+
+        <com.shuyu.textutillib.RichEditText
+            android:id="@+id/mvvm_rich_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_below="@+id/mvvm_rich_text_title"
+            android:layout_margin="10dp"
+            android:background="@null"
+            android:gravity="left"
+            android:hint="请输入贴子内容"
+            android:maxLines="7"
+            android:textColor="@color/white"
+            android:textColorHint="@color/graY"
+            android:visibility="@{viewmodel.editTextShow ? View.VISIBLE : View.GONE}"
+            app:atResult="@{viewmodel.atResult}"
+            app:atResultByEnter="@{viewmodel.atResultByEnter}"
+            app:editTextAtUtilJumpListener="@{viewmodel.editJump}"
+            app:richEditColorAtUser="@{viewmodel.colorAtUser}"
+            app:richEditColorTopic="@{viewmodel.colorTopic}"
+            app:richEditNameList="@{viewmodel.nameListObEd}"
+            app:richEditTopicList="@{viewmodel.topicListObEd}"
+            app:richMaxLength="@{viewmodel.richMaxLength}"
+            app:topicResult="@{viewmodel.topicResult}"
+            app:topicResultByEnter="@{viewmodel.topicResultByEnter}" />
 
 
         <View
             android:id="@+id/mvvm_rich_text_base_line"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_below="@+id/mvvm_rich_text_content" />
+            android:layout_below="@+id/mvvm_rich_text_line" />
 
         <Button
             android:id="@+id/mvvm_rich_text_insert_text_btn"
@@ -61,5 +96,16 @@
             android:layout_margin="10dp"
             android:onClick="@{() -> viewmodel.insertTextClick()}"
             android:text="插入切换文本" />
+
+        <Button
+            android:id="@+id/mvvm_rich_text_edit_text_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_below="@+id/mvvm_rich_text_base_line"
+            android:layout_margin="10dp"
+            android:layout_toRightOf="@+id/mvvm_rich_text_insert_text_btn"
+            android:onClick="@{() -> viewmodel.changeToEdit()}"
+            android:text="输入框" />
+
     </RelativeLayout>
 </layout>
