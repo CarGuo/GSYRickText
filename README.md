@@ -39,7 +39,7 @@ allprojects {
 
 ```
 dependencies {
-     compile 'com.github.CarGuo:RickText:v2.0.3'
+     compile 'com.github.CarGuo:RickText:v2.0.5'
 }
 
 ```
@@ -160,6 +160,9 @@ richEditBuilder.setEditText(richEditText)
 ----------------------------------
 
 ## 版本更新
+
+#### v2.0.5 （2017-09-02）
+* 修复了一些问题。
 
 #### v2.0.4 (2017-08-31)
 * 增加了可自定义span样式的接口。
