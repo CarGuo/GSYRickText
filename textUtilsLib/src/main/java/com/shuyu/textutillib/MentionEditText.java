@@ -56,11 +56,11 @@ class MentionEditText extends AppCompatEditText {
     public static final String DEFAULT_MENTION_PATTERN = "@.*?\\u0008";
     public static final String TOPIC_MENTION_PATTERN = "#.*?#";
 
-    private Pattern mPattern;
-    private Pattern mTopicPattern;
+    protected Pattern mPattern;
+    protected Pattern mTopicPattern;
 
     private Range mLastSelectedRange;
-    private List<Range> mRangeArrayList;
+    protected List<Range> mRangeArrayList;
 
     private OnMentionInputListener mOnMentionInputListener;
 
@@ -195,7 +195,7 @@ class MentionEditText extends AppCompatEditText {
         }
     }
 
-    private Range getRangeOfClosestMentionString(int selStart, int selEnd) {
+    protected Range getRangeOfClosestMentionString(int selStart, int selEnd) {
         if (mRangeArrayList == null) {
             return null;
         }

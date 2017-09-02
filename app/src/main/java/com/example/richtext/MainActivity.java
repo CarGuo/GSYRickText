@@ -65,6 +65,11 @@ public class MainActivity extends AppCompatActivity {
 
     List<UserModel> nameList = new ArrayList<>();
 
+
+    List<TopicModel> topicModelsEd = new ArrayList<>();
+
+    List<UserModel> nameListEd = new ArrayList<>();
+
     String insertContent = "这是测试文本#话题话题#哟 www.baidu.com " +
             " 来@某个人  @22222 @kkk " +
             " 好的,来几个表情[e2][e4][e55]，最后来一个电话 13245685478";
@@ -100,8 +105,8 @@ public class MainActivity extends AppCompatActivity {
         emojiLayout.setEditTextSmile(richEditText);
         RichEditBuilder richEditBuilder = new RichEditBuilder();
         richEditBuilder.setEditText(richEditText)
-                .setTopicModels(topicModels)
-                .setUserModels(nameList)
+                .setTopicModels(topicModelsEd)
+                .setUserModels(nameListEd)
                 .setColorAtUser("#FF00C0")
                 .setColorTopic("#F0F0C0")
                 .setEditTextAtUtilJumpListener(new OnEditTextUtilJumpListener() {
@@ -249,8 +254,27 @@ public class MainActivity extends AppCompatActivity {
                 JumpUtil.goToUserList(MainActivity.this, MainActivity.REQUEST_USER_CODE_CLICK);
                 break;
             case R.id.insert_text_btn:
-                initData();
-                richEditText.resolveInsertText(MainActivity.this, insertContent, nameList, topicModels);
+                nameListEd.clear();
+                topicModelsEd.clear();
+
+                //如果是一次性插入的，记得补上@
+                UserModel userModel = new UserModel();
+                userModel.setUser_name("@22222");
+                userModel.setUser_id("2222");
+                nameListEd.add(userModel);
+                userModel = new UserModel();
+                userModel.setUser_name("@kkk");
+                userModel.setUser_id("23333");
+                nameListEd.add(userModel);
+                //如果是一次性插入的，记得补上#和#
+                TopicModel topicModel = new TopicModel();
+                topicModel.setTopicId("333");
+                topicModel.setTopicName("#话题话题#");
+                topicModelsEd.add(topicModel);
+                richEditText.resolveInsertText(MainActivity.this, insertContent, nameListEd, topicModelsEd);
+                //获取原始数据可以通过以下获取
+                richEditText.getRealTopicList();
+                richEditText.getRealUserList();
                 break;
             case R.id.jump_btn:
                 Intent intent = new Intent(MainActivity.this, NewEmojiActivity.class);

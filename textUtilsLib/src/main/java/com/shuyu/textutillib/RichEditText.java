@@ -22,6 +22,7 @@ import com.shuyu.textutillib.listener.OnEditTextUtilJumpListener;
 import com.shuyu.textutillib.model.TopicModel;
 import com.shuyu.textutillib.model.UserModel;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -186,6 +187,57 @@ public class RichEditText extends MentionEditText {
         }
     }
 
+    private void resolveDeleteList(String text) {
+        if (topicList != null && topicList.size() > 0) {
+            int lastMentionIndex = -1;
+            Matcher matcher = mTopicPattern.matcher(text);
+            while (matcher.find()) {
+                String mentionText = matcher.group();
+                int start;
+                if (lastMentionIndex != -1) {
+                    start = getText().toString().indexOf(mentionText, lastMentionIndex);
+                } else {
+                    start = getText().toString().indexOf(mentionText);
+                }
+                int end = start + mentionText.length();
+                lastMentionIndex = end;
+                for (int i = 0; i < topicList.size(); i++) {
+                    TopicModel topicModel = topicList.get(i);
+                    if (topicModel.getTopicName().equals(mentionText)
+                            && getRangeOfClosestMentionString(start, end) != null) {
+                        topicList.remove(topicModel);
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (nameList != null && nameList.size() > 0) {
+            int lastMentionIndex = -1;
+            Matcher matcher = mPattern.matcher(text);
+            while (matcher.find()) {
+                String mentionText = matcher.group();
+                int start;
+                if (lastMentionIndex != -1) {
+                    start = getText().toString().indexOf(mentionText, lastMentionIndex);
+                } else {
+                    start = getText().toString().indexOf(mentionText);
+                }
+                int end = start + mentionText.length();
+                mentionText = mentionText.substring(mentionText.lastIndexOf("@"), mentionText.length());
+                lastMentionIndex = end;
+                for (int i = 0; i < nameList.size(); i++) {
+                    UserModel userModel = nameList.get(i);
+                    if (userModel.getUser_name().replace("\b", "").equals(mentionText.replace("\b", ""))
+                            && getRangeOfClosestMentionString(start, end) != null) {
+                        nameList.remove(userModel);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
     /**
      * 处理光标不插入在AT某人字段上
      */
@@ -245,6 +297,9 @@ public class RichEditText extends MentionEditText {
                         length = start - delIndex;
                     }
                     deleteByEnter = false;
+                } else if (after < count && (count - after) > 1) {
+                    // 大批量删除处理的列表处理
+                    resolveDeleteList(s.toString().substring(start, start + count));
                 }
             }
 
@@ -300,7 +355,7 @@ public class RichEditText extends MentionEditText {
         if (listTopic != null && listTopic.size() > 0) {
             Map<String, String> topics = new HashMap<>();
             for (TopicModel topicModel : listTopic) {
-                topics.put("#" + topicModel.getTopicName() + "#", "#" + topicModel.getTopicName() + "#");
+                topics.put(topicModel.getTopicName(), topicModel.getTopicName());
             }
             //查找##
             int length = text.length();
@@ -348,7 +403,7 @@ public class RichEditText extends MentionEditText {
         Map<String, String> names = new HashMap<>();
         if (listUser.size() > 0) {
             for (UserModel userModel : listUser) {
-                names.put("@" + userModel.getUser_name(), userModel.getUser_name());
+                names.put(userModel.getUser_name(), userModel.getUser_name());
             }
         }
         int length = spannable.length();
@@ -669,4 +724,39 @@ public class RichEditText extends MentionEditText {
         return richMaxLength;
     }
 
+    /**
+     * 返回真实无添加的数据
+     *
+     * @return
+     */
+    public List<UserModel> getRealUserList() {
+        List<UserModel> list = new ArrayList<>();
+        if (nameList == null) {
+            return list;
+        }
+        for (UserModel userModel : nameList) {
+            list.add(new UserModel(userModel.getUser_name().replace("@", "").replace("\b", "")
+                    , userModel.getUser_id()));
+
+        }
+        return list;
+    }
+
+    /**
+     * 返回真实无添加的数据
+     *
+     * @return
+     */
+    public List<TopicModel> getRealTopicList() {
+        List<TopicModel> list = new ArrayList<>();
+        if (topicList == null) {
+            return list;
+        }
+        for (TopicModel topicModel : topicList) {
+            list.add(new TopicModel(topicModel.getTopicName().replace("#", "").replace("#", "")
+                    , topicModel.getTopicId()));
+        }
+        return list;
+
+    }
 }
