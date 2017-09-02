@@ -73,6 +73,8 @@ public class RichEditText extends MentionEditText {
      */
     private String colorAtUser = "#f77521";
 
+    private boolean deleteByEnter;
+
 
     public RichEditText(Context context) {
         super(context);
@@ -238,10 +240,11 @@ public class RichEditText extends MentionEditText {
                     if ("\b".equals(deleteSb)) {
                         delIndex = s.toString().lastIndexOf("@", start);
                         length = start - delIndex;
-                    } else if ("#".equals(deleteSb)) {
+                    } else if ("#".equals(deleteSb) && !deleteByEnter) {
                         delIndex = s.toString().lastIndexOf("#", start - 1);
                         length = start - delIndex;
                     }
+                    deleteByEnter = false;
                 }
             }
 
@@ -549,6 +552,7 @@ public class RichEditText extends MentionEditText {
      */
     public void resolveTopicResultByEnter(TopicModel topicModel) {
         String topicId = topicModel.getTopicId();
+        deleteByEnter = true;
         getText().delete(getSelectionEnd() - 1,
                 getSelectionEnd());
         String topicName = "#" + topicModel.getTopicName() + "#";
