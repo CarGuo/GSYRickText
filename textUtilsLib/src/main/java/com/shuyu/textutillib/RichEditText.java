@@ -359,7 +359,7 @@ public class RichEditText extends MentionEditText {
             }
             //查找##
             int length = text.length();
-            Pattern pattern = Pattern.compile("#.*?#");
+            Pattern pattern = Pattern.compile("#[^\\s]+?#");
             Matcher matcher = pattern.matcher(text);
             SpannableStringBuilder spannableStringBuilder =
                     new SpannableStringBuilder(text);

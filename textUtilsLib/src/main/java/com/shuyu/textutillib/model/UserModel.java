@@ -18,6 +18,9 @@ public class UserModel implements Serializable {
         this.user_id = user_id;
     }
 
+    /**
+     * 名字不能带@和空格
+     */
     private String user_name;
 
     private String user_id;

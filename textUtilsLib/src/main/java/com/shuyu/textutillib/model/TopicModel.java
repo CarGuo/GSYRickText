@@ -8,6 +8,9 @@ import java.io.Serializable;
  */
 
 public class TopicModel implements Serializable {
+    /**
+     * 话题名字内部不能有#和空格
+     */
     private String topicName;
     private String topicId;
 
