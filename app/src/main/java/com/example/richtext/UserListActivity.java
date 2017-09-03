@@ -35,7 +35,7 @@ public class UserListActivity extends AppCompatActivity {
 
         for (int i = 0; i < 50; i++) {
             UserModel userModel = new UserModel();
-            userModel.setUser_name("测试名字 " + i);
+            userModel.setUser_name("测试名字" + i);
             userModel.setUser_id(i * 30 + "");
             data.add(userModel);
         }
