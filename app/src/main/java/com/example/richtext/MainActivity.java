@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -275,6 +276,7 @@ public class MainActivity extends AppCompatActivity {
                 //获取原始数据可以通过以下获取
                 richEditText.getRealTopicList();
                 richEditText.getRealUserList();
+                Log.e(this.getClass().getName(), richEditText.getRealText());
                 break;
             case R.id.jump_btn:
                 Intent intent = new Intent(MainActivity.this, NewEmojiActivity.class);

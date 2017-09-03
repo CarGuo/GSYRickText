@@ -759,4 +759,17 @@ public class RichEditText extends MentionEditText {
         return list;
 
     }
+
+    /**
+     * 提交真实文本可以替换了\b
+     *
+     * @return
+     */
+    public String getRealText() {
+        if (TextUtils.isEmpty(getText())) {
+            return "";
+        }
+        String text = getText().toString();
+        return text.replaceAll("\\u0008", " ");
+    }
 }

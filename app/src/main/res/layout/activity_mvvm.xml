@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:rich="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -82,8 +83,8 @@
             app:richEditNameList="@{viewmodel.nameListObEd}"
             app:richEditTopicList="@{viewmodel.topicListObEd}"
             app:richMaxLength="@{viewmodel.richMaxLength}"
-            app:topicResult="@{viewmodel.topicResult}"
-            app:topicResultByEnter="@{viewmodel.topicResultByEnter}" />
+            rich:topicResult="@{viewmodel.topicResult}"
+            rich:topicResultByEnter="@{viewmodel.topicResultByEnter}" />
 
 
         <View
@@ -128,7 +129,7 @@
             android:layout_height="220dp"
             android:layout_alignParentBottom="true"
             android:visibility="@{viewmodel.emojiShow ? View.VISIBLE : View.GONE}"
-            app:emojiRichTextView="@{viewmodel.curRichTextView}"
+            rich:emojiRichTextView="@{viewmodel.curRichTextView}"
             app:richIndicatorFocus="@drawable/page_indicator_focused"
             app:richIndicatorUnFocus="@drawable/page_indicator_unfocused"
             app:richMarginBottom="8dp"
