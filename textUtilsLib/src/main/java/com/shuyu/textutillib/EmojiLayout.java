@@ -44,7 +44,6 @@ public class EmojiLayout extends LinearLayout {
     private Drawable focusIndicator;
     private Drawable unFocusIndicator;
     private String deleteIconName = "delete_expression";
-    private View.OnClickListener editTextClickListener;
 
     private int richMarginBottom;
     private int richMarginTop;
@@ -283,22 +282,7 @@ public class EmojiLayout extends LinearLayout {
         return editTextEmoji;
     }
 
-
-    public void setEditTextClickListener(OnClickListener editTextClickListener) {
-        this.editTextClickListener = editTextClickListener;
-    }
-
     public void setEditTextSmile(RichEditText editTextSmile) {
         this.editTextEmoji = editTextSmile;
-        editTextSmile.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (editTextClickListener != null) {
-                    editTextClickListener.onClick(v);
-                } else {
-                    setVisibility(GONE);
-                }
-            }
-        });
     }
 }

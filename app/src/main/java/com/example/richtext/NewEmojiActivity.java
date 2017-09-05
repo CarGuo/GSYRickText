@@ -56,12 +56,6 @@ public class NewEmojiActivity extends AppCompatActivity {
 
         emojiLayout.setEditTextSmile(editText);
         keyboardLayout.setEmojiLayout(emojiLayout);
-        emojiLayout.setEditTextClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                keyboardLayout.hideEmojiKeyLockHeight();
-            }
-        });
 
     }
 
@@ -87,11 +81,14 @@ public class NewEmojiActivity extends AppCompatActivity {
         SmileUtils.addPatternAll(SmileUtils.getEmoticons(), strings, data);
     }
 
-    @OnClick({R.id.emoji_show_bottom})
+    @OnClick({R.id.emoji_show_bottom, R.id.edit_text})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.emoji_show_bottom:
                 keyboardLayout.showEmojiKeyLockHeight();
+                break;
+            case R.id.edit_text:
+                keyboardLayout.hideEmojiKeyLockHeight();
                 break;
         }
     }

@@ -75,6 +75,7 @@
             android:textColor="@color/white"
             android:textColorHint="@color/graY"
             android:visibility="@{viewmodel.editTextShow ? View.VISIBLE : View.GONE}"
+            android:onClick="@{() -> viewmodel.hideEmojiLayout()}"
             app:atResult="@{viewmodel.atResult}"
             app:atResultByEnter="@{viewmodel.atResultByEnter}"
             app:editTextAtUtilJumpListener="@{viewmodel.editJump}"
@@ -116,12 +117,15 @@
             android:id="@+id/mvvm_rich_text_edit_img_btn"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:layout_below="@+id/mvvm_rich_text_base_line"
-            android:layout_margin="10dp"
-            android:layout_toRightOf="@+id/mvvm_rich_text_edit_text_btn"
             android:onClick="@{() -> viewmodel.showEmoji()}"
             android:text="表情"
-            android:visibility="@{viewmodel.editTextShow ? View.VISIBLE : View.GONE}" />
+            android:visibility="@{viewmodel.editTextShow ? View.VISIBLE : View.GONE}"
+            android:layout_marginLeft="11dp"
+            android:layout_alignBaseline="@+id/mvvm_rich_text_edit_text_btn"
+            android:layout_alignBottom="@+id/mvvm_rich_text_edit_text_btn"
+            android:layout_toRightOf="@+id/mvvm_rich_text_edit_text_btn"
+            android:layout_toEndOf="@+id/mvvm_rich_text_edit_text_btn"
+            android:layout_marginStart="11dp" />
 
         <com.shuyu.textutillib.EmojiLayout
             android:id="@+id/mvvm_rich_text_edit_emojiLayout"

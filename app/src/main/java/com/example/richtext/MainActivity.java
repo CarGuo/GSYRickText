@@ -240,7 +240,7 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    @OnClick({R.id.emoji_show_bottom, R.id.emoji_show_at, R.id.insert_text_btn, R.id.jump_btn, R.id.emoji_show_topic, R.id.jump_mvvm})
+    @OnClick({R.id.emoji_show_bottom, R.id.emoji_show_at, R.id.insert_text_btn, R.id.jump_btn, R.id.emoji_show_topic, R.id.jump_mvvm, R.id.emoji_edit_text})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.emoji_show_bottom:
@@ -287,6 +287,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.jump_mvvm:
                 startActivity(new Intent(MainActivity.this, MVVMActivity.class));
+                break;
+            case R.id.emoji_edit_text:
+                emojiLayout.setVisibility(View.GONE);
                 break;
         }
     }
