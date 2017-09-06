@@ -39,7 +39,7 @@ allprojects {
 
 ```
 dependencies {
-     compile 'com.github.CarGuo:RickText:v2.0.5'
+     compile 'com.github.CarGuo:RickText:v2.0.6'
 }
 
 ```
@@ -160,6 +160,14 @@ richEditBuilder.setEditText(richEditText)
 ----------------------------------
 
 ## 版本更新
+
+#### v2.0.6 (2017-09-06)
+* 增加KeyBoardLockLayout
+* EmojiLayout增加配置行列数支持
+```
+app:richLayoutNumColumns="5"
+app:richLayoutNumRows="3"
+```
 
 #### v2.0.5 （2017-09-02）
 * 修复了一些问题。
