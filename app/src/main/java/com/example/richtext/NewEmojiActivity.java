@@ -55,7 +55,16 @@ public class NewEmojiActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         emojiLayout.setEditTextSmile(editText);
-        keyboardLayout.setEmojiLayout(emojiLayout);
+        keyboardLayout.setBottomView(emojiLayout);
+        keyboardLayout.setKeyBoardStateListener(new KeyBoardLockLayout.KeyBoardStateListener() {
+            @Override
+            public void onState(boolean show) {
+                if (show)
+                    emojiLayout.showKeyboard();
+                else
+                    emojiLayout.hideKeyboard();
+            }
+        });
 
     }
 
