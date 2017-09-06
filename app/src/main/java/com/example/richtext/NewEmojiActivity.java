@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.shuyu.textutillib.EmojiLayout;
 import com.shuyu.textutillib.KeyBoardLockLayout;
@@ -94,10 +93,14 @@ public class NewEmojiActivity extends AppCompatActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.emoji_show_bottom:
-                keyboardLayout.showEmojiKeyLockHeight();
+                if (emojiLayout.getVisibility() != View.VISIBLE) {
+                    keyboardLayout.showBottomViewLockHeight();
+                } else {
+                    keyboardLayout.hideBottomViewLockHeight();
+                }
                 break;
             case R.id.edit_text:
-                keyboardLayout.hideEmojiKeyLockHeight();
+                keyboardLayout.hideBottomViewLockHeight();
                 break;
         }
     }

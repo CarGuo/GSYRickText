@@ -183,7 +183,7 @@ public class KeyBoardLockLayout extends LinearLayout {
     /**
      * 隐藏emoji键盘，显示软键盘，emojiLayout的高度
      */
-    public void hideEmojiKeyLockHeight() {
+    public void hideBottomViewLockHeight() {
         ObjectAnimator hideAnimator = ObjectAnimator.ofFloat(bottomView, "alpha", 1.0F, 0.0F);
         hideAnimator.setDuration(DURATION_SWITCH_EMOTION_KEYBOARD);
         hideAnimator.setInterpolator(new AccelerateInterpolator());
@@ -208,7 +208,7 @@ public class KeyBoardLockLayout extends LinearLayout {
     /**
      * 显示 emojo，隐藏键盘(锁定emojiLayout的高度)
      */
-    public void showEmojiKeyLockHeight() {
+    public void showBottomViewLockHeight() {
 
         bottomView.setVisibility(View.VISIBLE);
         bottomView.getLayoutParams().height = getSupportSoftKeyboardHeight();
