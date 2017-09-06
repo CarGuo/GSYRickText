@@ -3,12 +3,10 @@ package com.example.richtext;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.shuyu.textutillib.EmojiLayout;
+import com.shuyu.textutillib.KeyBoardLockLayout;
 import com.shuyu.textutillib.RichEditText;
 import com.shuyu.textutillib.SmileUtils;
 
@@ -21,15 +19,15 @@ import butterknife.OnClick;
 
 public class NewEmojiActivity extends AppCompatActivity {
 
-    @BindView(R.id.emoji_edit_text2)
+
+    @BindView(R.id.edit_text)
     RichEditText editText;
+    @BindView(R.id.keyboard_layout)
+    KeyBoardLockLayout keyboardLayout;
+    @BindView(R.id.emoji_layout)
+    EmojiLayout emojiLayout;
     @BindView(R.id.emoji_show_bottom)
     ImageView emojiShowBottom;
-    @BindView(R.id.emojiLayout2)
-    EmojiLayout emojiLayout2;
-    @BindView(R.id.activity_new_emoji)
-    RelativeLayout activityNewEmoji;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,10 +50,20 @@ public class NewEmojiActivity extends AppCompatActivity {
         SmileUtils.addPatternAll(SmileUtils.getEmoticons(), strings, data);
 
 
-        setContentView(R.layout.activity_new_emoji);
+        setContentView(R.layout.activity_input);
         ButterKnife.bind(this);
 
-        emojiLayout2.setEditTextSmile(editText);
+        emojiLayout.setEditTextSmile(editText);
+        keyboardLayout.setBottomView(emojiLayout);
+        keyboardLayout.setKeyBoardStateListener(new KeyBoardLockLayout.KeyBoardStateListener() {
+            @Override
+            public void onState(boolean show) {
+                if (show)
+                    emojiLayout.showKeyboard();
+                else
+                    emojiLayout.hideKeyboard();
+            }
+        });
 
     }
 
@@ -81,21 +89,18 @@ public class NewEmojiActivity extends AppCompatActivity {
         SmileUtils.addPatternAll(SmileUtils.getEmoticons(), strings, data);
     }
 
-    @OnClick({R.id.emoji_show_bottom, R.id.source_btn})
+    @OnClick({R.id.emoji_show_bottom, R.id.edit_text})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.emoji_show_bottom:
-                emojiLayout2.hideKeyboard();
-                if (emojiLayout2.getVisibility() == View.VISIBLE) {
-                    emojiLayout2.setVisibility(View.GONE);
+                if (emojiLayout.getVisibility() != View.VISIBLE) {
+                    keyboardLayout.showBottomViewLockHeight();
                 } else {
-                    emojiLayout2.setVisibility(View.VISIBLE);
+                    keyboardLayout.hideBottomViewLockHeight();
                 }
                 break;
-
-            case R.id.source_btn:
-                String text = editText.getText().toString();
-                Toast.makeText(NewEmojiActivity.this, text, Toast.LENGTH_SHORT).show();
+            case R.id.edit_text:
+                keyboardLayout.hideBottomViewLockHeight();
                 break;
         }
     }

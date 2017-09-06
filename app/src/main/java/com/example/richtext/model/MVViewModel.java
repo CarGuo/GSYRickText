@@ -239,6 +239,10 @@ public class MVViewModel extends BaseObservable {
         }
     }
 
+    public void hideEmojiLayout() {
+        emojiShow.set(false);
+    }
+
     private final OnEditTextUtilJumpListener onEditTextUtilJumpListener = new OnEditTextUtilJumpListener() {
         @Override
         public void notifyAt() {

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:rich="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -74,6 +75,7 @@
             android:textColor="@color/white"
             android:textColorHint="@color/graY"
             android:visibility="@{viewmodel.editTextShow ? View.VISIBLE : View.GONE}"
+            android:onClick="@{() -> viewmodel.hideEmojiLayout()}"
             app:atResult="@{viewmodel.atResult}"
             app:atResultByEnter="@{viewmodel.atResultByEnter}"
             app:editTextAtUtilJumpListener="@{viewmodel.editJump}"
@@ -82,8 +84,8 @@
             app:richEditNameList="@{viewmodel.nameListObEd}"
             app:richEditTopicList="@{viewmodel.topicListObEd}"
             app:richMaxLength="@{viewmodel.richMaxLength}"
-            app:topicResult="@{viewmodel.topicResult}"
-            app:topicResultByEnter="@{viewmodel.topicResultByEnter}" />
+            rich:topicResult="@{viewmodel.topicResult}"
+            rich:topicResultByEnter="@{viewmodel.topicResultByEnter}" />
 
 
         <View
@@ -115,12 +117,15 @@
             android:id="@+id/mvvm_rich_text_edit_img_btn"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:layout_below="@+id/mvvm_rich_text_base_line"
-            android:layout_margin="10dp"
-            android:layout_toRightOf="@+id/mvvm_rich_text_edit_text_btn"
             android:onClick="@{() -> viewmodel.showEmoji()}"
             android:text="表情"
-            android:visibility="@{viewmodel.editTextShow ? View.VISIBLE : View.GONE}" />
+            android:visibility="@{viewmodel.editTextShow ? View.VISIBLE : View.GONE}"
+            android:layout_marginLeft="11dp"
+            android:layout_alignBaseline="@+id/mvvm_rich_text_edit_text_btn"
+            android:layout_alignBottom="@+id/mvvm_rich_text_edit_text_btn"
+            android:layout_toRightOf="@+id/mvvm_rich_text_edit_text_btn"
+            android:layout_toEndOf="@+id/mvvm_rich_text_edit_text_btn"
+            android:layout_marginStart="11dp" />
 
         <com.shuyu.textutillib.EmojiLayout
             android:id="@+id/mvvm_rich_text_edit_emojiLayout"
@@ -128,7 +133,7 @@
             android:layout_height="220dp"
             android:layout_alignParentBottom="true"
             android:visibility="@{viewmodel.emojiShow ? View.VISIBLE : View.GONE}"
-            app:emojiRichTextView="@{viewmodel.curRichTextView}"
+            rich:emojiRichTextView="@{viewmodel.curRichTextView}"
             app:richIndicatorFocus="@drawable/page_indicator_focused"
             app:richIndicatorUnFocus="@drawable/page_indicator_unfocused"
             app:richMarginBottom="8dp"

@@ -359,7 +359,7 @@ public class RichEditText extends MentionEditText {
             }
             //查找##
             int length = text.length();
-            Pattern pattern = Pattern.compile("#.*?#");
+            Pattern pattern = Pattern.compile("#[^\\s]+?#");
             Matcher matcher = pattern.matcher(text);
             SpannableStringBuilder spannableStringBuilder =
                     new SpannableStringBuilder(text);
@@ -758,5 +758,18 @@ public class RichEditText extends MentionEditText {
         }
         return list;
 
+    }
+
+    /**
+     * 提交真实文本可以替换了\b
+     *
+     * @return
+     */
+    public String getRealText() {
+        if (TextUtils.isEmpty(getText())) {
+            return "";
+        }
+        String text = getText().toString();
+        return text.replaceAll("\\u0008", " ");
     }
 }

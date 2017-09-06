@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -239,7 +240,7 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    @OnClick({R.id.emoji_show_bottom, R.id.emoji_show_at, R.id.insert_text_btn, R.id.jump_btn, R.id.emoji_show_topic, R.id.jump_mvvm})
+    @OnClick({R.id.emoji_show_bottom, R.id.emoji_show_at, R.id.insert_text_btn, R.id.jump_btn, R.id.emoji_show_topic, R.id.jump_mvvm, R.id.emoji_edit_text})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.emoji_show_bottom:
@@ -275,6 +276,7 @@ public class MainActivity extends AppCompatActivity {
                 //获取原始数据可以通过以下获取
                 richEditText.getRealTopicList();
                 richEditText.getRealUserList();
+                Log.e(this.getClass().getName(), richEditText.getRealText());
                 break;
             case R.id.jump_btn:
                 Intent intent = new Intent(MainActivity.this, NewEmojiActivity.class);
@@ -285,6 +287,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.jump_mvvm:
                 startActivity(new Intent(MainActivity.this, MVVMActivity.class));
+                break;
+            case R.id.emoji_edit_text:
+                emojiLayout.setVisibility(View.GONE);
                 break;
         }
     }

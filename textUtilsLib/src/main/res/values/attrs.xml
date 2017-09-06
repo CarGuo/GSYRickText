@@ -17,6 +17,8 @@
         <attr name="richDeleteIconName" format="string" />
         <attr name="richMarginBottom" format="dimension" />
         <attr name="richMarginTop" format="dimension" />
+        <attr name="richLayoutNumColumns" format="integer|reference" />
+        <attr name="richLayoutNumRows" format="integer|reference" />
     </declare-styleable>
 
     <declare-styleable name="RichTextView">
