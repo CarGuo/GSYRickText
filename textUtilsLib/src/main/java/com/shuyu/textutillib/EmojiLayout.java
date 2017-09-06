@@ -48,6 +48,13 @@ public class EmojiLayout extends LinearLayout {
     private int richMarginBottom;
     private int richMarginTop;
 
+    private int numColumns = 7;
+
+    private int numRows = 3;
+
+    private int pageCount = (numColumns * numRows) - 1;
+
+
     public EmojiLayout(Context context) {
         super(context);
         init(context, null);
@@ -88,6 +95,9 @@ public class EmojiLayout extends LinearLayout {
             unFocusIndicator = array.getDrawable(R.styleable.EmojiLayout_richIndicatorUnFocus);
             richMarginBottom = (int) array.getDimension(R.styleable.EmojiLayout_richMarginBottom, dip2px(getContext(), 8));
             richMarginTop = (int) array.getDimension(R.styleable.EmojiLayout_richMarginTop, dip2px(getContext(), 15));
+            numColumns =  array.getInteger(R.styleable.EmojiLayout_richLayoutNumColumns, 7);
+            numRows =  array.getInteger(R.styleable.EmojiLayout_richLayoutNumRows, 3);
+            pageCount = numColumns * numRows - 1;
             array.recycle();
         }
 
@@ -116,7 +126,7 @@ public class EmojiLayout extends LinearLayout {
         // 表情list
         reslist = SmileUtils.getTextList();
 
-        int viewSize = (int) Math.ceil(reslist.size() / 20f);
+        int viewSize = (int) Math.ceil(reslist.size() * 1.0f / pageCount);
 
         // 初始化表情viewpager
         List<View> views = new ArrayList<>();
@@ -153,16 +163,17 @@ public class EmojiLayout extends LinearLayout {
     private View getGridChildView(int i) {
         View view = View.inflate(getContext(), R.layout.rich_expression_gridview, null);
         LockGridView gv = (LockGridView) view.findViewById(R.id.gridview);
+        gv.setNumColumns(numColumns);
         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) gv.getLayoutParams();
         layoutParams.setMargins(0, richMarginTop, 0, richMarginBottom);
 
         List<String> list = new ArrayList<String>();
 
-        int startInd = (i - 1) * 20;
-        if ((startInd + 20) >= reslist.size()) {
+        int startInd = (i - 1) * pageCount;
+        if ((startInd + pageCount) >= reslist.size()) {
             list.addAll(reslist.subList(startInd, startInd + (reslist.size() - startInd)));
         } else {
-            list.addAll(reslist.subList(startInd, startInd + 20));
+            list.addAll(reslist.subList(startInd, startInd + pageCount));
         }
         list.add(deleteIconName);
         final SmileImageExpressionAdapter smileImageExpressionAdapter = new SmileImageExpressionAdapter(getContext(), 1, list);
