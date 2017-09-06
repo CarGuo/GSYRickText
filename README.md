@@ -162,6 +162,7 @@ richEditBuilder.setEditText(richEditText)
 ## 版本更新
 
 #### v2.0.6 (2017-09-06)
+* 优化了内部处理
 * 增加KeyBoardLockLayout
 * EmojiLayout增加配置行列数支持
 ```
