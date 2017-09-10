@@ -37,6 +37,7 @@ public class RichTextBuilder {
     private int atColor = Color.BLUE;
     private int topicColor = Color.BLUE;
     private int linkColor = Color.BLUE;
+    private int emojiSize = 0;
     private boolean needNum = false;
     private boolean needUrl = false;
 
@@ -138,6 +139,14 @@ public class RichTextBuilder {
     }
 
     /**
+     * emoji大小，不设置默认图片大小
+     */
+    public RichTextBuilder setEmojiSize(int emojiSize) {
+        this.emojiSize = emojiSize;
+        return this;
+    }
+
+    /**
      * 自定义span回调，如果不需要可不设置
      */
     public RichTextBuilder setSpanCreateListener(SpanCreateListener spanCreateListener) {
@@ -221,6 +230,11 @@ public class RichTextBuilder {
                     return spanCreateListener.getCustomLinkSpan(context, url, color, spanUrlCallBack);
                 }
                 return null;
+            }
+
+            @Override
+            public int emojiSize() {
+                return emojiSize;
             }
         };
 

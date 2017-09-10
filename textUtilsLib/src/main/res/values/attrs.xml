@@ -28,6 +28,7 @@
         <attr name="atColor" format="color" />
         <attr name="topicColor" format="color" />
         <attr name="linkColor" format="color" />
+        <attr name="emojiSize" format="integer|reference" />
         <attr name="spanUrlCallBackListener" format="reference" />
         <attr name="spanAtUserCallBackListener" format="reference" />
         <attr name="spanTopicCallBackListener" format="reference" />

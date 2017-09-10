@@ -16,6 +16,7 @@ import com.example.richtext.span.CustomClickAtUserSpan;
 import com.example.richtext.span.CustomClickTopicSpan;
 import com.example.richtext.span.CustomLinkSpan;
 import com.example.richtext.utils.JumpUtil;
+import com.example.richtext.utils.ScreenUtils;
 import com.shuyu.textutillib.EmojiLayout;
 import com.shuyu.textutillib.RichEditBuilder;
 import com.shuyu.textutillib.RichEditText;
@@ -201,6 +202,7 @@ public class MainActivity extends AppCompatActivity {
                 .setTextView(richText)
                 .setNeedUrl(true)
                 .setNeedNum(true)
+                .setEmojiSize(ScreenUtils.dip2px(this, 20))
                 .setSpanAtUserCallBack(spanAtUserCallBack)
                 .setSpanUrlCallBack(spanUrlCallBack)
                 .setSpanTopicCallBack(spanTopicCallBack)

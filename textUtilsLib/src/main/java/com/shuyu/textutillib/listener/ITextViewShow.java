@@ -29,4 +29,5 @@ public interface ITextViewShow {
 
     LinkSpan getCustomLinkSpan(Context context, String url, int color, SpanUrlCallBack spanUrlCallBack);
 
+    int emojiSize();
 }

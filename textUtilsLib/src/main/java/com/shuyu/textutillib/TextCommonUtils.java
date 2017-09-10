@@ -173,7 +173,7 @@ public class TextCommonUtils {
                 }
             }
         }
-        SmileUtils.addSmiles(context, spannableString);
+        SmileUtils.addSmiles(context, textView.emojiSize(), spannableString);
         if (clickable && hadHighLine)
             textView.setMovementMethod(LinkMovementMethod.getInstance());
         return spannableString;
@@ -359,7 +359,7 @@ public class TextCommonUtils {
                     }
                     style.setSpan(atUserSpan, sp.getSpanStart(atUserSpan), sp.getSpanEnd(atUserSpan), Spanned.SPAN_MARK_POINT);
                 }
-                SmileUtils.addSmiles(context, style);
+                SmileUtils.addSmiles(context, textView.emojiSize(), style);
                 textView.setAutoLinkMask(0);
                 return style;
             } else {

@@ -34,6 +34,8 @@ public class RichTextView extends TextView {
 
     private int linkColor = Color.BLUE;
 
+    private int emojiSize = 0;
+
     private SpanUrlCallBack spanUrlCallBackListener;
 
     private SpanAtUserCallBack spanAtUserCallBackListener;
@@ -72,6 +74,7 @@ public class RichTextView extends TextView {
             atColor = array.getColor(R.styleable.RichTextView_atColor, Color.BLUE);
             topicColor = array.getColor(R.styleable.RichTextView_topicColor, Color.BLUE);
             linkColor = array.getColor(R.styleable.RichTextView_linkColor, Color.BLUE);
+            emojiSize = array.getInteger(R.styleable.RichTextView_emojiSize, 0);
             array.recycle();
         }
     }
@@ -126,6 +129,7 @@ public class RichTextView extends TextView {
                 .setNeedNum(needNumberShow)
                 .setNeedUrl(needUrlShow)
                 .setTextView(this)
+                .setEmojiSize(emojiSize)
                 .setSpanAtUserCallBack(spanAtUserCallBack)
                 .setSpanUrlCallBack(spanUrlCallBack)
                 .setSpanTopicCallBack(spanTopicCallBack)
@@ -287,5 +291,10 @@ public class RichTextView extends TextView {
      */
     public void setLinkColor(int linkColor) {
         this.linkColor = linkColor;
+    }
+
+
+    public void setEmojiSize(int emojiSize) {
+        this.emojiSize = emojiSize;
     }
 }

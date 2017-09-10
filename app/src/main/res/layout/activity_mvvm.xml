@@ -57,7 +57,9 @@
             app:spanTopicCallBackListener="@{viewmodel.spanTopicCallback}"
             app:spanUrlCallBackListener="@{viewmodel.spanUrlCallback}"
             app:topicColor="@{viewmodel.topicColor}"
-            app:topicList="@{viewmodel.topicListOb}" />
+            app:topicList="@{viewmodel.topicListOb}"
+            app:emojiSize="@{viewmodel.textEmojiSize}"
+            />
 
         <com.shuyu.textutillib.RichEditText
             android:id="@+id/mvvm_rich_edit_text"

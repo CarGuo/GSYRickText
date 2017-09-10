@@ -135,6 +135,18 @@ public class SmileUtils {
      * @return 是否添加
      */
     public static boolean addSmiles(Context context, Spannable spannable) {
+        return addSmiles(context, -1, spannable);
+    }
+
+    /**
+     * replace existing spannable with smiles
+     *
+     * @param context   上下文
+     * @param size      大小
+     * @param spannable 显示的span
+     * @return 是否添加
+     */
+    public static boolean addSmiles(Context context, int size, Spannable spannable) {
         boolean hasChanges = false;
         for (Map.Entry<Pattern, Integer> entry : emoticons.entrySet()) {
             Matcher matcher = entry.getKey().matcher(spannable);
@@ -151,14 +163,26 @@ public class SmileUtils {
                     }
                 if (set) {
                     hasChanges = true;
-                    spannable.setSpan(new ImageSpan(context, entry.getValue()),
-                            matcher.start(), matcher.end(),
-                            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    if (size <= 0) {
+                        spannable.setSpan(new ImageSpan(context, entry.getValue()),
+                                matcher.start(), matcher.end(),
+                                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    } else {
+                        Drawable drawable = context.getResources().getDrawable(entry.getValue());
+                        if (drawable != null) {
+                            drawable.setBounds(0, 0, size, size);//这里设置图片的大小
+                            ImageSpan imageSpan = new ImageSpan(drawable);
+                            spannable.setSpan(imageSpan,
+                                    matcher.start(), matcher.end(),
+                                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        }
+                    }
                 }
             }
         }
         return hasChanges;
     }
+
 
     public static Spannable getSmiledText(Context context, CharSequence text) {
         Spannable spannable = spannableFactory.newSpannable(text);

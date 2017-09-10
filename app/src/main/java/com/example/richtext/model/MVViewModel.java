@@ -60,6 +60,8 @@ public class MVViewModel extends BaseObservable {
 
     public final ObservableField<Integer> linkColor = new ObservableField<>(Color.BLUE);
 
+    public final ObservableField<Integer> textEmojiSize = new ObservableField<>(0);
+
     public final ObservableField<Boolean> needNumberShow = new ObservableField<>(true);
 
     public final ObservableField<Boolean> needUrlShow = new ObservableField<>(true);
