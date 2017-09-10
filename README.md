@@ -15,6 +15,7 @@
 **支持**|**自定义span效果**
 **支持**|**表情、#话题与@某人编辑时整块删除**
 **支持**|**表情、#话题与@某人编辑时选择复制限制整块选择。**
+**支持**|**表情大小设置**
 **支持**|**MVVM（DataBing）。**
 
 
@@ -39,7 +40,7 @@ allprojects {
 
 ```
 dependencies {
-     compile 'com.github.CarGuo:RickText:v2.0.5'
+     compile 'com.github.CarGuo:RickText:v2.0.6'
 }
 
 ```
@@ -160,6 +161,9 @@ richEditBuilder.setEditText(richEditText)
 ----------------------------------
 
 ## 版本更新
+
+#### v2.0.6 （2017-09-10）
+* 表情大小调节支持
 
 #### v2.0.5 （2017-09-02）
 * 修复了一些问题。
