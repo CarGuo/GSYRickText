@@ -140,5 +140,7 @@
         app:richIndicatorFocus="@drawable/page_indicator_focused"
         app:richIndicatorUnFocus="@drawable/page_indicator_unfocused"
         app:richMarginBottom="8dp"
+        app:richLayoutNumColumns="5"
+        app:richLayoutNumRows="3"
         app:richMarginTop="15dp" />
 </RelativeLayout>
