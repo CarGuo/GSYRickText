@@ -194,7 +194,8 @@ public class EmojiLayout extends LinearLayout {
                                 String body = editTextEmoji.getText().toString();
                                 String tempStr = body.substring(0, selectionStart);
                                 int i = tempStr.lastIndexOf("[");// 获取最后一个表情的位置
-                                if (i != -1) {
+                                int end = tempStr.lastIndexOf("]");// 获取最后一个表情的位置
+                                if (i != -1 && end == (selectionStart - 1)) {
                                     CharSequence cs = tempStr.substring(i, selectionStart);
                                     if (SmileUtils.containsKey(cs.toString()))
                                         editTextEmoji.getEditableText().delete(i, selectionStart);
