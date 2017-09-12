@@ -185,8 +185,12 @@ public class SmileUtils {
 
 
     public static Spannable getSmiledText(Context context, CharSequence text) {
+        return getSmiledText(context, text, -1);
+    }
+
+    public static Spannable getSmiledText(Context context, CharSequence text, int size) {
         Spannable spannable = spannableFactory.newSpannable(text);
-        addSmiles(context, spannable);
+        addSmiles(context, size, spannable);
         return spannable;
     }
 
@@ -284,8 +288,13 @@ public class SmileUtils {
         return spannable;
     }
 
+    public static Spannable unicodeToEmojiName(Context context, String content, int size) {
+        Spannable spannable = getSmiledText(context, content, size);
+        return spannable;
+    }
+
     public static Spannable unicodeToEmojiName(Context context, String content) {
-        Spannable spannable = getSmiledText(context, content);
+        Spannable spannable = getSmiledText(context, content, -1);
         return spannable;
     }
 

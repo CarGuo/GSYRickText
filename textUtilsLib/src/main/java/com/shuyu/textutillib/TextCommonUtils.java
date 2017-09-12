@@ -55,14 +55,26 @@ public class TextCommonUtils {
      *
      * @param context 上下文
      * @param text    需要处理的文本
+     * @param size    emoji大小
      * @return 返回显示的spananle
      */
-    public static Spannable getEmojiText(Context context, String text) {
+    public static Spannable getEmojiText(Context context, String text, int size) {
         if (TextUtils.isEmpty(text)) {
             return new SpannableString("");
         }
-        return SmileUtils.unicodeToEmojiName(context, text);
+        return SmileUtils.unicodeToEmojiName(context, text, size);
 
+    }
+
+    /**
+     * 单纯获取emoji表示
+     *
+     * @param context 上下文
+     * @param text    需要处理的文本
+     * @return 返回显示的spananle
+     */
+    public static Spannable getEmojiText(Context context, String text) {
+        return getEmojiText(context, text, -1);
     }
 
 
@@ -126,7 +138,7 @@ public class TextCommonUtils {
         }
 
         if ((listUser == null || listUser.size() <= 0) && spannable == null)
-            return getEmojiText(context, content);
+            return getEmojiText(context, content, textView.emojiSize());
 
         Spannable spannableString = new SpannableString((spannable == null) ? content : spannable);
         int indexStart = 0;
@@ -182,13 +194,13 @@ public class TextCommonUtils {
     /**
      * 话题span
      *
-     * @param context            上下文
-     * @param listTopic          需要的话题列表
-     * @param content            需要处理的文本
-     * @param textView           需要显示的view
-     * @param clickable          是否可以点击
-     * @param color              颜色
-     * @param spanTopicCallBack  点击回调
+     * @param context           上下文
+     * @param listTopic         需要的话题列表
+     * @param content           需要处理的文本
+     * @param textView          需要显示的view
+     * @param clickable         是否可以点击
+     * @param color             颜色
+     * @param spanTopicCallBack 点击回调
      * @return Spannable
      */
     public static Spannable getTopicText(Context context, List<TopicModel> listTopic, String content, ITextViewShow textView, boolean clickable,
@@ -300,13 +312,13 @@ public class TextCommonUtils {
     /**
      * 处理带URL的逻辑
      *
-     * @param context            上下文
-     * @param textView           需要显示的view
-     * @param spannable          显示的spananle
-     * @param color              需要显示的颜色
-     * @param needNum            是否需要显示号码
-     * @param needUrl            是否需要显示url
-     * @param spanUrlCallBack    链接点击的返回
+     * @param context         上下文
+     * @param textView        需要显示的view
+     * @param spannable       显示的spananle
+     * @param color           需要显示的颜色
+     * @param needNum         是否需要显示号码
+     * @param needUrl         是否需要显示url
+     * @param spanUrlCallBack 链接点击的返回
      * @return 返回显示的spananle
      */
     private static Spannable resolveUrlLogic(Context context, ITextViewShow textView, Spannable spannable, int color, boolean needNum, boolean needUrl, SpanUrlCallBack spanUrlCallBack) {

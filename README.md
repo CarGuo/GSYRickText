@@ -40,7 +40,7 @@ allprojects {
 
 ```
 dependencies {
-     compile 'com.github.CarGuo:RickText:v2.0.8'
+     compile 'com.github.CarGuo:RickText:v2.0.9'
 }
 
 ```
@@ -161,6 +161,10 @@ richEditBuilder.setEditText(richEditText)
 ----------------------------------
 
 ## 版本更新
+
+#### v2.0.9 （2017-09-12）
+* 表情大小兼容设置
+
 #### v2.0.8 （2017-09-11）
 * 修复了表情键盘删除时的问题
 
