@@ -608,8 +608,12 @@ public class RichEditText extends MentionEditText {
     public void resolveTopicResultByEnter(TopicModel topicModel) {
         String topicId = topicModel.getTopicId();
         deleteByEnter = true;
-        getText().delete(getSelectionEnd() - 1,
-                getSelectionEnd());
+        if (getSelectionEnd() == 0) {
+            getText().delete(0,1);
+        } else {
+            getText().delete(getSelectionEnd() - 1,
+                    getSelectionEnd());
+        }
         String topicName = "#" + topicModel.getTopicName() + "#";
         TopicModel topic = new TopicModel(topicName, topicId);
         resolveTopicText(topic);
@@ -636,8 +640,12 @@ public class RichEditText extends MentionEditText {
      */
     public void resolveAtResultByEnterAt(UserModel userModel) {
         String user_id = userModel.getUser_id();
-        getText().delete(getSelectionEnd() - 1,
-                getSelectionEnd());
+        if (getSelectionEnd() == 0) {
+            getText().delete(0,1);
+        } else {
+            getText().delete(getSelectionEnd() - 1,
+                    getSelectionEnd());
+        }
         String user_name = "@" + userModel.getUser_name();
         UserModel user = new UserModel(user_name, user_id);
         resolveText(user);
