@@ -15,7 +15,7 @@
 **支持**|**自定义span效果**
 **支持**|**表情、#话题与@某人编辑时整块删除**
 **支持**|**表情、#话题与@某人编辑时选择复制限制整块选择。**
-**支持**|**表情大小设置**
+**支持**|**表情大小设置、居中显示**
 **支持**|**MVVM（DataBing）。**
 
 
@@ -40,7 +40,7 @@ allprojects {
 
 ```
 dependencies {
-     compile 'com.github.CarGuo:RickText:v2.1.0'
+     compile 'com.github.CarGuo:RickText:v2.1.1'
 }
 
 ```
@@ -162,41 +162,16 @@ richEditBuilder.setEditText(richEditText)
 
 ## 版本更新
 
+
+#### v2.1.1 （2017-09-19）
+* 增加表情居中功能的支持。
+
 #### v2.1.0 （2017-09-17）
 * 修复了@和#输入存在的问题。
 
-#### v2.0.9 （2017-09-12）
-* 表情大小兼容设置
 
-#### v2.0.8 （2017-09-11）
-* 修复了表情键盘删除时的问题
+### [历史版本](https://github.com/CarGuo/RickText/blob/master/HISTORY_README.md)
 
-#### v2.0.7 （2017-09-10）
-* 表情大小调节支持
-
-#### v2.0.6 (2017-09-06)
-* 优化了内部处理
-* 增加KeyBoardLockLayout
-* EmojiLayout增加配置行列数支持
-```
-app:richLayoutNumColumns="5"
-app:richLayoutNumRows="3"
-```
-
-#### v2.0.5 （2017-09-02）
-* 修复了一些问题。
-
-#### v2.0.4 (2017-08-31)
-* 增加了可自定义span样式的接口。
-
-#### v2.0.3 （2017-08-28）
-
-* 新增加了RichTextView
-* 优化了接口
-* MVVM支持
-
-#### v2.0.2
-* 优化了文本显示逻辑。
 
 ## License
 
