@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.DrawableRes;
@@ -56,6 +57,33 @@ public class CenteredImageSpan extends ImageSpan {
 
     public CenteredImageSpan(Context context, @DrawableRes int resourceId, int verticalAlignment) {
         super(context, resourceId, verticalAlignment);
+    }
+
+    @Override
+    public int getSize(Paint paint, CharSequence text, int start, int end,
+                       Paint.FontMetricsInt fm) {
+
+        if (mVerticalAlignment == DynamicDrawableSpan.ALIGN_BASELINE || mVerticalAlignment == DynamicDrawableSpan.ALIGN_BOTTOM) {
+            return super.getSize(paint, text, start, end, fm);
+        }
+
+        Drawable d = getDrawable();
+        Rect rect = d.getBounds();
+        if (fm != null) {
+            Paint.FontMetricsInt fmPaint = paint.getFontMetricsInt();
+            //获得文字、图片高度
+            int fontHeight = fmPaint.bottom - fmPaint.top;
+            int drHeight = rect.bottom - rect.top;
+
+            int top = drHeight / 2 - fontHeight / 4;
+            int bottom = drHeight / 2 + fontHeight / 4;
+
+            fm.ascent = -bottom;
+            fm.top = -bottom;
+            fm.bottom = top;
+            fm.descent = top;
+        }
+        return rect.right;
     }
 
     @Override
