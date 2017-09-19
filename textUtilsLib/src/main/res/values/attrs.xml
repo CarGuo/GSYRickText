@@ -31,6 +31,7 @@
         <attr name="topicColor" format="color" />
         <attr name="linkColor" format="color" />
         <attr name="emojiSize" format="integer|reference" />
+        <attr name="emojiVerticalAlignment" format="integer|reference" />
         <attr name="spanUrlCallBackListener" format="reference" />
         <attr name="spanAtUserCallBackListener" format="reference" />
         <attr name="spanTopicCallBackListener" format="reference" />

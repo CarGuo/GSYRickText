@@ -2,7 +2,6 @@ package com.shuyu.textutillib;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.text.Editable;
 import android.text.Html;

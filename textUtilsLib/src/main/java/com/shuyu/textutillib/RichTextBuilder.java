@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.text.Spannable;
 import android.text.method.MovementMethod;
+import android.text.style.DynamicDrawableSpan;
 import android.widget.TextView;
 
 import com.shuyu.textutillib.listener.ITextViewShow;
@@ -38,6 +39,7 @@ public class RichTextBuilder {
     private int topicColor = Color.BLUE;
     private int linkColor = Color.BLUE;
     private int emojiSize = 0;
+    private int verticalAlignment = DynamicDrawableSpan.ALIGN_BOTTOM;
     private boolean needNum = false;
     private boolean needUrl = false;
 
@@ -147,6 +149,14 @@ public class RichTextBuilder {
     }
 
     /**
+     * emoji垂直
+     */
+    public RichTextBuilder setVerticalAlignment(int verticalAlignment) {
+        this.verticalAlignment = verticalAlignment;
+        return this;
+    }
+
+    /**
      * 自定义span回调，如果不需要可不设置
      */
     public RichTextBuilder setSpanCreateListener(SpanCreateListener spanCreateListener) {
@@ -235,6 +245,11 @@ public class RichTextBuilder {
             @Override
             public int emojiSize() {
                 return emojiSize;
+            }
+
+            @Override
+            public int verticalAlignment(){
+                return verticalAlignment;
             }
         };
 

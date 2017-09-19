@@ -8,6 +8,7 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
+import android.text.style.DynamicDrawableSpan;
 import android.text.style.StyleSpan;
 import android.text.style.URLSpan;
 import android.text.util.Linkify;
@@ -59,12 +60,28 @@ public class TextCommonUtils {
      * @return 返回显示的spananle
      */
     public static Spannable getEmojiText(Context context, String text, int size) {
+        return getEmojiText(context, text, size, DynamicDrawableSpan.ALIGN_BOTTOM);
+
+    }
+
+
+    /**
+     * 单纯获取emoji表示
+     *
+     * @param context           上下文
+     * @param text              需要处理的文本
+     * @param size              emoji大小
+     * @param verticalAlignment 垂直方式
+     * @return 返回显示的spananle
+     */
+    public static Spannable getEmojiText(Context context, String text, int size, int verticalAlignment) {
         if (TextUtils.isEmpty(text)) {
             return new SpannableString("");
         }
-        return SmileUtils.unicodeToEmojiName(context, text, size);
+        return SmileUtils.unicodeToEmojiName(context, text, size, verticalAlignment);
 
     }
+
 
     /**
      * 单纯获取emoji表示
@@ -185,7 +202,7 @@ public class TextCommonUtils {
                 }
             }
         }
-        SmileUtils.addSmiles(context, textView.emojiSize(), spannableString);
+        SmileUtils.addSmiles(context, textView.emojiSize(), textView.verticalAlignment(), spannableString);
         if (clickable && hadHighLine)
             textView.setMovementMethod(LinkMovementMethod.getInstance());
         return spannableString;
@@ -371,7 +388,7 @@ public class TextCommonUtils {
                     }
                     style.setSpan(atUserSpan, sp.getSpanStart(atUserSpan), sp.getSpanEnd(atUserSpan), Spanned.SPAN_MARK_POINT);
                 }
-                SmileUtils.addSmiles(context, textView.emojiSize(), style);
+                SmileUtils.addSmiles(context, textView.emojiSize(), textView.verticalAlignment(), style);
                 textView.setAutoLinkMask(0);
                 return style;
             } else {

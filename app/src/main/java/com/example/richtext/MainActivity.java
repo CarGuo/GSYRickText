@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.style.DynamicDrawableSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -30,6 +31,7 @@ import com.shuyu.textutillib.listener.SpanUrlCallBack;
 import com.shuyu.textutillib.model.TopicModel;
 import com.shuyu.textutillib.model.UserModel;
 import com.shuyu.textutillib.SmileUtils;
+import com.shuyu.textutillib.span.CenteredImageSpan;
 import com.shuyu.textutillib.span.ClickAtUserSpan;
 import com.shuyu.textutillib.span.ClickTopicSpan;
 import com.shuyu.textutillib.span.LinkSpan;
@@ -202,7 +204,7 @@ public class MainActivity extends AppCompatActivity {
                 .setTextView(richText)
                 .setNeedUrl(true)
                 .setNeedNum(true)
-                .setEmojiSize(ScreenUtils.dip2px(this, 20))
+                .setEmojiSize(ScreenUtils.dip2px(this, 100))
                 .setSpanAtUserCallBack(spanAtUserCallBack)
                 .setSpanUrlCallBack(spanUrlCallBack)
                 .setSpanTopicCallBack(spanTopicCallBack)

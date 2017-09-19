@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.support.annotation.Nullable;
+import android.text.style.DynamicDrawableSpan;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TextView;
@@ -48,6 +49,8 @@ public class RichTextView extends TextView {
 
     private boolean needUrlShow = true;//是否需要url处理
 
+    private int emojiVerticalAlignment = DynamicDrawableSpan.ALIGN_BOTTOM;//垂直方式
+
     public RichTextView(Context context) {
         super(context);
         init(context, null);
@@ -75,6 +78,7 @@ public class RichTextView extends TextView {
             topicColor = array.getColor(R.styleable.RichTextView_topicColor, Color.BLUE);
             linkColor = array.getColor(R.styleable.RichTextView_linkColor, Color.BLUE);
             emojiSize = array.getInteger(R.styleable.RichTextView_emojiSize, 0);
+            emojiVerticalAlignment = array.getInteger(R.styleable.RichTextView_emojiVerticalAlignment, DynamicDrawableSpan.ALIGN_BOTTOM);
             array.recycle();
         }
     }
@@ -133,6 +137,7 @@ public class RichTextView extends TextView {
                 .setSpanAtUserCallBack(spanAtUserCallBack)
                 .setSpanUrlCallBack(spanUrlCallBack)
                 .setSpanTopicCallBack(spanTopicCallBack)
+                .setVerticalAlignment(emojiVerticalAlignment)
                 .setSpanCreateListener(spanCreateListener)
                 .build();
 
@@ -297,4 +302,17 @@ public class RichTextView extends TextView {
     public void setEmojiSize(int emojiSize) {
         this.emojiSize = emojiSize;
     }
+
+
+    /**
+     * emoji垂直
+     */
+    public void setEmojiVerticalAlignment(int emojiVerticalAlignment) {
+        this.emojiVerticalAlignment = emojiVerticalAlignment;
+    }
+
+    public int getEmojiVerticalAlignment() {
+        return emojiVerticalAlignment;
+    }
+
 }

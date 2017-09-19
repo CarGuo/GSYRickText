@@ -13,9 +13,10 @@ import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.style.CharacterStyle;
 import android.text.style.ForegroundColorSpan;
-import android.text.style.ImageSpan;
 import android.widget.EditText;
 
+
+import com.shuyu.textutillib.span.CenteredImageSpan;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,6 +24,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static android.text.style.DynamicDrawableSpan.ALIGN_BOTTOM;
 
 public class SmileUtils {
 
@@ -113,9 +116,9 @@ public class SmileUtils {
             return;
 
         drawable.setBounds(0, 0, size, size);//这里设置图片的大小
-        ImageSpan imageSpan = new ImageSpan(drawable);
+        CenteredImageSpan CenteredImageSpan = new CenteredImageSpan(drawable);
         SpannableString spannableString = new SpannableString(name);
-        spannableString.setSpan(imageSpan, 0, spannableString.length(), SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(CenteredImageSpan, 0, spannableString.length(), SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
 
 
         int index = Math.max(editText.getSelectionStart(), 0);
@@ -147,13 +150,27 @@ public class SmileUtils {
      * @return 是否添加
      */
     public static boolean addSmiles(Context context, int size, Spannable spannable) {
+        return addSmiles(context, size, ALIGN_BOTTOM, spannable);
+    }
+
+
+    /**
+     * replace existing spannable with smiles
+     *
+     * @param context           上下文
+     * @param size              大小
+     * @param spannable         显示的span
+     * @param verticalAlignment 垂直方向
+     * @return 是否添加
+     */
+    public static boolean addSmiles(Context context, int size, int verticalAlignment, Spannable spannable) {
         boolean hasChanges = false;
         for (Map.Entry<Pattern, Integer> entry : emoticons.entrySet()) {
             Matcher matcher = entry.getKey().matcher(spannable);
             while (matcher.find()) {
                 boolean set = true;
-                for (ImageSpan span : spannable.getSpans(matcher.start(),
-                        matcher.end(), ImageSpan.class))
+                for (CenteredImageSpan span : spannable.getSpans(matcher.start(),
+                        matcher.end(), CenteredImageSpan.class))
                     if (spannable.getSpanStart(span) >= matcher.start()
                             && spannable.getSpanEnd(span) <= matcher.end())
                         spannable.removeSpan(span);
@@ -164,15 +181,15 @@ public class SmileUtils {
                 if (set) {
                     hasChanges = true;
                     if (size <= 0) {
-                        spannable.setSpan(new ImageSpan(context, entry.getValue()),
+                        spannable.setSpan(new CenteredImageSpan(context, entry.getValue(), verticalAlignment),
                                 matcher.start(), matcher.end(),
                                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                     } else {
                         Drawable drawable = context.getResources().getDrawable(entry.getValue());
                         if (drawable != null) {
                             drawable.setBounds(0, 0, size, size);//这里设置图片的大小
-                            ImageSpan imageSpan = new ImageSpan(drawable);
-                            spannable.setSpan(imageSpan,
+                            CenteredImageSpan CenteredImageSpan = new CenteredImageSpan(drawable, verticalAlignment);
+                            spannable.setSpan(CenteredImageSpan,
                                     matcher.start(), matcher.end(),
                                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                         }
@@ -189,8 +206,12 @@ public class SmileUtils {
     }
 
     public static Spannable getSmiledText(Context context, CharSequence text, int size) {
+        return getSmiledText(context, text, size, ALIGN_BOTTOM);
+    }
+
+    public static Spannable getSmiledText(Context context, CharSequence text, int size, int verticalAlignment) {
         Spannable spannable = spannableFactory.newSpannable(text);
-        addSmiles(context, size, spannable);
+        addSmiles(context, size, verticalAlignment, spannable);
         return spannable;
     }
 
@@ -285,6 +306,11 @@ public class SmileUtils {
         span = new ForegroundColorSpan(Color.rgb(253, 113, 34));// 需要重复！
         spannable.setSpan(span, 0, text.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        return spannable;
+    }
+
+    public static Spannable unicodeToEmojiName(Context context, String content, int size, int verticalAlignment) {
+        Spannable spannable = getSmiledText(context, content, size, verticalAlignment);
         return spannable;
     }
 
