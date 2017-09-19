@@ -56,7 +56,7 @@ dependencies {
 
 ### [旧版README](https://github.com/CarGuo/RickText/blob/master/OLD_README.md)
 
-### QQ群，有兴趣的可以进来，群里平常可能比较吵：174815284 。
+### QQ群，有兴趣的可以进来，群里视频项目的人居多，平时多吹水吐槽：174815284 。
 
 
 ----------------------------------
