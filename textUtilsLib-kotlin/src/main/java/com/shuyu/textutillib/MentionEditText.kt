@@ -186,19 +186,12 @@ open class MentionEditText : AppCompatEditText {
 
     }
 
-    fun getRangeOfClosestMentionString(selStart: Int, selEnd: Int): Range {
-        if (mRangeArrayList == null) {
-            return null!!
-        }
-        return mRangeArrayList!!.firstOrNull { it.contains(selStart, selEnd) }
-                ?: null!!
+    fun getRangeOfClosestMentionString(selStart: Int, selEnd: Int): Range? {
+        return mRangeArrayList?.firstOrNull { it.contains(selStart, selEnd) }
     }
 
     private fun getRangeOfNearbyMentionString(selStart: Int, selEnd: Int): Range? {
-        if (mRangeArrayList == null) {
-            return null
-        }
-        return mRangeArrayList!!.firstOrNull { it.isWrappedBy(selStart, selEnd) }
+        return mRangeArrayList?.firstOrNull { it.isWrappedBy(selStart, selEnd) }
     }
 
     //handle the deletion action for mention string, such as '@test'

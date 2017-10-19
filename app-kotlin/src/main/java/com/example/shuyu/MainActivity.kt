@@ -1,22 +1,24 @@
 package com.example.shuyu
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import com.example.shuyu.span.CustomClickAtUserSpan
 import com.example.shuyu.span.CustomClickTopicSpan
 import com.example.shuyu.span.CustomLinkSpan
+import com.example.shuyu.utils.JumpUtil
 import com.example.shuyu.utils.ScreenUtils
+import com.shuyu.textutillib.RichEditBuilder
 import com.shuyu.textutillib.RichTextBuilder
 import com.shuyu.textutillib.SmileUtils
-import com.shuyu.textutillib.listener.SpanAtUserCallBack
-import com.shuyu.textutillib.listener.SpanCreateListener
-import com.shuyu.textutillib.listener.SpanTopicCallBack
-import com.shuyu.textutillib.listener.SpanUrlCallBack
+import com.shuyu.textutillib.listener.*
 import com.shuyu.textutillib.model.TopicModel
 import com.shuyu.textutillib.model.UserModel
 import com.shuyu.textutillib.span.ClickAtUserSpan
@@ -24,12 +26,28 @@ import com.shuyu.textutillib.span.ClickTopicSpan
 import com.shuyu.textutillib.span.LinkSpan
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), View.OnClickListener {
 
+    companion object {
+        val REQUEST_USER_CODE_INPUT = 1111
+        val REQUEST_USER_CODE_CLICK = 2222
+        val REQUEST_TOPIC_CODE_INPUT = 3333
+        val REQUEST_TOPIC_CODE_CLICK = 4444
+    }
 
     private val topicModels = ArrayList<TopicModel>()
 
     private val nameList = ArrayList<UserModel>()
+
+
+    private val topicModelsEd = ArrayList<TopicModel>()
+
+    private val nameListEd = ArrayList<UserModel>()
+
+
+    private val insertContent = "这是测试文本#话题话题#哟 www.baidu.com " +
+            " 来@某个人  @22222 @kkk " +
+            " 好的,来几个表情[e2][e4][e55]，最后来一个电话 13245685478"
 
 
     private val spanCreateListener = object : SpanCreateListener {
@@ -47,9 +65,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        initEmoji()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        initEmoji()
         initView()
     }
 
@@ -70,7 +88,30 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initView() {
+        emojiLayout.setEditTextSmile(emojiEditText)
+        val richEditBuilder = RichEditBuilder()
+        richEditBuilder.setEditText(emojiEditText)
+                .setTopicModels(topicModelsEd)
+                .setUserModels(nameListEd)
+                .setColorAtUser("#FF00C0")
+                .setColorTopic("#F0F0C0")
+                .setEditTextAtUtilJumpListener(object : OnEditTextUtilJumpListener {
+                    override fun notifyAt() {
+                        JumpUtil.goToUserList(this@MainActivity, MainActivity.REQUEST_USER_CODE_INPUT)
+                    }
+
+                    override fun notifyTopic() {
+                        JumpUtil.goToTopicList(this@MainActivity, MainActivity.REQUEST_TOPIC_CODE_INPUT)
+                    }
+                })
+                .builder()
         resolveRichShow()
+
+        emojiShowBottom.setOnClickListener(this)
+        emojiShowAt.setOnClickListener(this)
+        insertTextBtn.setOnClickListener(this)
+        emojiShowTopic.setOnClickListener(this)
+        emojiEditText.setOnClickListener(this)
     }
 
     private fun resolveRichShow() {
@@ -156,5 +197,58 @@ class MainActivity : AppCompatActivity() {
         nameList.add(userModel2)
         val topicModel = TopicModel("333", "话题话题")
         topicModels.add(topicModel)
+    }
+
+
+    override fun onClick(view: View) {
+        when (view.id) {
+            R.id.emojiShowBottom -> {
+                emojiLayout.hideKeyboard()
+                if (emojiLayout.visibility == View.VISIBLE) {
+                    emojiLayout.visibility = View.GONE
+                } else {
+                    emojiLayout.visibility = View.VISIBLE
+                }
+            }
+            R.id.emojiShowAt -> JumpUtil.goToUserList(this@MainActivity, MainActivity.REQUEST_USER_CODE_CLICK)
+            R.id.insertTextBtn -> {
+                nameListEd.clear()
+                topicModelsEd.clear()
+
+                //如果是一次性插入的，记得补上@
+                var userModel = UserModel("@22222", "2222")
+                nameListEd.add(userModel)
+                userModel = UserModel("@kkk", "23333")
+                nameListEd.add(userModel)
+                //如果是一次性插入的，记得补上#和#
+                val topicModel = TopicModel("333", "#话题话题#")
+                topicModelsEd.add(topicModel)
+                emojiEditText.resolveInsertText(this@MainActivity, insertContent, nameListEd, topicModelsEd)
+                //获取原始数据可以通过以下获取
+                emojiEditText.realUserList
+                emojiEditText.realTopicList
+                Log.e(this.javaClass.name, emojiEditText.realText)
+            }
+            R.id.jumpBtn -> {
+            }
+            R.id.emojiShowTopic -> JumpUtil.goToTopicList(this@MainActivity, MainActivity.REQUEST_TOPIC_CODE_CLICK)
+            R.id.jumpMvvm -> {
+            }
+            R.id.emojiEditText -> emojiLayout.visibility = View.GONE
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                REQUEST_USER_CODE_CLICK -> emojiEditText.resolveAtResult(data.getSerializableExtra(UserListActivity.DATA) as UserModel)
+                REQUEST_USER_CODE_INPUT -> emojiEditText.resolveAtResultByEnterAt(data.getSerializableExtra(UserListActivity.DATA) as UserModel)
+
+                REQUEST_TOPIC_CODE_INPUT -> emojiEditText.resolveTopicResultByEnter(data.getSerializableExtra(TopicListActivity.DATA) as TopicModel)
+                REQUEST_TOPIC_CODE_CLICK -> emojiEditText.resolveTopicResult(data.getSerializableExtra(TopicListActivity.DATA) as TopicModel)
+            }
+        }
+
     }
 }
