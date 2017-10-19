@@ -152,7 +152,7 @@ class RichTextBuilder(private val context: Context?) {
     /**
      * 自定义span回调，如果不需要可不设置
      */
-    fun setSpanCreateListener(spanCreateListener: SpanCreateListener): RichTextBuilder {
+    fun setSpanCreateListener(spanCreateListener: SpanCreateListener?): RichTextBuilder {
         this.spanCreateListener = spanCreateListener
         return this
     }
@@ -206,22 +206,16 @@ class RichTextBuilder(private val context: Context?) {
             }
 
 
-            override fun getCustomClickAtUserSpan(context: Context, userModel: UserModel, color: Int, spanClickCallBack: SpanAtUserCallBack): ClickAtUserSpan {
-                return if (spanCreateListener != null) {
-                    spanCreateListener!!.getCustomClickAtUserSpan(context, userModel, color, spanClickCallBack)
-                } else null!!
+            override fun getCustomClickAtUserSpan(context: Context, userModel: UserModel, color: Int, spanClickCallBack: SpanAtUserCallBack): ClickAtUserSpan? {
+                return spanCreateListener?.getCustomClickAtUserSpan(context, userModel, color, spanClickCallBack)
             }
 
-            override fun getCustomClickTopicSpan(context: Context, topicModel: TopicModel, color: Int, spanTopicCallBack: SpanTopicCallBack): ClickTopicSpan {
-                return if (spanCreateListener != null) {
-                    spanCreateListener!!.getCustomClickTopicSpan(context, topicModel, color, spanTopicCallBack)
-                } else null!!
+            override fun getCustomClickTopicSpan(context: Context, topicModel: TopicModel, color: Int, spanTopicCallBack: SpanTopicCallBack): ClickTopicSpan? {
+                return  spanCreateListener?.getCustomClickTopicSpan(context, topicModel, color, spanTopicCallBack)
             }
 
-            override fun getCustomLinkSpan(context: Context, url: String, color: Int, spanUrlCallBack: SpanUrlCallBack): LinkSpan {
-                return if (spanCreateListener != null) {
-                    spanCreateListener!!.getCustomLinkSpan(context, url, color, spanUrlCallBack)
-                } else null!!
+            override fun getCustomLinkSpan(context: Context, url: String, color: Int, spanUrlCallBack: SpanUrlCallBack): LinkSpan? {
+                return spanCreateListener?.getCustomLinkSpan(context, url, color, spanUrlCallBack)
             }
 
             override fun emojiSize(): Int {

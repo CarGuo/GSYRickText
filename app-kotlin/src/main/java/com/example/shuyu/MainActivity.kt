@@ -70,12 +70,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initView() {
-        resolveRichShow();
+        resolveRichShow()
     }
 
     private fun resolveRichShow() {
 
-        initData();
+        initData()
 
         val content = "这是测试#话题话题#文本哟 www.baidu.com " +
                 "\n来@某个人  @22222 @kkk " +
@@ -132,6 +132,19 @@ class MainActivity : AppCompatActivity() {
                 //自定义span，如果不需要可不设置
                 .setSpanCreateListener(spanCreateListener)
                 .build()
+
+
+        //直接使用RichTextView
+        richText2.atColor = Color.RED
+        richText2.topicColor = Color.BLUE
+        richText2.linkColor = Color.YELLOW
+        richText2.isNeedNumberShow = true
+        richText2.isNeedUrlShow = true
+        richText2.setSpanAtUserCallBackListener(spanAtUserCallBack)
+        richText2.setSpanTopicCallBackListener(spanTopicCallBack)
+        richText2.setSpanUrlCallBackListener(spanUrlCallBack)
+        //所有配置完成后才设置text
+        richText2.setRichText(content, nameList, topicModels)
     }
 
     private fun initData() {

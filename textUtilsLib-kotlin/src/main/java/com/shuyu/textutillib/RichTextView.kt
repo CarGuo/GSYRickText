@@ -1,7 +1,6 @@
 package com.shuyu.textutillib
 
 import android.content.Context
-import android.content.res.TypedArray
 import android.graphics.Color
 import android.text.style.DynamicDrawableSpan
 import android.util.AttributeSet
@@ -154,7 +153,7 @@ class RichTextView : TextView {
                 .setSpanUrlCallBack(spanUrlCallBack)
                 .setSpanTopicCallBack(spanTopicCallBack)
                 .setVerticalAlignment(emojiVerticalAlignment)
-                .setSpanCreateListener(spanCreateListener!!)
+                .setSpanCreateListener(spanCreateListener)
                 .build()
 
     }
