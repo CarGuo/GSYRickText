@@ -28,14 +28,14 @@ import com.shuyu.textutillib.SmileUtils.Companion.getSmiledText
 
 class SmileUtils {
 
-    val emotions: Map<Pattern, Int>
+    val emotions: HashMap<Pattern, Int>
         get() = emoticons
 
     companion object {
 
         private val spannableFactory = Spannable.Factory.getInstance()
 
-        val emoticons: Map<Pattern, Int> = HashMap()
+        val emoticons: HashMap<Pattern, Int> = HashMap()
 
         private val textList = ArrayList<String>()
 
@@ -46,7 +46,7 @@ class SmileUtils {
          * @param smile    文本
          * @param resource 显示图片表情列表
          */
-        private fun addPattern(map: MutableMap<Pattern, Int>, smile: String,
+        private fun addPattern(map: HashMap<Pattern, Int>, smile: String,
                                resource: Int) {
             map.put(Pattern.compile(Pattern.quote(smile)), resource)
         }
