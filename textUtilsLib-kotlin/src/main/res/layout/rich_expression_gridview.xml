@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <com.shuyu.textutillib.LockGridView
+        android:id="@+id/gridview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:cacheColorHint="#eeeeee"
+        android:fadingEdge="none"
+        android:gravity="center"
+        android:listSelector="#00000000"
+        android:numColumns="7"
+        android:scrollbars="none"
+        android:verticalSpacing="5dp" />
+
+</LinearLayout>

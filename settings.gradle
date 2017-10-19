@@ -1,1 +1,1 @@
-include ':app', ':textUtilsLib'
+include ':app', ':textUtilsLib', ':textUtilsLib-kotlin'

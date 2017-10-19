@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="RichEditText">
+        <attr name="richMaxLength" format="integer" />
+        <attr name="richIconSize" format="dimension" />
+        <attr name="editTextAtUtilJumpListener" format="reference" />
+        <attr name="richEditTopicList" format="reference" />
+        <attr name="richEditNameList" format="reference" />
+        <attr name="richEditColorAtUser" format="string" />
+        <attr name="richEditColorTopic" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="EmojiLayout">
+        <attr name="richIndicatorFocus" format="integer|reference" />
+        <attr name="richIndicatorUnFocus" format="integer|reference" />
+        <attr name="richDeleteIconName" format="string" />
+        <attr name="richMarginBottom" format="dimension" />
+        <attr name="richMarginTop" format="dimension" />
+        <attr name="richLayoutNumColumns" format="integer|reference" />
+        <attr name="richLayoutNumRows" format="integer|reference" />
+    </declare-styleable>
+
+    <declare-styleable name="RichTextView">
+        <attr name="needNumberShow" format="boolean" />
+        <attr name="needUrlShow" format="boolean" />
+        <attr name="richText" format="string" />
+        <attr name="topicList" format="reference" />
+        <attr name="nameList" format="reference" />
+        <attr name="atColor" format="color" />
+        <attr name="topicColor" format="color" />
+        <attr name="linkColor" format="color" />
+        <attr name="emojiSize" format="integer|reference" />
+        <attr name="emojiVerticalAlignment" format="integer|reference" />
+        <attr name="spanUrlCallBackListener" format="reference" />
+        <attr name="spanAtUserCallBackListener" format="reference" />
+        <attr name="spanTopicCallBackListener" format="reference" />
+        <attr name="spanCreateListener" format="reference" />
+    </declare-styleable>
+
+</resources>

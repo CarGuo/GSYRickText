@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/edittext_bar_more"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#AC000000"
+    android:orientation="vertical">
+    <!-- 表情图片 -->
+    <LinearLayout
+        android:id="@+id/edittext_bar_ll_face_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/edittext_bar_vPager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:id="@+id/edittext_bar_viewGroup_face"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal" />
+    </LinearLayout>
+</LinearLayout>
