@@ -17,6 +17,7 @@
 **支持**|**表情、#话题与@某人编辑时选择复制限制整块选择。**
 **支持**|**表情大小设置、居中显示**
 **支持**|**MVVM（DataBing）。**
+**支持**|**kotlin(demo与lib)**
 
 
 ----------------------------------
@@ -40,7 +41,7 @@ allprojects {
 
 ```
 dependencies {
-     compile 'com.github.CarGuo:RickText:v2.1.1'
+     compile 'com.github.CarGuo:RickText:v2.1.2'
 }
 
 ```
@@ -162,6 +163,9 @@ richEditBuilder.setEditText(richEditText)
 
 ## 版本更新
 
+#### v2.1.2 （2017-10-20）
+* 优化一些问题
+* 增加kotlin lib 与 kotlin demo
 
 #### v2.1.1 （2017-09-19）
 * 增加表情居中功能的支持。
