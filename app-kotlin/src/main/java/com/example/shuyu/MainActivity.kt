@@ -51,17 +51,14 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
 
     private val spanCreateListener = object : SpanCreateListener {
-        override fun getCustomClickAtUserSpan(context: Context, userModel: UserModel, color: Int, spanClickCallBack: SpanAtUserCallBack): ClickAtUserSpan {
-            return CustomClickAtUserSpan(context, userModel, color, spanClickCallBack)
-        }
+        override fun getCustomClickAtUserSpan(context: Context, userModel: UserModel, color: Int, spanClickCallBack: SpanAtUserCallBack): ClickAtUserSpan =
+                CustomClickAtUserSpan(context, userModel, color, spanClickCallBack)
 
-        override fun getCustomClickTopicSpan(context: Context, topicModel: TopicModel, color: Int, spanTopicCallBack: SpanTopicCallBack): ClickTopicSpan {
-            return CustomClickTopicSpan(context, topicModel, color, spanTopicCallBack)
-        }
+        override fun getCustomClickTopicSpan(context: Context, topicModel: TopicModel, color: Int, spanTopicCallBack: SpanTopicCallBack): ClickTopicSpan =
+                CustomClickTopicSpan(context, topicModel, color, spanTopicCallBack)
 
-        override fun getCustomLinkSpan(context: Context, url: String, color: Int, spanUrlCallBack: SpanUrlCallBack): LinkSpan {
-            return CustomLinkSpan(context, url, color, spanUrlCallBack)
-        }
+        override fun getCustomLinkSpan(context: Context, url: String, color: Int, spanUrlCallBack: SpanUrlCallBack): LinkSpan =
+                CustomLinkSpan(context, url, color, spanUrlCallBack)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -84,7 +81,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             strings.add("[e$i]")
         }
         /**初始化为自己的**/
-        SmileUtils.addPatternAll(SmileUtils.emoticons, strings, data);
+        SmileUtils.addPatternAll(SmileUtils.emoticons, strings, data)
     }
 
     private fun initView() {
@@ -125,14 +122,14 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
         val spanUrlCallBack = object : SpanUrlCallBack {
             override fun phone(view: View, phone: String) {
-                Toast.makeText(view.context, phone + " 被点击了", Toast.LENGTH_SHORT).show();
+                Toast.makeText(view.context, phone + " 被点击了", Toast.LENGTH_SHORT).show()
                 if (view is TextView) {
                     view.highlightColor = Color.TRANSPARENT
                 }
             }
 
             override fun url(view: View, url: String) {
-                Toast.makeText(view.context, url + " 被点击了", Toast.LENGTH_SHORT).show();
+                Toast.makeText(view.context, url + " 被点击了", Toast.LENGTH_SHORT).show()
                 if (view is TextView) {
                     view.highlightColor = Color.TRANSPARENT
                 }
@@ -141,7 +138,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
         val spanAtUserCallBack = object : SpanAtUserCallBack {
             override fun onClick(view: View, userModel1: UserModel) {
-                Toast.makeText(view.context, userModel1.user_name + " 被点击了", Toast.LENGTH_SHORT).show();
+                Toast.makeText(view.context, userModel1.user_name + " 被点击了", Toast.LENGTH_SHORT).show()
                 if (view is TextView) {
                     view.highlightColor = Color.TRANSPARENT
                 }
@@ -150,7 +147,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
         val spanTopicCallBack = object : SpanTopicCallBack {
             override fun onClick(view: View, topicModel: TopicModel) {
-                Toast.makeText(view.context, topicModel.topicName + " 被点击了", Toast.LENGTH_SHORT).show();
+                Toast.makeText(view.context, topicModel.topicName + " 被点击了", Toast.LENGTH_SHORT).show()
                 if (view is TextView) {
                     view.highlightColor = Color.TRANSPARENT
                 }

@@ -98,17 +98,14 @@ open class MVViewModel(private val imvvmView: IMVVMView) : BaseObservable() {
 
     //如果不需要可不设置
     private val spanListener = object : SpanCreateListener {
-        override fun getCustomClickAtUserSpan(context: Context, userModel: UserModel, color: Int, spanClickCallBack: SpanAtUserCallBack): ClickAtUserSpan {
-            return CustomClickAtUserSpan(context, userModel, color, spanClickCallBack)
-        }
+        override fun getCustomClickAtUserSpan(context: Context, userModel: UserModel, color: Int, spanClickCallBack: SpanAtUserCallBack): ClickAtUserSpan =
+                CustomClickAtUserSpan(context, userModel, color, spanClickCallBack)
 
-        override fun getCustomClickTopicSpan(context: Context, topicModel: TopicModel, color: Int, spanTopicCallBack: SpanTopicCallBack): ClickTopicSpan {
-            return CustomClickTopicSpan(context, topicModel, color, spanTopicCallBack)
-        }
+        override fun getCustomClickTopicSpan(context: Context, topicModel: TopicModel, color: Int, spanTopicCallBack: SpanTopicCallBack): ClickTopicSpan =
+                CustomClickTopicSpan(context, topicModel, color, spanTopicCallBack)
 
-        override fun getCustomLinkSpan(context: Context, url: String, color: Int, spanUrlCallBack: SpanUrlCallBack): LinkSpan {
-            return CustomLinkSpan(context, url, color, spanUrlCallBack)
-        }
+        override fun getCustomLinkSpan(context: Context, url: String, color: Int, spanUrlCallBack: SpanUrlCallBack): LinkSpan =
+                CustomLinkSpan(context, url, color, spanUrlCallBack)
     }
 
     private val onEditTextUtilJumpListener = object : OnEditTextUtilJumpListener {

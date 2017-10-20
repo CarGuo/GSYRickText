@@ -28,7 +28,7 @@ class UserListActivity : AppCompatActivity() {
 
         val adapter = ArrayAdapter(this, R.layout.user_list_item, data)
         userList.adapter = adapter
-        userList.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
+        userList.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
             val intent = Intent()
             intent.putExtra(DATA, data[position])
             setResult(Activity.RESULT_OK, intent)

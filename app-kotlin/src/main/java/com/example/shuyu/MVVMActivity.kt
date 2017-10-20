@@ -22,7 +22,7 @@ import com.shuyu.textutillib.model.UserModel
 
 class MVVMActivity : Activity(), IMVVMView {
 
-    var mvViewModel: MVViewModel? = null;
+    private var mvViewModel: MVViewModel? = null
 
     override val context: Context
         get() = this

@@ -8,7 +8,5 @@ import android.databinding.DataBindingComponent
  */
 open class RichEditTextBindingsComponent : DataBindingComponent {
 
-    override fun getCompanion(): RichEditTextBindings.Companion {
-        return RichEditTextBindings
-    }
+    override fun getCompanion(): RichEditTextBindings.Companion = RichEditTextBindings
 }
