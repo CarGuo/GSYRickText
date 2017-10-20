@@ -129,11 +129,7 @@ class EmojiLayout : LinearLayout {
         val viewSize = Math.ceil((reslist!!.size * 1.0f / pageCount).toDouble()).toInt()
 
         // 初始化表情viewpager
-        val views = ArrayList<View>()
-        for (i in 0 until viewSize) {
-            val gv = getGridChildView(i + 1)
-            views.add(gv)
-        }
+        val views = (0 until viewSize).map { getGridChildView(it + 1) }
 
         var imageViewFace: ImageView
         imageFaceViews = arrayOfNulls(views.size)
@@ -178,7 +174,7 @@ class EmojiLayout : LinearLayout {
         list.add(deleteIconName)
         val smileImageExpressionAdapter = SmileImageExpressionAdapter(context, 1, list)
         gv.adapter = smileImageExpressionAdapter
-        gv.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
+        gv.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
             val filename = smileImageExpressionAdapter.getItem(position)
             try {
                 if (deleteIconName != filename) { // 不是删除键，显示表情
@@ -194,7 +190,7 @@ class EmojiLayout : LinearLayout {
                             val end = tempStr.lastIndexOf("]")// 获取最后一个表情的位置
                             if (i != -1 && end == selectionStart - 1) {
                                 val cs = tempStr.substring(i, selectionStart)
-                                if (SmileUtils.containsKey(cs.toString()))
+                                if (SmileUtils.containsKey(cs))
                                     editTextEmoji!!.editableText.delete(i, selectionStart)
                                 else
                                     editTextEmoji!!.editableText.delete(selectionStart - 1,
@@ -262,9 +258,7 @@ class EmojiLayout : LinearLayout {
     }
 
 
-    fun getEditTextSmile(): RichEditText? {
-        return editTextEmoji
-    }
+    fun getEditTextSmile(): RichEditText? = editTextEmoji
 
     fun setEditTextSmile(editTextSmile: RichEditText) {
         this.editTextEmoji = editTextSmile

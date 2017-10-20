@@ -19,13 +19,9 @@ import android.view.View
 
 open class ExpressionPagerAdapter(private val views: List<View>) : PagerAdapter() {
 
-    override fun getCount(): Int {
-        return views.size
-    }
+    override fun getCount(): Int = views.size
 
-    override fun isViewFromObject(arg0: View, arg1: Any): Boolean {
-        return arg0 === arg1
-    }
+    override fun isViewFromObject(arg0: View, arg1: Any): Boolean = arg0 === arg1
 
     override fun instantiateItem(arg0: View?, arg1: Int): Any {
         (arg0 as ViewPager).addView(views[arg1])

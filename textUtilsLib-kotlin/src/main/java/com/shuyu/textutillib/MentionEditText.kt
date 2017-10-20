@@ -75,9 +75,8 @@ open class MentionEditText : AppCompatEditText {
         init()
     }
 
-    override fun onCreateInputConnection(outAttrs: EditorInfo): InputConnection {
-        return HackInputConnection(super.onCreateInputConnection(outAttrs), true, this)
-    }
+    override fun onCreateInputConnection(outAttrs: EditorInfo): InputConnection =
+            HackInputConnection(super.onCreateInputConnection(outAttrs), true, this)
 
 
     override fun onTextChanged(text: CharSequence, start: Int, lengthBefore: Int, lengthAfter: Int) {
@@ -147,10 +146,10 @@ open class MentionEditText : AppCompatEditText {
                 while (matcher.find()) {
                     val mentionText = matcher.group()
                     val start: Int
-                    if (lastMentionIndex != -1) {
-                        start = text.indexOf(mentionText, lastMentionIndex)
+                    start = if (lastMentionIndex != -1) {
+                        text.indexOf(mentionText, lastMentionIndex)
                     } else {
-                        start = text.indexOf(mentionText)
+                        text.indexOf(mentionText)
                     }
                     val end = start + mentionText.length
                     lastMentionIndex = end
@@ -172,10 +171,10 @@ open class MentionEditText : AppCompatEditText {
             while (matcher.find()) {
                 val mentionText = matcher.group()
                 val start: Int
-                if (lastMentionIndex != -1) {
-                    start = text.indexOf(mentionText, lastMentionIndex)
+                start = if (lastMentionIndex != -1) {
+                    text.indexOf(mentionText, lastMentionIndex)
                 } else {
-                    start = text.indexOf(mentionText)
+                    text.indexOf(mentionText)
                 }
                 val end = start + mentionText.length
                 lastMentionIndex = end
@@ -186,13 +185,11 @@ open class MentionEditText : AppCompatEditText {
 
     }
 
-    fun getRangeOfClosestMentionString(selStart: Int, selEnd: Int): Range? {
-        return mRangeArrayList?.firstOrNull { it.contains(selStart, selEnd) }
-    }
+    fun getRangeOfClosestMentionString(selStart: Int, selEnd: Int): Range? =
+            mRangeArrayList?.firstOrNull { it.contains(selStart, selEnd) }
 
-    private fun getRangeOfNearbyMentionString(selStart: Int, selEnd: Int): Range? {
-        return mRangeArrayList?.firstOrNull { it.isWrappedBy(selStart, selEnd) }
-    }
+    private fun getRangeOfNearbyMentionString(selStart: Int, selEnd: Int): Range? =
+            mRangeArrayList?.firstOrNull { it.isWrappedBy(selStart, selEnd) }
 
     //handle the deletion action for mention string, such as '@test'
     private inner class HackInputConnection(target: InputConnection, mutable: Boolean, editText: MentionEditText) : InputConnectionWrapper(target, mutable) {
@@ -244,17 +241,13 @@ open class MentionEditText : AppCompatEditText {
     //helper class to record the position of mention string in EditText
     inner class Range(internal var from: Int, internal var to: Int) {
 
-        fun isWrappedBy(start: Int, end: Int): Boolean {
-            return start > from && start < to || end > from && end < to
-        }
+        fun isWrappedBy(start: Int, end: Int): Boolean =
+                start in (from + 1)..(to - 1) || end in (from + 1)..(to - 1)
 
-        fun contains(start: Int, end: Int): Boolean {
-            return from <= start && to >= end
-        }
+        fun contains(start: Int, end: Int): Boolean = from <= start && to >= end
 
-        fun isEqual(start: Int, end: Int): Boolean {
-            return from == start && to == end || from == end && to == start
-        }
+        fun isEqual(start: Int, end: Int): Boolean =
+                from == start && to == end || from == end && to == start
 
         fun getAnchorPosition(value: Int): Int {
             return if (value - from - (to - value) >= 0) {

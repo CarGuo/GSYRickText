@@ -21,7 +21,5 @@ class TopicModel: Serializable {
         this.topicId = topicId
     }
 
-    override fun toString(): String {
-        return this.topicName!!
-    }
+    override fun toString(): String = this.topicName
 }

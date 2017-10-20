@@ -23,7 +23,5 @@ class UserModel : Serializable {
         this.user_id = user_id
     }
 
-    override fun toString(): String {
-        return this.user_name!!
-    }
+    override fun toString(): String = this.user_name
 }

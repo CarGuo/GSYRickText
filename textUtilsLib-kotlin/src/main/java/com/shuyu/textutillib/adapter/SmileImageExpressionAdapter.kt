@@ -27,8 +27,8 @@ import com.shuyu.textutillib.SmileUtils
 open class SmileImageExpressionAdapter(context: Context, textViewResourceId: Int, objects: List<String>) : ArrayAdapter<String>(context, textViewResourceId, objects) {
 
 
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        var convertView = convertView
+    override fun getView(position: Int, convertViewT: View?, parent: ViewGroup): View {
+        var convertView = convertViewT
         if (convertView == null) {
             convertView = View.inflate(context, R.layout.rich_smile_image_row_expression, null)
         }

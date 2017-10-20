@@ -94,10 +94,7 @@ class RichEditText : MentionEditText {
             if (nameList == null) {
                 return list
             }
-            for (userModel in nameList!!) {
-                list.add(UserModel(userModel.user_name!!.replace("@", "").replace("\b", ""), userModel.user_id))
-
-            }
+            nameList?.mapTo(list) { UserModel(it.user_name.replace("@", "").replace("\b", ""), it.user_id) }
             return list
         }
 
@@ -112,9 +109,7 @@ class RichEditText : MentionEditText {
             if (topicList == null) {
                 return list
             }
-            for (topicModel in topicList!!) {
-                list.add(TopicModel(topicModel.topicName!!.replace("#", "").replace("#", ""), topicModel.topicId))
-            }
+            topicList?.mapTo(list) { TopicModel(it.topicName.replace("#", "").replace("#", ""), it.topicId) }
             return list
 
         }
@@ -202,16 +197,16 @@ class RichEditText : MentionEditText {
         val selectionStart = selectionStart
         var lastPos = 0
         for (i in nameList!!.indices) { //循环遍历整个输入框的所有字符
-            lastPos = text.toString().indexOf(nameList!![i].user_name!!.replace("\b", ""), lastPos);
+            lastPos = text.toString().indexOf(nameList!![i].user_name.replace("\b", ""), lastPos);
             if (lastPos != -1) {
-                if (selectionStart > lastPos && selectionStart <= lastPos + nameList!![i].user_name!!.length) {
+                if (selectionStart > lastPos && selectionStart <= lastPos + nameList!![i].user_name.length) {
                     nameList!!.removeAt(i)
                     return
                 } else {
                     lastPos++
                 }
             } else {
-                lastPos += nameList!![i].user_name!!.length
+                lastPos += nameList!![i].user_name.length
             }
         }
     }
@@ -226,16 +221,16 @@ class RichEditText : MentionEditText {
         val selectionStart = selectionStart
         var lastPos = 0
         for (i in topicList!!.indices) { //循环遍历整个输入框的所有字符
-            lastPos = text.toString().indexOf(topicList!![i].topicName!!, lastPos)
+            lastPos = text.toString().indexOf(topicList!![i].topicName, lastPos)
             if (lastPos != -1) {
-                if (selectionStart > lastPos && selectionStart <= lastPos + topicList!![i].topicName!!.length) {
+                if (selectionStart > lastPos && selectionStart <= lastPos + topicList!![i].topicName.length) {
                     topicList!!.removeAt(i)
                     return
                 } else {
                     lastPos++
                 }
             } else {
-                lastPos += topicList!![i].topicName!!.length
+                lastPos += topicList!![i].topicName.length
             }
         }
     }
@@ -248,10 +243,10 @@ class RichEditText : MentionEditText {
                 while (matcher.find()) {
                     val mentionText = matcher.group()
                     val start: Int
-                    if (lastMentionIndex != -1) {
-                        start = getText().toString().indexOf(mentionText, lastMentionIndex)
+                    start = if (lastMentionIndex != -1) {
+                        getText().toString().indexOf(mentionText, lastMentionIndex)
                     } else {
-                        start = getText().toString().indexOf(mentionText)
+                        getText().toString().indexOf(mentionText)
                     }
                     val end = start + mentionText.length
                     lastMentionIndex = end
@@ -273,17 +268,17 @@ class RichEditText : MentionEditText {
                 while (matcher.find()) {
                     var mentionText = matcher.group()
                     val start: Int
-                    if (lastMentionIndex != -1) {
-                        start = getText().toString().indexOf(mentionText, lastMentionIndex)
+                    start = if (lastMentionIndex != -1) {
+                        getText().toString().indexOf(mentionText, lastMentionIndex)
                     } else {
-                        start = getText().toString().indexOf(mentionText)
+                        getText().toString().indexOf(mentionText)
                     }
                     val end = start + mentionText.length
                     mentionText = mentionText.substring(mentionText.lastIndexOf("@"), mentionText.length)
                     lastMentionIndex = end
                     for (i in nameList!!.indices) {
                         val userModel = nameList!![i]
-                        if (userModel.user_name!!.replace("\b", "") == mentionText.replace("\b", "") && getRangeOfClosestMentionString(start, end) != null) {
+                        if (userModel.user_name.replace("\b", "") == mentionText.replace("\b", "") && getRangeOfClosestMentionString(start, end) != null) {
                             nameList!!.remove(userModel)
                             break
                         }
@@ -305,13 +300,13 @@ class RichEditText : MentionEditText {
             var success = false
             for (i in nameList!!.indices) {
                 lastPos = text.toString().indexOf(
-                        nameList!![i].user_name!!, lastPos)
+                        nameList!![i].user_name, lastPos)
                 if (lastPos != -1) {
-                    if (selectionStart >= lastPos && selectionStart <= lastPos + nameList!![i].user_name!!.length) {
-                        setSelection(lastPos + nameList!![i].user_name!!.length)
+                    if (selectionStart >= lastPos && selectionStart <= lastPos + nameList!![i].user_name.length) {
+                        setSelection(lastPos + nameList!![i].user_name.length)
                         success = true
                     }
-                    lastPos += nameList!![i].user_name!!.length
+                    lastPos += nameList!![i].user_name.length
                 }
             }
 
@@ -319,12 +314,12 @@ class RichEditText : MentionEditText {
                 lastPos = 0
                 for (i in topicList!!.indices) {
                     lastPos = text.toString().indexOf(
-                            topicList!![i].topicName!!, lastPos)
+                            topicList!![i].topicName, lastPos)
                     if (lastPos != -1) {
-                        if (selectionStart >= lastPos && selectionStart <= lastPos + topicList!![i].topicName!!.length) {
-                            setSelection(lastPos + topicList!![i].topicName!!.length)
+                        if (selectionStart >= lastPos && selectionStart <= lastPos + topicList!![i].topicName.length) {
+                            setSelection(lastPos + topicList!![i].topicName.length)
                         }
-                        lastPos += topicList!![i].topicName!!.length
+                        lastPos += topicList!![i].topicName.length
                     }
                 }
             }
@@ -407,7 +402,7 @@ class RichEditText : MentionEditText {
      */
     private fun resolveTopicInsert(context: Context, text: String, color: String, listTopic: List<TopicModel>?): Spannable {
         val spannable: Spannable
-        if (listTopic != null && listTopic.size > 0) {
+        if (listTopic != null && listTopic.isNotEmpty()) {
             val topics = HashMap<String, String>()
             for (topicModel in listTopic) {
                 topics.put(topicModel.topicName, topicModel.topicName)
@@ -449,13 +444,13 @@ class RichEditText : MentionEditText {
      */
     private fun resolveAtInsert(text: String, spannable: Spannable, color: String, listUser: List<UserModel>?): Spannable {
 
-        if (listUser == null || listUser.size <= 0) {
+        if (listUser == null || listUser.isEmpty()) {
             return spannable
         }
 
         //此处保存名字的键值
         val names = HashMap<String, String>()
-        if (listUser.size > 0) {
+        if (listUser.isNotEmpty()) {
             for (userModel in listUser) {
                 names.put(userModel.user_name, userModel.user_name)
             }
@@ -549,7 +544,7 @@ class RichEditText : MentionEditText {
      */
     fun resolveText(userModel: UserModel) {
         val userName = userModel.user_name
-        userModel.user_name = userName!! + "\b"
+        userModel.user_name = userName+ "\b"
         nameList!!.add(userModel)
 
         val index = selectionStart
@@ -558,7 +553,7 @@ class RichEditText : MentionEditText {
         val htmlText = Html.fromHtml(String.format("<font color='%s'>$userName</font>", colorAtUser))
         spannableStringBuilder.insert(index, htmlText)
         spannableStringBuilder.insert(index + htmlText.length, "\b")
-        setText(spannableStringBuilder)
+        text = spannableStringBuilder
         setSelection(index + htmlText.length + 1)
     }
 
@@ -574,7 +569,7 @@ class RichEditText : MentionEditText {
         //直接用span会导致后面没文字的时候新输入的一起变色
         val htmlText = Html.fromHtml(String.format("<font color='%s'>" + topicModel.topicName + "</font>", colorTopic))
         spannableStringBuilder.insert(index, htmlText)
-        setText(spannableStringBuilder)
+        text = spannableStringBuilder
         setSelection(index + htmlText.length)
     }
 
@@ -655,7 +650,7 @@ class RichEditText : MentionEditText {
      */
     fun resolveAtResult(userModel: UserModel) {
         val user_id = userModel.user_id
-        val user_name = "@" + userModel.user_name!!
+        val user_name = "@" + userModel.user_name
         val user = UserModel(user_name, user_id)
         resolveText(user)
     }
@@ -675,7 +670,7 @@ class RichEditText : MentionEditText {
                 text.delete(index, index + 1)
             }
         }
-        val user_name = "@" + userModel.user_name!!
+        val user_name = "@" + userModel.user_name
         val user = UserModel(user_name, user_id)
         resolveText(user)
 
@@ -706,7 +701,7 @@ class RichEditText : MentionEditText {
         val spannableStringBuilder = SpannableStringBuilder(text)
         spannableStringBuilder.insert(index, spannableString)
 
-        setText(spannableStringBuilder)
+        text = spannableStringBuilder
         setSelection(index + spannableString.length)
 
 
@@ -741,7 +736,5 @@ class RichEditText : MentionEditText {
         this.richMaxLength = maxLength
     }
 
-    fun getEditTextMaxLength(): Int {
-        return richMaxLength
-    }
+    fun getEditTextMaxLength(): Int = richMaxLength
 }

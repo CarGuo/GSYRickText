@@ -215,7 +215,7 @@ class KeyBoardLockLayout : LinearLayout {
 
     companion object {
 
-        private val TAG = KeyBoardLockLayout::class.java!!.getName()
+        private val TAG = KeyBoardLockLayout::class.java.name
 
         private val NAME_PREF_SOFT_KEYBOARD = TAG + "keyboard_name"
 

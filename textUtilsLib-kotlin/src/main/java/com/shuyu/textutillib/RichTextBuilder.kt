@@ -208,25 +208,18 @@ class RichTextBuilder(private val context: Context?) {
             }
 
 
-            override fun getCustomClickAtUserSpan(context: Context, userModel: UserModel, color: Int, spanClickCallBack: SpanAtUserCallBack): ClickAtUserSpan? {
-                return spanCreateListener?.getCustomClickAtUserSpan(context, userModel, color, spanClickCallBack)
-            }
+            override fun getCustomClickAtUserSpan(context: Context, userModel: UserModel, color: Int, spanClickCallBack: SpanAtUserCallBack): ClickAtUserSpan? =
+                    spanCreateListener?.getCustomClickAtUserSpan(context, userModel, color, spanClickCallBack)
 
-            override fun getCustomClickTopicSpan(context: Context, topicModel: TopicModel, color: Int, spanTopicCallBack: SpanTopicCallBack): ClickTopicSpan? {
-                return  spanCreateListener?.getCustomClickTopicSpan(context, topicModel, color, spanTopicCallBack)
-            }
+            override fun getCustomClickTopicSpan(context: Context, topicModel: TopicModel, color: Int, spanTopicCallBack: SpanTopicCallBack): ClickTopicSpan? =
+                    spanCreateListener?.getCustomClickTopicSpan(context, topicModel, color, spanTopicCallBack)
 
-            override fun getCustomLinkSpan(context: Context, url: String, color: Int, spanUrlCallBack: SpanUrlCallBack): LinkSpan? {
-                return spanCreateListener?.getCustomLinkSpan(context, url, color, spanUrlCallBack)
-            }
+            override fun getCustomLinkSpan(context: Context, url: String, color: Int, spanUrlCallBack: SpanUrlCallBack): LinkSpan? =
+                    spanCreateListener?.getCustomLinkSpan(context, url, color, spanUrlCallBack)
 
-            override fun emojiSize(): Int {
-                return emojiSize
-            }
+            override fun emojiSize(): Int = emojiSize
 
-            override fun verticalAlignment(): Int {
-                return verticalAlignment
-            }
+            override fun verticalAlignment(): Int = verticalAlignment
         }
 
         val spannable = TextCommonUtils.getAllSpanText(
