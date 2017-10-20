@@ -35,6 +35,10 @@ class TopicListActivity : AppCompatActivity() {
         }
 
     }
+    override fun onBackPressed() {
+        setResult(RESULT_CANCELED, intent)
+        finish()
+    }
 
     companion object {
 

@@ -310,8 +310,12 @@ public class RichEditText extends MentionEditText {
                         resolveDeleteName();
                         resolveDeleteTopic();
                         int position = delIndex;
-                        getText().replace(position, position + length, "");
-                        setSelection(position);
+                        try {
+                            getText().replace(position, position + length, "");
+                            setSelection(position);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                     delIndex = -1;
                 } else {

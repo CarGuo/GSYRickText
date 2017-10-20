@@ -366,8 +366,12 @@ class RichEditText : MentionEditText {
                         resolveDeleteName()
                         resolveDeleteTopic()
                         val position = delIndex
-                        text.replace(position, position + length, "")
-                        setSelection(position)
+                        try {
+                            text.replace(position, position + length, "")
+                            setSelection(position)
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
                     }
                     delIndex = -1
                 } else {

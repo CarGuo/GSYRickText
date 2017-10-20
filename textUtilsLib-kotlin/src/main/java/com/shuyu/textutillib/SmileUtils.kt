@@ -135,9 +135,8 @@ class SmileUtils {
          * @param spannable 显示的span
          * @return 是否添加
          */
-        fun addSmiles(context: Context, spannable: Spannable): Boolean {
-            return addSmiles(context, -1, spannable)
-        }
+        fun addSmiles(context: Context, spannable: Spannable): Boolean =
+                addSmiles(context, -1, spannable)
 
         /**
          * replace existing spannable with smiles
@@ -147,9 +146,8 @@ class SmileUtils {
          * @param spannable 显示的span
          * @return 是否添加
          */
-        fun addSmiles(context: Context, size: Int, spannable: Spannable): Boolean {
-            return addSmiles(context, size, ALIGN_BOTTOM, spannable)
-        }
+        fun addSmiles(context: Context, size: Int, spannable: Spannable): Boolean =
+                addSmiles(context, size, ALIGN_BOTTOM, spannable)
 
 
         /**
@@ -221,14 +219,14 @@ class SmileUtils {
 
             val unicode = StringBuffer()
 
-            for (i in 0 until string.length) {
+            (0 until string.length)
+                    .map {
+                        // 取出每一个字符
+                        string[it]
 
-                // 取出每一个字符
-                val c = string[i]
-
-                // 转换为unicode
-                unicode.append("\\u" + String.format("%04", Integer.toHexString(c.toInt())))
-            }
+                        // 转换为unicode
+                    }
+                    .forEach { unicode.append("\\u" + String.format("%04", Integer.toHexString(it.toInt()))) }
 
             return "[" + unicode.toString() + "]"
         }
@@ -239,29 +237,27 @@ class SmileUtils {
 
             val hex = unicode.split("\\\\u".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()
 
-            for (i in 1 until hex.size) {
+            (1 until hex.size)
+                    .map {
+                        // 转换出每一个代码点
+                        Integer.parseInt(hex[it], 16)
 
-                // 转换出每一个代码点
-                val data = Integer.parseInt(hex[i], 16)
-
-                // 追加成string
-                string.append(data.toChar())
-            }
+                        // 追加成string
+                    }.forEach { string.append(it.toChar()) }
 
             return string.toString()
         }
 
         var specials = arrayOf("\\", "\\/", "*", ".", "?", "+", "$", "^", "[", "]", "(", ")", "{", "}", "|")
 
-        fun highlight(text: String, target: String): SpannableStringBuilder {
-            var target = target
+        fun highlight(text: String, targetT: String): SpannableStringBuilder {
+            var target = targetT
             val spannable = SpannableStringBuilder(text)
             var span: CharacterStyle? = null
-            for (i in specials.indices) {
-                if (target.contains(specials[i])) {
-                    target = target.replace(specials[i], "\\" + specials[i])
-                }
-            }
+            specials.indices
+                    .asSequence()
+                    .filter { target.contains(specials[it]) }
+                    .forEach { target = target.replace(specials[it], "\\" + specials[it]) }
             val p = Pattern.compile(target.toLowerCase())
             val m = p.matcher(text.toLowerCase())
             while (m.find()) {
@@ -294,20 +290,15 @@ class SmileUtils {
             return spannable
         }
 
-        fun unicodeToEmojiName(context: Context, content: String, size: Int, verticalAlignment: Int): Spannable {
-            return getSmiledText(context, content, size, verticalAlignment)
-        }
+        fun unicodeToEmojiName(context: Context, content: String, size: Int, verticalAlignment: Int): Spannable =
+                getSmiledText(context, content, size, verticalAlignment)
 
-        fun unicodeToEmojiName(context: Context, content: String, size: Int): Spannable {
-            return getSmiledText(context, content, size)
-        }
+        fun unicodeToEmojiName(context: Context, content: String, size: Int): Spannable =
+                getSmiledText(context, content, size)
 
-        fun unicodeToEmojiName(context: Context, content: String): Spannable {
-            return getSmiledText(context, content, -1)
-        }
+        fun unicodeToEmojiName(context: Context, content: String): Spannable =
+                getSmiledText(context, content, -1)
 
-        fun getTextList(): List<String> {
-            return textList
-        }
+        fun getTextList(): List<String> = textList
     }
 }

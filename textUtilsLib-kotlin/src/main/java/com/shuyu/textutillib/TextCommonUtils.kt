@@ -137,9 +137,9 @@ object TextCommonUtils {
         val map = HashMap<String, String>()
         var i = 0
         while (i < listUser!!.size) {
-            var index = content.indexOf("@" + listUser[i].user_name!!, indexStart) + 1
+            var index = content.indexOf("@" + listUser[i].user_name, indexStart) + 1
             if (index < 0 && indexStart > 0) {
-                index = content.indexOf(listUser[i].user_name!!)
+                index = content.indexOf(listUser[i].user_name)
                 if (map.containsKey("" + index)) {
                     val tmpIndexStart = if (indexStart < lenght) Integer.parseInt(map["" + index]) else lenght - 1
                     if (tmpIndexStart != indexStart) {
@@ -153,7 +153,7 @@ object TextCommonUtils {
             if (index > 0) {
                 map.put(index.toString() + "", index.toString() + "")
                 val mathStart = index - 1
-                val indexEnd = index + listUser[i].user_name!!.length
+                val indexEnd = index + listUser[i].user_name.length
                 val hadAt = "@" == content.substring(mathStart, index)
                 val matchEnd = indexEnd + 1
                 if (hadAt && (matchEnd <= lenght || indexEnd == lenght)) {
@@ -210,7 +210,7 @@ object TextCommonUtils {
         while (i < listTopic.size) {
             var index = content.indexOf("#" + listTopic[i].topicName + "#", indexStart) + 1
             if (index < 0 && indexStart > 0) {
-                index = content.indexOf(listTopic[i].topicName!!)
+                index = content.indexOf(listTopic[i].topicName)
                 if (map.containsKey("" + index)) {
                     val tmpIndexStart = if (indexStart < lenght) Integer.parseInt(map["" + index]) else lenght - 1
                     if (tmpIndexStart != indexStart) {
@@ -224,7 +224,7 @@ object TextCommonUtils {
             if (index > 0) {
                 map.put(index.toString() + "", index.toString() + "")
                 val mathStart = index - 1
-                val indexEnd = index + listTopic[i].topicName!!.length
+                val indexEnd = index + listTopic[i].topicName.length
                 val hadAt = "#" == content.substring(mathStart, index) && "#" == content.substring(indexEnd, indexEnd + 1)
                 val matchEnd = indexEnd + 1
                 if (hadAt && (matchEnd <= lenght || indexEnd == lenght)) {
