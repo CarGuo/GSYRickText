@@ -46,6 +46,13 @@ dependencies {
 
 ```
 
+### kotlin版本的依赖
+```
+dependencies {
+     compile 'com.github.CarGuo.RickText:textUtilsLib-kotlin:v2.1.2'
+}
+```
+
 ----------------------------------
 
 ## DEMO效果图
