@@ -186,7 +186,7 @@ class RichTextView : TextView {
      * @param topicList 话题列表
      */
     @JvmOverloads
-    fun setRichText(text: String?, nameList: List<UserModel>? = ArrayList(), topicList: List<TopicModel>? = ArrayList()) {
+    fun setRichText(text: String?, nameList: List<UserModel>? = null, topicList: List<TopicModel>? = null) {
         if (nameList != null) {
             this.nameList = nameList
         }

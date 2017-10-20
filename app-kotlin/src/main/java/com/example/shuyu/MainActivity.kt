@@ -196,7 +196,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         nameList.add(userModel)
         val userModel2 = UserModel("kkk", "23333")
         nameList.add(userModel2)
-        val topicModel = TopicModel("333", "话题话题")
+        val topicModel = TopicModel("话题话题", "333")
         topicModels.add(topicModel)
     }
 
@@ -222,7 +222,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 userModel = UserModel("@kkk", "23333")
                 nameListEd.add(userModel)
                 //如果是一次性插入的，记得补上#和#
-                val topicModel = TopicModel("333", "#话题话题#")
+                val topicModel = TopicModel("#话题话题#", "333")
                 topicModelsEd.add(topicModel)
                 emojiEditText.resolveInsertText(this@MainActivity, insertContent, nameListEd, topicModelsEd)
                 //获取原始数据可以通过以下获取

@@ -9,7 +9,7 @@ android {
     buildToolsVersion globalConfiguration.androidBuildToolsVersion
 
     defaultConfig {
-        applicationId "com.example.richtext"
+        applicationId "com.example.shuyu"
 
         minSdkVersion globalConfiguration.androidMinSdkVersion
         targetSdkVersion globalConfiguration.androidTargetSdkVersion

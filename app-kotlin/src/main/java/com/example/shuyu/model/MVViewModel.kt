@@ -134,7 +134,7 @@ open class MVViewModel(private val imvvmView: IMVVMView) : BaseObservable() {
         userModel = UserModel("kkk", "23333")
         nameListOb.add(userModel)
 
-        val topicModel = TopicModel("333", "话题话题")
+        val topicModel = TopicModel("话题话题", "333")
         topicListOb.add(topicModel)
 
         spanAtUserCallback.set(imvvmView.spanAtUserCallBack)
