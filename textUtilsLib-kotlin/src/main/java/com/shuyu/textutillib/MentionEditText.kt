@@ -278,8 +278,8 @@ open class MentionEditText : AppCompatEditText {
     companion object {
         //public static final String DEFAULT_MENTION_PATTERN = "@[\\u4e00-\\u9fa5\\w\\-]+";
 
-        val DEFAULT_MENTION_PATTERN = "@[^\\s]+?\\u0008"
-        val TOPIC_MENTION_PATTERN = "#[^\\s]+?#"
+        val DEFAULT_MENTION_PATTERN = "@[^(?!@)\\s]+?\\u0008"
+        val TOPIC_MENTION_PATTERN = "#[^(?!@)\\s]+?#"
     }
 
 }
