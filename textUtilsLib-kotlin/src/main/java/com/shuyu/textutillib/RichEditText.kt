@@ -362,12 +362,14 @@ class RichEditText : MentionEditText {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 val setMsg = s.toString()
                 if (delIndex != -1) {
-                    resolveDeleteName()
-                    resolveDeleteTopic()
-                    val position = delIndex
+                    if (length > 1) {
+                        resolveDeleteName()
+                        resolveDeleteTopic()
+                        val position = delIndex
+                        text.replace(position, position + length, "")
+                        setSelection(position)
+                    }
                     delIndex = -1
-                    text.replace(position, position + length, "")
-                    setSelection(position)
                 } else {
                     if (setMsg.length >= beforeCount && selectionEnd > 0 && setMsg[selectionEnd - 1] == '@') {
                         if (editTextAtUtilJumpListener != null) {

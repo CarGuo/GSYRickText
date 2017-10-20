@@ -306,12 +306,14 @@ public class RichEditText extends MentionEditText {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String setMsg = s.toString();
                 if (delIndex != -1) {
-                    resolveDeleteName();
-                    resolveDeleteTopic();
-                    int position = delIndex;
+                    if (length > 1) {
+                        resolveDeleteName();
+                        resolveDeleteTopic();
+                        int position = delIndex;
+                        getText().replace(position, position + length, "");
+                        setSelection(position);
+                    }
                     delIndex = -1;
-                    getText().replace(position, position + length, "");
-                    setSelection(position);
                 } else {
                     if (setMsg.length() >= beforeCount && getSelectionEnd() > 0 && setMsg.charAt(getSelectionEnd() - 1) == '@') {
                         if (editTextAtUtilJumpListener != null) {
