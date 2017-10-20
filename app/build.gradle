@@ -34,4 +34,5 @@ dependencies {
     apt viewDependencies.apt_butterKnife
     compile viewDependencies.butterKnife
     compile project(':textUtilsLib')
+    //compile 'com.github.CarGuo.RickText:textUtilsLib:v2.1.2'
 }

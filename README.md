@@ -41,7 +41,7 @@ allprojects {
 
 ```
 dependencies {
-     compile 'com.github.CarGuo:RickText:v2.1.2'
+    compile 'com.github.CarGuo.RickText:textUtilsLib:v2.1.2'
 }
 
 ```
@@ -49,7 +49,7 @@ dependencies {
 ### kotlin版本的依赖
 ```
 dependencies {
-     compile 'com.github.CarGuo.RickText:textUtilsLib-kotlin:v2.1.2'
+    compile 'com.github.CarGuo.RickText:textUtilsLib-kotlin:v2.1.2'
 }
 ```
 
