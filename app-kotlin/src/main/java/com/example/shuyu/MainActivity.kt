@@ -112,6 +112,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         insertTextBtn.setOnClickListener(this)
         emojiShowTopic.setOnClickListener(this)
         emojiEditText.setOnClickListener(this)
+        jumpMvvm.setOnClickListener(this)
     }
 
     private fun resolveRichShow() {
@@ -233,6 +234,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             }
             R.id.emojiShowTopic -> JumpUtil.goToTopicList(this@MainActivity, MainActivity.REQUEST_TOPIC_CODE_CLICK)
             R.id.jumpMvvm -> {
+                startActivity(Intent(this@MainActivity, MVVMActivity::class.java))
             }
             R.id.emojiEditText -> emojiLayout.visibility = View.GONE
         }

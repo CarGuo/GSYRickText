@@ -494,7 +494,7 @@ class RichEditText : MentionEditText {
      * @param nameList  at用户
      * @param topicList 话题
      */
-    fun setModelList(nameList: MutableList<UserModel>, topicList: MutableList<TopicModel>) {
+    fun setModelList(nameList: MutableList<UserModel>?, topicList: MutableList<TopicModel>?) {
         this.nameList = nameList
         this.topicList = topicList
     }
@@ -580,7 +580,7 @@ class RichEditText : MentionEditText {
      *
      * @param editTextAtUtilJumpListener 跳转回调
      */
-    fun setEditTextAtUtilJumpListener(editTextAtUtilJumpListener: OnEditTextUtilJumpListener) {
+    fun setEditTextAtUtilJumpListener(editTextAtUtilJumpListener: OnEditTextUtilJumpListener?) {
         this.editTextAtUtilJumpListener = editTextAtUtilJumpListener
     }
 

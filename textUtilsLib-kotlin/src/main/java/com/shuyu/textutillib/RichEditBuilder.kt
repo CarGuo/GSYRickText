@@ -78,10 +78,10 @@ class RichEditBuilder {
     }
 
     fun builder(): RichEditText {
-        editText!!.setEditTextAtUtilJumpListener(editTextAtUtilJumpListener!!)
-        editText!!.setModelList(userModels!!, topicModels!!)
-        editText!!.setColorAtUser(colorAtUser)
-        editText!!.setColorTopic(colorTopic)
+        editText?.setEditTextAtUtilJumpListener(editTextAtUtilJumpListener)
+        editText?.setModelList(userModels, topicModels)
+        editText?.setColorAtUser(colorAtUser)
+        editText?.setColorTopic(colorTopic)
         return editText!!
     }
 

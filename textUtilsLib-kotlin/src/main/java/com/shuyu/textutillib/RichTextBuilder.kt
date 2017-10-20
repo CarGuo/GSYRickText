@@ -25,8 +25,8 @@ import com.shuyu.textutillib.span.LinkSpan
 
 class RichTextBuilder(private val context: Context?) {
     private var content = ""
-    private var listUser: List<UserModel>? = null
-    private var listTopic: List<TopicModel>? = null
+    private var listUser: List<UserModel>? = ArrayList()
+    private var listTopic: List<TopicModel>? = ArrayList()
     private var textView: TextView? = null
     private var spanAtUserCallBack: SpanAtUserCallBack? = null
     private var spanUrlCallBack: SpanUrlCallBack? = null
@@ -43,15 +43,17 @@ class RichTextBuilder(private val context: Context?) {
     /**
      * 文本内容
      */
-    fun setContent(content: String): RichTextBuilder {
-        this.content = content
+    fun setContent(content: String?): RichTextBuilder {
+        if (content != null) {
+            this.content = content
+        }
         return this
     }
 
     /**
      * at某人的list
      */
-    fun setListUser(listUser: List<UserModel>): RichTextBuilder {
+    fun setListUser(listUser: List<UserModel>?): RichTextBuilder {
         this.listUser = listUser
         return this
     }
@@ -59,7 +61,7 @@ class RichTextBuilder(private val context: Context?) {
     /**
      * 话题list
      */
-    fun setListTopic(listTopic: List<TopicModel>): RichTextBuilder {
+    fun setListTopic(listTopic: List<TopicModel>?): RichTextBuilder {
         this.listTopic = listTopic
         return this
     }

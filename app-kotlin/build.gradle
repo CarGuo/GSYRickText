@@ -27,6 +27,10 @@ android {
     dataBinding {
         enabled = true
     }
+
+    kapt {
+        generateStubs = true
+    }
 }
 
 dependencies {
@@ -34,4 +38,5 @@ dependencies {
     def androidDependencies = rootProject.ext.androidDependencies
     compile androidDependencies.kotlin
     compile project(':textUtilsLib-kotlin')
+    kapt 'com.android.databinding:compiler:2.2.2'
 }

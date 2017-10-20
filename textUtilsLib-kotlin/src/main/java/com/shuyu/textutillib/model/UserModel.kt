@@ -16,6 +16,8 @@ class UserModel : Serializable {
 
     var user_id: String = ""
 
+    constructor()
+
     constructor(user_name: String, user_id: String) {
         this.user_name = user_name
         this.user_id = user_id

@@ -137,7 +137,7 @@ class RichTextView : TextView {
      *
      * @param content
      */
-    private fun resolveRichShow(content: String) {
+    private fun resolveRichShow(content: String?) {
         val richTextBuilder = RichTextBuilder(context)
         richTextBuilder.setContent(content)
                 .setAtColor(atColor)
@@ -186,7 +186,7 @@ class RichTextView : TextView {
      * @param topicList 话题列表
      */
     @JvmOverloads
-    fun setRichText(text: String, nameList: List<UserModel>? = null, topicList: List<TopicModel>? = null) {
+    fun setRichText(text: String?, nameList: List<UserModel>? = ArrayList(), topicList: List<TopicModel>? = ArrayList()) {
         if (nameList != null) {
             this.nameList = nameList
         }
