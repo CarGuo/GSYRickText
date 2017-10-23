@@ -124,9 +124,8 @@ open class MentionEditText : AppCompatEditText {
     private fun colorMentionString() {
         //reset state
         mIsSelected = false
-        if (mRangeArrayList != null) {
-            mRangeArrayList!!.clear()
-        }
+
+        mRangeArrayList?.clear()
 
         val spannableText = text
         if (spannableText == null || TextUtils.isEmpty(spannableText.toString())) {

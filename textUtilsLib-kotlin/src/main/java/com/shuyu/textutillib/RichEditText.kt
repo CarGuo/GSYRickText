@@ -196,17 +196,18 @@ class RichEditText : MentionEditText {
     private fun resolveDeleteName() {
         val selectionStart = selectionStart
         var lastPos = 0
-        for (i in nameList!!.indices) { //循环遍历整个输入框的所有字符
-            lastPos = text.toString().indexOf(nameList!![i].user_name.replace("\b", ""), lastPos);
+        nameList?.forEach {
+            //循环遍历整个输入框的所有字符
+            lastPos = text.toString().indexOf(it.user_name.replace("\b", ""), lastPos);
             if (lastPos != -1) {
-                if (selectionStart > lastPos && selectionStart <= lastPos + nameList!![i].user_name.length) {
-                    nameList!!.removeAt(i)
+                if (selectionStart > lastPos && selectionStart <= lastPos + it.user_name.length) {
+                    nameList?.remove(it)
                     return
                 } else {
                     lastPos++
                 }
             } else {
-                lastPos += nameList!![i].user_name.length
+                lastPos += it.user_name.length
             }
         }
     }
@@ -220,67 +221,68 @@ class RichEditText : MentionEditText {
         }
         val selectionStart = selectionStart
         var lastPos = 0
-        for (i in topicList!!.indices) { //循环遍历整个输入框的所有字符
-            lastPos = text.toString().indexOf(topicList!![i].topicName, lastPos)
+        topicList?.forEach {
+            //循环遍历整个输入框的所有字符
+            lastPos = text.toString().indexOf(it.topicName, lastPos)
             if (lastPos != -1) {
-                if (selectionStart > lastPos && selectionStart <= lastPos + topicList!![i].topicName.length) {
-                    topicList!!.removeAt(i)
+                if (selectionStart > lastPos && selectionStart <= lastPos + it.topicName.length) {
+                    topicList?.remove(it)
                     return
                 } else {
                     lastPos++
                 }
             } else {
-                lastPos += topicList!![i].topicName.length
+                lastPos += it.topicName.length
             }
+
         }
     }
 
     private fun resolveDeleteList(text: String) {
-        if (topicList != null && topicList!!.size > 0) {
-            var lastMentionIndex = -1
-            val matcher = mTopicPattern?.matcher(text)
-            if (matcher != null) {
-                while (matcher.find()) {
-                    val mentionText = matcher.group()
-                    val start: Int
-                    start = if (lastMentionIndex != -1) {
-                        getText().toString().indexOf(mentionText, lastMentionIndex)
-                    } else {
-                        getText().toString().indexOf(mentionText)
-                    }
-                    val end = start + mentionText.length
-                    lastMentionIndex = end
-                    for (i in topicList!!.indices) {
-                        val topicModel = topicList!![i]
-                        if (topicModel.topicName == mentionText && getRangeOfClosestMentionString(start, end) != null) {
-                            topicList!!.remove(topicModel)
-                            break
+        topicList?.isNotEmpty()?.let {
+            if (it) {
+                var lastMentionIndex = -1
+                val matcher = mTopicPattern?.matcher(text)
+                matcher?.let {
+                    while (matcher.find()) {
+                        val mentionText = matcher.group()
+                        val start = if (lastMentionIndex != -1) {
+                            getText().toString().indexOf(mentionText, lastMentionIndex)
+                        } else {
+                            getText().toString().indexOf(mentionText)
+                        }
+                        val end = start + mentionText.length
+                        lastMentionIndex = end
+                        topicList?.forEach {
+                            if (it.topicName == mentionText && getRangeOfClosestMentionString(start, end) != null) {
+                                topicList?.remove(it)
+                                return
+                            }
                         }
                     }
                 }
             }
         }
-
-        if (nameList != null && nameList!!.size > 0) {
-            var lastMentionIndex = -1
-            val matcher = mPattern?.matcher(text)
-            if (matcher != null) {
-                while (matcher.find()) {
-                    var mentionText = matcher.group()
-                    val start: Int
-                    start = if (lastMentionIndex != -1) {
-                        getText().toString().indexOf(mentionText, lastMentionIndex)
-                    } else {
-                        getText().toString().indexOf(mentionText)
-                    }
-                    val end = start + mentionText.length
-                    mentionText = mentionText.substring(mentionText.lastIndexOf("@"), mentionText.length)
-                    lastMentionIndex = end
-                    for (i in nameList!!.indices) {
-                        val userModel = nameList!![i]
-                        if (userModel.user_name.replace("\b", "") == mentionText.replace("\b", "") && getRangeOfClosestMentionString(start, end) != null) {
-                            nameList!!.remove(userModel)
-                            break
+        nameList?.isNotEmpty()?.let {
+            if (it) {
+                var lastMentionIndex = -1
+                val matcher = mPattern?.matcher(text)
+                matcher?.let {
+                    while (matcher.find()) {
+                        var mentionText = matcher.group()
+                        val start = if (lastMentionIndex != -1) {
+                            getText().toString().indexOf(mentionText, lastMentionIndex)
+                        } else {
+                            getText().toString().indexOf(mentionText)
+                        }
+                        val end = start + mentionText.length
+                        mentionText = mentionText.substring(mentionText.lastIndexOf("@"), mentionText.length)
+                        lastMentionIndex = end
+                        nameList?.forEach {
+                            if (it.user_name.replace("\b", "") == mentionText.replace("\b", "") && getRangeOfClosestMentionString(start, end) != null) {
+                                nameList?.remove(it)
+                                return
+                            }
                         }
                     }
                 }
@@ -298,28 +300,27 @@ class RichEditText : MentionEditText {
         if (selectionStart > 0) {
             var lastPos = 0
             var success = false
-            for (i in nameList!!.indices) {
+            nameList?.forEach {
                 lastPos = text.toString().indexOf(
-                        nameList!![i].user_name, lastPos)
+                        it.user_name, lastPos)
                 if (lastPos != -1) {
-                    if (selectionStart >= lastPos && selectionStart <= lastPos + nameList!![i].user_name.length) {
-                        setSelection(lastPos + nameList!![i].user_name.length)
+                    if (selectionStart >= lastPos && selectionStart <= lastPos + it.user_name.length) {
+                        setSelection(lastPos + it.user_name.length)
                         success = true
                     }
-                    lastPos += nameList!![i].user_name.length
+                    lastPos += it.user_name.length
                 }
             }
-
-            if (!success && topicList != null) {
+            if (!success) {
                 lastPos = 0
-                for (i in topicList!!.indices) {
+                topicList?.forEach {
                     lastPos = text.toString().indexOf(
-                            topicList!![i].topicName, lastPos)
+                            it.topicName, lastPos)
                     if (lastPos != -1) {
-                        if (selectionStart >= lastPos && selectionStart <= lastPos + topicList!![i].topicName.length) {
-                            setSelection(lastPos + topicList!![i].topicName.length)
+                        if (selectionStart >= lastPos && selectionStart <= lastPos + it.topicName.length) {
+                            setSelection(lastPos + it.topicName.length)
                         }
-                        lastPos += topicList!![i].topicName.length
+                        lastPos += it.topicName.length
                     }
                 }
             }
@@ -540,7 +541,7 @@ class RichEditText : MentionEditText {
      */
     fun resolveText(userModel: UserModel) {
         val userName = userModel.user_name
-        userModel.user_name = userName+ "\b"
+        userModel.user_name = userName + "\b"
         nameList?.add(userModel)
 
         val index = selectionStart
