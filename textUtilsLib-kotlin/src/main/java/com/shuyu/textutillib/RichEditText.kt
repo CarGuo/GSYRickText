@@ -371,13 +371,9 @@ class RichEditText : MentionEditText {
                     delIndex = -1
                 } else {
                     if (setMsg.length >= beforeCount && selectionEnd > 0 && setMsg[selectionEnd - 1] == '@') {
-                        if (editTextAtUtilJumpListener != null) {
-                            editTextAtUtilJumpListener!!.notifyAt()
-                        }
+                        editTextAtUtilJumpListener?.notifyAt()
                     } else if (setMsg.length >= beforeCount && selectionEnd > 0 && setMsg[selectionEnd - 1] == '#') {
-                        if (editTextAtUtilJumpListener != null) {
-                            editTextAtUtilJumpListener!!.notifyTopic()
-                        }
+                        editTextAtUtilJumpListener?.notifyTopic()
                     }
                 }
             }
@@ -545,7 +541,7 @@ class RichEditText : MentionEditText {
     fun resolveText(userModel: UserModel) {
         val userName = userModel.user_name
         userModel.user_name = userName+ "\b"
-        nameList!!.add(userModel)
+        nameList?.add(userModel)
 
         val index = selectionStart
         val spannableStringBuilder = SpannableStringBuilder(text)
@@ -563,11 +559,11 @@ class RichEditText : MentionEditText {
      * @param topicModel 话题实体
      */
     fun resolveTopicText(topicModel: TopicModel) {
-        topicList!!.add(topicModel)
+        topicList?.add(topicModel)
         val index = selectionStart
         val spannableStringBuilder = SpannableStringBuilder(text)
         //直接用span会导致后面没文字的时候新输入的一起变色
-        val htmlText = Html.fromHtml(String.format("<font color='%s'>" + topicModel.topicName + "</font>", colorTopic))
+        val htmlText = Html.fromHtml(String.format("<font color='%s'>${topicModel.topicName}</font>", colorTopic))
         spannableStringBuilder.insert(index, htmlText)
         text = spannableStringBuilder
         setSelection(index + htmlText.length)

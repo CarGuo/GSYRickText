@@ -154,13 +154,13 @@ open class MentionEditText : AppCompatEditText {
                     val end = start + mentionText.length
                     lastMentionIndex = end
                     //record all mention-string's position
-                    mRangeArrayList!!.add(Range(start, end))
+                    mRangeArrayList?.add(Range(start, end))
                 }
             }
         } else {
             val atSpan = sp.getSpans<ClickTopicSpan>(0, ends, ClickTopicSpan::class.java)
             for (clickTopicSpan in atSpan) {
-                mRangeArrayList!!.add(Range(sp.getSpanStart(clickTopicSpan), sp.getSpanEnd(clickTopicSpan)))
+                mRangeArrayList?.add(Range(sp.getSpanStart(clickTopicSpan), sp.getSpanEnd(clickTopicSpan)))
             }
         }
         //find mention string and color it
@@ -179,7 +179,7 @@ open class MentionEditText : AppCompatEditText {
                 val end = start + mentionText.length
                 lastMentionIndex = end
                 //record all mention-string's position
-                mRangeArrayList!!.add(Range(start, end))
+                mRangeArrayList?.add(Range(start, end))
             }
         }
 
