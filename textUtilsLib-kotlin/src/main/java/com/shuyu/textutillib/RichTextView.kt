@@ -78,15 +78,11 @@ class RichTextView : TextView {
 
     private val spanUrlCallBack = object : SpanUrlCallBack {
         override fun phone(view: View, phone: String) {
-            if (spanUrlCallBackListener != null) {
-                spanUrlCallBackListener!!.phone(view, phone)
-            }
+            spanUrlCallBackListener?.phone(view, phone)
         }
 
         override fun url(view: View, url: String) {
-            if (spanUrlCallBackListener != null) {
-                spanUrlCallBackListener!!.url(view, url)
-            }
+            spanUrlCallBackListener?.url(view, url)
         }
     }
 

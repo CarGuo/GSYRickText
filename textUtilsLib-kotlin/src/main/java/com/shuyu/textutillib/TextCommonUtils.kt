@@ -264,9 +264,8 @@ object TextCommonUtils {
      * @param spanUrlCallBack    链接点击的返回
      * @return 返回显示的spananle
      */
-    fun getUrlSmileText(context: Context, string: String, listUser: List<UserModel>?, textView: ITextViewShow, colorAt: Int, colorLink: Int, needNum: Boolean, spanAtUserCallBack: SpanAtUserCallBack, spanUrlCallBack: SpanUrlCallBack): Spannable {
-        return getAllSpanText(context, string, listUser, null, textView, colorAt, colorLink, 0, needNum, true, spanAtUserCallBack, spanUrlCallBack, null)
-    }
+    fun getUrlSmileText(context: Context, string: String, listUser: List<UserModel>?, textView: ITextViewShow, colorAt: Int, colorLink: Int, needNum: Boolean, spanAtUserCallBack: SpanAtUserCallBack, spanUrlCallBack: SpanUrlCallBack): Spannable =
+            getAllSpanText(context, string, listUser, null, textView, colorAt, colorLink, 0, needNum, true, spanAtUserCallBack, spanUrlCallBack, null)
 
     /**
      * 设置带高亮可点击的Url、表情的textview文本、AT某人、话题
@@ -291,17 +290,17 @@ object TextCommonUtils {
         if (needUrl || needNum) {
             textView.setAutoLinkMask(Linkify.WEB_URLS or Linkify.PHONE_NUMBERS)
         }
-        if (!TextUtils.isEmpty(stringCur)) {
+        return if (!TextUtils.isEmpty(stringCur)) {
             stringCur = string.replace("\r".toRegex(), "\r\n")
             val spannable = getAtText(context, listUser, listTopic, stringCur, textView, true, colorAt, colorTopic, spanAtUserCallBack, spanTopicCallBack)
             textView.text = spannable
-            return if (needUrl || needNum) {
+            if (needUrl || needNum) {
                 resolveUrlLogic(context, textView, spannable, colorLink, needNum, needUrl, spanUrlCallBack)
             } else {
                 spannable
             }
         } else {
-            return SpannableString(" ")
+            SpannableString(" ")
         }
     }
 
@@ -319,7 +318,7 @@ object TextCommonUtils {
      * @return 返回显示的spananle
      */
     private fun resolveUrlLogic(context: Context, textView: ITextViewShow?, spannable: Spannable, color: Int, needNum: Boolean, needUrl: Boolean, spanUrlCallBack: SpanUrlCallBack): Spannable {
-        val charSequence = textView!!.text
+        val charSequence = textView?.text
         if (charSequence is Spannable) {
             val end = charSequence.length
             val sp = textView.text as Spannable
@@ -334,10 +333,7 @@ object TextCommonUtils {
                         if (!needNum && !isMobileSimple(urlString.replace("tel:", ""))) {
                             style.setSpan(StyleSpan(Typeface.NORMAL), sp.getSpanStart(url), sp.getSpanEnd(url), Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
                         } else {
-                            var linkSpan: LinkSpan? = null
-                            if (textView != null) {
-                                linkSpan = textView.getCustomLinkSpan(context, url.url, color, spanUrlCallBack)
-                            }
+                            var linkSpan: LinkSpan? = textView.getCustomLinkSpan(context, url.url, color, spanUrlCallBack)
                             if (linkSpan == null) {
                                 linkSpan = LinkSpan(context, url.url, color, spanUrlCallBack)
                             }
@@ -345,10 +341,7 @@ object TextCommonUtils {
                             style.setSpan(linkSpan, sp.getSpanStart(url), sp.getSpanEnd(url), Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
                         }
                     } else if (needUrl && isTopURL(urlString.toLowerCase())) {
-                        var linkSpan: LinkSpan? = null
-                        if (textView != null) {
-                            linkSpan = textView.getCustomLinkSpan(context, url.url, color, spanUrlCallBack)
-                        }
+                        var linkSpan: LinkSpan? = textView.getCustomLinkSpan(context, url.url, color, spanUrlCallBack)
                         if (linkSpan == null) {
                             linkSpan = LinkSpan(context, url.url, color, spanUrlCallBack)
                         }

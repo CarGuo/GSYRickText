@@ -200,11 +200,11 @@ class RichTextBuilder(private val context: Context?) {
                 }
 
             override fun setMovementMethod(movementMethod: MovementMethod) {
-                textView!!.movementMethod = movementMethod
+                textView?.movementMethod = movementMethod
             }
 
             override fun setAutoLinkMask(flag: Int) {
-                textView!!.autoLinkMask = flag
+                textView?.autoLinkMask = flag
             }
 
 
@@ -236,6 +236,6 @@ class RichTextBuilder(private val context: Context?) {
                 spanAtUserCallBack!!,
                 spanUrlCallBack!!,
                 spanTopicCallBack)
-        textView!!.text = spannable
+        textView?.text = spannable
     }
 }
