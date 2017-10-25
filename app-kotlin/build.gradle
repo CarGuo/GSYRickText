@@ -37,7 +37,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     def androidDependencies = rootProject.ext.androidDependencies
     compile androidDependencies.kotlin
+    kapt androidDependencies.kaptKotlin
     compile project(':textUtilsLib-kotlin')
-    kapt 'com.android.databinding:compiler:2.2.2'
     //compile 'com.github.CarGuo.RickText:textUtilsLib-kotlin:v2.1.2'
 }
