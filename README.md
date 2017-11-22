@@ -41,7 +41,7 @@ allprojects {
 
 ```
 dependencies {
-    compile 'com.github.CarGuo.RickText:textUtilsLib:v2.1.2'
+    compile 'com.github.CarGuo.RickText:textUtilsLib:v2.1.3'
 }
 
 ```
@@ -49,7 +49,7 @@ dependencies {
 ### kotlin版本的依赖
 ```
 dependencies {
-    compile 'com.github.CarGuo.RickText:textUtilsLib-kotlin:v2.1.2'
+    compile 'com.github.CarGuo.RickText:textUtilsLib-kotlin:v2.1.3'
 }
 ```
 
@@ -169,6 +169,9 @@ richEditBuilder.setEditText(richEditText)
 ----------------------------------
 
 ## 版本更新
+
+#### v2.1.4 （2017-11-22）
+* 修复某些情况下删除按键导致的问题
 
 #### v2.1.2 （2017-10-20）
 * 优化一些问题
