@@ -362,6 +362,7 @@ class RichEditText : MentionEditText {
                         resolveDeleteName()
                         resolveDeleteTopic()
                         val position = delIndex
+                        delIndex = -1
                         try {
                             text.replace(position, position + length, "")
                             setSelection(position)
@@ -369,7 +370,6 @@ class RichEditText : MentionEditText {
                             e.printStackTrace()
                         }
                     }
-                    delIndex = -1
                 } else {
                     if (setMsg.length >= beforeCount && selectionEnd > 0 && setMsg[selectionEnd - 1] == '@') {
                         editTextAtUtilJumpListener?.notifyAt()

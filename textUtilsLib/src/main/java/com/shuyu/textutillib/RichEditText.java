@@ -310,6 +310,7 @@ public class RichEditText extends MentionEditText {
                         resolveDeleteName();
                         resolveDeleteTopic();
                         int position = delIndex;
+                        delIndex = -1;
                         try {
                             getText().replace(position, position + length, "");
                             setSelection(position);
@@ -317,7 +318,6 @@ public class RichEditText extends MentionEditText {
                             e.printStackTrace();
                         }
                     }
-                    delIndex = -1;
                 } else {
                     if (setMsg.length() >= beforeCount && getSelectionEnd() > 0 && setMsg.charAt(getSelectionEnd() - 1) == '@') {
                         if (editTextAtUtilJumpListener != null) {
