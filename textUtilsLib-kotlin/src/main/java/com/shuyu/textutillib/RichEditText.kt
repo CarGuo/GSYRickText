@@ -9,6 +9,7 @@ import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.TextUtils
 import android.text.TextWatcher
+import android.text.style.ForegroundColorSpan
 import android.text.style.ImageSpan
 import android.util.AttributeSet
 import android.view.MotionEvent
@@ -238,7 +239,7 @@ class RichEditText : MentionEditText {
         }
     }
 
-    private fun resolveDeleteList(text: String) {
+    private fun resolveDeleteList(text: String, startP: Int, endP: Int) {
         topicList?.isNotEmpty()?.let {
             if (it) {
                 var lastMentionIndex = -1
@@ -256,6 +257,10 @@ class RichEditText : MentionEditText {
                         topicList?.forEach {
                             if (it.topicName == mentionText && getRangeOfClosestMentionString(start, end) != null) {
                                 topicList?.remove(it)
+                                val spannable = getText().getSpans(startP, endP, ForegroundColorSpan::class.java)
+                                if (spannable != null && spannable.isNotEmpty()) {
+                                    getText().removeSpan(spannable[0])
+                                }
                                 return
                             }
                         }
@@ -351,7 +356,7 @@ class RichEditText : MentionEditText {
                     deleteByEnter = false
                 } else if (after < count && count - after > 1) {
                     // 大批量删除处理的列表处理
-                    resolveDeleteList(s.toString().substring(start, start + count))
+                    resolveDeleteList(s.toString().substring(start, start + count), start, start + count)
                 }
             }
 
