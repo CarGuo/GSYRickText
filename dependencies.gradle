@@ -6,7 +6,7 @@ allprojects {
 
 ext {
     //Android
-    androidBuildToolsVersion = "23.0.1"
+    androidBuildToolsVersion = "26.0.2"
     androidMinSdkVersion = 16
     androidTargetSdkVersion = 22
     androidCompileSdkVersion = 22
@@ -14,7 +14,7 @@ ext {
     otherLibraryVersion = '22.2.1'
 
     kotlin_version = '1.1.2-4'
-    gradle_version = '2.2.2'
+    gradle_version = '3.0.1'
 
     //ViewLibraries
     butterKnifeVersion = '8.2.1'
