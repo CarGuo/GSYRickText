@@ -12,8 +12,10 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.text.style.ForegroundColorSpan;
 import android.text.style.ImageSpan;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -186,7 +188,7 @@ public class RichEditText extends MentionEditText {
         }
     }
 
-    private void resolveDeleteList(String text) {
+    private void resolveDeleteList(String text, int startP, int endP) {
         if (topicList != null && topicList.size() > 0) {
             int lastMentionIndex = -1;
             Matcher matcher = mTopicPattern.matcher(text);
@@ -205,6 +207,10 @@ public class RichEditText extends MentionEditText {
                     if (topicModel.getTopicName().equals(mentionText)
                             && getRangeOfClosestMentionString(start, end) != null) {
                         topicList.remove(topicModel);
+                        ForegroundColorSpan[] spannable = getText().getSpans(startP, endP, ForegroundColorSpan.class);
+                        if (spannable != null && spannable.length > 0) {
+                            getText().removeSpan(spannable[0]);
+                        }
                         break;
                     }
                 }
@@ -298,7 +304,7 @@ public class RichEditText extends MentionEditText {
                     deleteByEnter = false;
                 } else if (after < count && (count - after) > 1) {
                     // 大批量删除处理的列表处理
-                    resolveDeleteList(s.toString().substring(start, start + count));
+                    resolveDeleteList(s.toString().substring(start, start + count), start, start + count);
                 }
             }
 
