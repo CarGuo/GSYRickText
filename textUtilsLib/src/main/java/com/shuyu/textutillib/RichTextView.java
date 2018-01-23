@@ -2,8 +2,12 @@ package com.shuyu.textutillib;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.support.annotation.Nullable;
+import android.text.DynamicLayout;
+import android.text.SpannableStringBuilder;
+import android.text.StaticLayout;
 import android.text.style.DynamicDrawableSpan;
 import android.util.AttributeSet;
 import android.view.View;
@@ -16,6 +20,7 @@ import com.shuyu.textutillib.listener.SpanUrlCallBack;
 import com.shuyu.textutillib.model.TopicModel;
 import com.shuyu.textutillib.model.UserModel;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,6 +85,41 @@ public class RichTextView extends TextView {
             emojiSize = array.getInteger(R.styleable.RichTextView_emojiSize, 0);
             emojiVerticalAlignment = array.getInteger(R.styleable.RichTextView_emojiVerticalAlignment, DynamicDrawableSpan.ALIGN_BOTTOM);
             array.recycle();
+        }
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        StaticLayout layout = null;
+        Field field = null;
+        try {
+            Field staticField = DynamicLayout.class.getDeclaredField("sStaticLayout");
+            staticField.setAccessible(true);
+            layout = (StaticLayout) staticField.get(DynamicLayout.class);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+        if (layout != null) {
+            try {
+                field = StaticLayout.class.getDeclaredField("mMaximumVisibleLineCount");
+                field.setAccessible(true);
+                field.setInt(layout, getMaxLines());
+            } catch (NoSuchFieldException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        if (layout != null && field != null) {
+            try {
+                field.setInt(layout, Integer.MAX_VALUE);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
         }
     }
 

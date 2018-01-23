@@ -2,6 +2,8 @@ package com.shuyu.textutillib
 
 import android.content.Context
 import android.graphics.Color
+import android.text.DynamicLayout
+import android.text.StaticLayout
 import android.text.style.DynamicDrawableSpan
 import android.util.AttributeSet
 import android.view.View
@@ -13,6 +15,7 @@ import com.shuyu.textutillib.listener.SpanTopicCallBack
 import com.shuyu.textutillib.listener.SpanUrlCallBack
 import com.shuyu.textutillib.model.TopicModel
 import com.shuyu.textutillib.model.UserModel
+import java.lang.reflect.Field
 
 import java.util.ArrayList
 
@@ -125,6 +128,42 @@ class RichTextView : TextView {
             emojiSize = array.getInteger(R.styleable.RichTextView_emojiSize, 0)
             emojiVerticalAlignment = array.getInteger(R.styleable.RichTextView_emojiVerticalAlignment, DynamicDrawableSpan.ALIGN_BOTTOM)
             array.recycle()
+        }
+    }
+
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        var layout: StaticLayout? = null
+        var field: Field? = null
+        try {
+            val staticField = DynamicLayout::class.java.getDeclaredField("sStaticLayout")
+            staticField.isAccessible = true
+            layout = staticField.get(DynamicLayout::class.java) as StaticLayout
+        } catch (e: NoSuchFieldException) {
+            e.printStackTrace()
+        } catch (e: IllegalAccessException) {
+            e.printStackTrace()
+        }
+
+        if (layout != null) {
+            try {
+                field = StaticLayout::class.java.getDeclaredField("mMaximumVisibleLineCount")
+                field!!.isAccessible = true
+                field.setInt(layout, maxLines)
+            } catch (e: NoSuchFieldException) {
+                e.printStackTrace()
+            } catch (e: IllegalAccessException) {
+                e.printStackTrace()
+            }
+
+        }
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+        if (layout != null && field != null) {
+            try {
+                field.setInt(layout, Integer.MAX_VALUE)
+            } catch (e: IllegalAccessException) {
+                e.printStackTrace()
+            }
+
         }
     }
 

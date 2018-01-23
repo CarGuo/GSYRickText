@@ -62,7 +62,7 @@
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_below="@+id/button_layout"
-        android:layout_margin="10dp"
+        android:layout_margin="5dp"
         android:text="插入文本" />
 
     <Button
@@ -70,7 +70,7 @@
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_below="@+id/button_layout"
-        android:layout_margin="10dp"
+        android:layout_margin="5dp"
         android:layout_toRightOf="@+id/insert_text_btn"
         android:text="自定义表情" />
 
@@ -80,7 +80,7 @@
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_below="@+id/jump_btn"
-        android:layout_margin="10dp"
+        android:layout_margin="5dp"
         android:text="mvvm" />
 
     <ScrollView
@@ -125,6 +125,8 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:textColor="#FFFFFF"
+                android:ellipsize="end"
+                android:maxLines="3"
                 android:textSize="16sp" />
         </LinearLayout>
 
