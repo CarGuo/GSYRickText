@@ -41,7 +41,7 @@ allprojects {
 
 ```
 dependencies {
-    compile 'com.github.CarGuo.RickText:textUtilsLib:v2.1.4'
+    compile 'com.github.CarGuo.RickText:textUtilsLib:v2.1.5'
 }
 
 ```
@@ -49,7 +49,7 @@ dependencies {
 ### kotlin版本的依赖
 ```
 dependencies {
-    compile 'com.github.CarGuo.RickText:textUtilsLib-kotlin:v2.1.4'
+    compile 'com.github.CarGuo.RickText:textUtilsLib-kotlin:v2.1.5'
 }
 ```
 
@@ -170,6 +170,8 @@ richEditBuilder.setEditText(richEditText)
 
 ## 版本更新
 
+#### v2.1.5 （2018-01-23）
+* 修复了ellipsize问题
 
 #### v2.1.4 （2017-12-05）
 * 修复了一个特殊场景下让人🥚疼的问题。
